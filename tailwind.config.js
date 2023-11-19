@@ -12,6 +12,7 @@ module.exports = {
             text: '#272343',
             paragraph: '#2d334a',
             button: '#ffd803',
+            //  button: '#ffa500',
             secondary: '#e3f6f5',
             tertiary: '#bae8e8'
         }

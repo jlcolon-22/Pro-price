@@ -10,4 +10,8 @@ class FrontendController extends Controller
     {
         return view("pages.properties");
     }
+    public function view_property()
+    {
+        return view("pages.view_property");
+    }
 }

@@ -19,4 +19,5 @@ Route::get('/', function () {
 });
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/properties','properties');
+    Route::get('/property/view','view_property');
 });
