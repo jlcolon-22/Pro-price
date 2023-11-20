@@ -16,20 +16,24 @@
             </div>
             {{-- login button --}}
             <div class="relative">
-                {{-- <button onclick="modalLoginToggle()"
-                    class="bg-button  hover:bg-yellow-500 px-5 py-2 text-opacity-80 text-paragraph text-sm font-semibold uppercase tracking-wider hover:text-opacity-100">Login</button> --}}
-
-                <button  onclick="dropdownProfile()" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 "
+                @if (Auth::guard('seller')->check())
+                  <button  onclick="dropdownProfile()" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 "
                     type="button">
                     <span class="sr-only">Open user menu</span>
                     <img class="w-8 h-8 rounded-full" src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" alt="user photo">
                 </button>
+                @else
+                <button onclick="modalLoginToggle()"
+                    class="bg-button  hover:bg-yellow-500 px-5 py-2 text-opacity-80 text-paragraph text-sm font-semibold uppercase tracking-wider hover:text-opacity-100">Login</button>
+                @endif
+
+
 
                 <!-- Dropdown menu -->
                 <div id="profileDropdown"
                     class="z-10 absolute hidden left-auto right-0 top-9 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                     <div class="px-4 py-3 text-sm text-gray-900 ">
-                        <div>Bonnie Green</div>
+                        <div>{{ Auth::guard('seller')->user()->email }}</div>
                     </div>
                     <ul class="py-2 text-sm text-gray-700 "
                         aria-labelledby="dropdownUserAvatarButton">
@@ -38,8 +42,8 @@
                                 class="block px-4 py-2 hover:bg-gray-100 ">Account</a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="block px-4 py-2 hover:bg-gray-100 ">Bookmarks</a>
+                            <a href="{{ route('seller_manage_properties') }}"
+                                class="block px-4 py-2 hover:bg-gray-100 ">Manage Properties</a>
                         </li>
 
                     </ul>
@@ -55,7 +59,7 @@
     </header>
     {{-- login modal --}}
     <div id="modalLogin"
-        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
+        class="fixed z-50 {{ $errors->has('email') || $errors->has('password') || Session::has('error') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -65,22 +69,31 @@
                 </button>
             </div>
             {{-- modal body --}}
+
             <div>
-                <form action="" class="px-4 py-7">
+                <x-alert/>
+                <form action="{{ route('auth_signin') }}" method="POST" class="px-4 py-7">
+                    @csrf
                     <div class="relative">
-                        <input type="text"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" ">
+                        <input type="text" name="email"
+                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" " value="{{ old('email') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
+                    @error('email')
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                    @enderror
                     <div class="relative mt-10">
-                        <input type="password"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" ">
+                        <input type="password" name="password"
+                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" " value="{{ old('password') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
                     </div>
+                    @error('password')
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                    @enderror
                     <div class="relative mt-7">
-                        <button class="text-text bg-button px-2 w-full py-2">Login</button>
+                        <button type="submit" class="text-text bg-button px-2 w-full py-2">Login</button>
 
                     </div>
                     <div class="relative mt-7 flex justify-center">
@@ -185,47 +198,60 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 hidden overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen">
+        class="fixed z-50 {{ Session::has('seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
-                <h1 class="font-semibold text-text  text-2xl">SIGN UP / SELLER</h1>
+                <h1 class="font-semibold text-text  text-2xl">SIGN UP / SELLER </h1>
                 <button onclick="modalSellerToggle()" class="hover:opacity-90">
                     <img src="{{ asset('icons/x.svg') }}" alt="">
                 </button>
             </div>
             {{-- modal body --}}
             <div>
-                <form action="" class="px-4 py-7">
+                <x-alert/>
+
+                <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST" class="px-4 py-7" enctype="multipart/form-data">
+
+                    @csrf
                     <div class="relative">
-                        <input type="text"
+                        <input type="text" name="name"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" ">
+                            placeholder=" " required value="{{ old('name') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Name</label>
                     </div>
                     <div class="relative mt-10">
-                        <input type="email"
+                        <input type="email" name="email"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" ">
+                            placeholder=" " required value="{{ old('email') }}"">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
+                    @error('email')
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                    @enderror
                     <div class="relative mt-10">
-                        <input type="email"
+                        <input type="text" name="phone_number"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" ">
+                            placeholder=" " required value="{{ old('phone_number') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Phone
                             Number</label>
                     </div>
+                    @error('phone_number')
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                    @enderror
                     <div class="relative mt-10">
-                        <input type="password"
+                        <input type="password" name="password"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" ">
+                            placeholder=" " required value="{{ old('password') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
                     </div>
+                    @error('password')
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                    @enderror
                     <h1 class=" mt-10 text-center font-medium text-text">Upload License for validation</h1>
                     <div class="flex items-center justify-center w-full">
 
@@ -245,9 +271,13 @@
 
                             </div>
                             <img id="preview" src="" class="absolute" alt="...">
-                            <input id="dropzone-file" onchange="uploadFile(this)" type="file" class="hidden" />
+                            <input  id="dropzone-file" onchange="uploadFile(this)" type="file" name="license" class="hidden" />
                         </label>
+
                     </div>
+                    @error('license')
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                    @enderror
 
                     <div class="relative mt-10">
                         <input type="checkbox" required value="example">

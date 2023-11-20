@@ -54,6 +54,14 @@
        previewImage.src = URL.createObjectURL(e.files[0]);
 
    }
+
+   function previewImageProperty(e)
+   {
+    const x = e.closest('div').children[0]?.children[0].children[1];
+    //    previewImage.src = URL.createObjectURL(e.files[0]);
+     x.src = URL.createObjectURL(e.files[0]);
+
+   }
    const previewImageAgent = document.querySelector('#previewAgent')
    function uploadFileAgent(e)
    {

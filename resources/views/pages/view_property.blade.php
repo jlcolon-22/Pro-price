@@ -37,7 +37,7 @@
                     </div>
                     <div class="flex items-center gap-x-2">
                         <button class=" border  rounded px-4 py-2 text ">
-                            <img src="{{ asset('icons/heart.svg') }}" alt="">
+                            <img src="{{ asset('icons/bookmark.svg') }}" alt="">
                         </button>
                         <button
                             class=" border flex gap-2 items-center rounded px-4 py-2 text-text bg-button  hover:bg-yellow-500  ">
