@@ -23,4 +23,17 @@ class Property extends Model
         'address',
         'description',
     ];
+
+    public function photo()
+    {
+        return $this->hasOne(PropertyPhoto::class ,'property_id','id');
+    }
+    public function photos()
+    {
+        return $this->hasMany(PropertyPhoto::class ,'property_id','id');
+    }
+    public function userInfo()
+    {
+        return $this->belongsTo(Seller::class ,'seller_id');
+    }
 }

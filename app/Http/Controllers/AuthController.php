@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buyer;
 use App\Models\Seller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -12,6 +13,27 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function store_buyer(Request $request)
+   {
+
+
+            $request->validate([
+                "email"=> "required|unique:buyers",
+                'password' =>['required', Password::min(8)],
+            ]);
+
+            $sellerAccount = Buyer::create([
+                "email"=> $request->email,
+                "name"=> $request->name,
+                "phone_number"=> $request->phone_number,
+                "password"=> Hash::make($request->password),
+
+            ]);
+
+            Session::flash('buyer', 'info');
+
+            return back()->with('success','Created Successfully!');
+    }
     public function store_seller(Request $request)
    {
 
@@ -58,9 +80,29 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect('/');
+        }elseif(Auth::guard('buyer')->attempt(['email' => $request->email, 'password' => $request->password]))
+        {
+            $request->session()->regenerate();
+
+            return redirect('/');
         }
         else{
             return back()->with('error','Wrong Credentials');
         }
+    }
+
+    public function user_logout(Request $request)
+    {
+        $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        if(Auth::guard('seller')->check())
+        {
+            Auth::guard('seller')->logout();
+        }
+        if(Auth::guard('buyer')->check())
+        {
+            Auth::guard('buyer')->logout();
+        }
+        return redirect('/');
     }
 }

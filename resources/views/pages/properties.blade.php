@@ -43,168 +43,38 @@
         </div>
         {{-- property item --}}
         <div class="grid grid-cols-3 gap-10 py-10">
+
+
+            @forelse ($properties as $property)
             <div class="bg-body border  h-fit rounded ">
                 <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
+                    <img src="{{ asset($property->photo?->photo) }}" loading="lazy" class="h-64 w-full object-cover" alt="">
                 </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
+                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">{{ $property->title }}</h1>
                 <p class="px-3 flex gap-x-2 text-paragraph pt-2">
                     <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
+                    ₱{{ number_format($property->price) }}
                 </p>
                 <p class="px-3 flex gap-x-2 text-paragraph">
                     <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
+                    {{ $property->address }}
                 </p>
                 <div class="flex items-center justify-end px-3 pb-3">
 
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
+                    <a href="{{ route('view_property',['id' =>$property->id]) }}" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
                         view
                     </a>
                 </div>
             </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
+            @empty
 
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
-
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
-
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
-
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
-
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
-
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
-            <div class="bg-body border  h-fit rounded ">
-                <div class="p-3">
-                    <img src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}" loading="lazy" class="h-64 w-full object-cover" alt="">
-                </div>
-                <h1 class="px-3 text-text tracking-wider font-semibold uppercase ">House 12313</h1>
-                <p class="px-3 flex gap-x-2 text-paragraph pt-2">
-                    <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    ₱21313
-                </p>
-                <p class="px-3 flex gap-x-2 text-paragraph">
-                    <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                    Antipolo City
-                </p>
-                <div class="flex items-center justify-end px-3 pb-3">
-
-                    <a href="#" class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
-                        view
-                    </a>
-                </div>
-            </div>
+            @endforelse
 
 
+
+        </div>
+        <div>
+            {{ $properties->links() }}
         </div>
     </section>
 

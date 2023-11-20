@@ -75,3 +75,9 @@ function dropdownProfile() {
 
     profileDropdown.classList.toggle('hidden')
 }
+const modalProfile = document.querySelector("#modalProfile");
+function modalProfilefn()
+{
+    modalProfile.classList.toggle('hidden');
+    modalProfile.classList.toggle('flex');
+}

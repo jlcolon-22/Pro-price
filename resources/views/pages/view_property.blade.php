@@ -7,20 +7,22 @@
     <section class="container mx-auto py-10 min-h-[calc(100svh-80px)]">
         {{-- property image --}}
         <div class=" flex justify-between gap-x-2">
-            <img id="mainImage" src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}"
+            <img id="mainImage" src="{{ asset($property?->photos[0]->photo) }}"
                 class=" object-cover   h-[33rem] w-full overflow-hidden" loading="lazy" alt="">
 
-            <div class="grid max-h-[33rem] max-w-[11rem]">
-                <img onclick="changeImage(this)" src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}"
-                    class="itemImage cursor-pointer object-cover h-[6rem] border-4 border-button w-full  overflow-hidden" loading="lazy" alt="">
-                <img onclick="changeImage(this)" src="{{ asset('assets/r-architecture-JvQ0Q5IkeMM-unsplash.jpg') }}"
-                    class="itemImage cursor-pointer object-cover h-[6rem] overflow-hidden w-full" loading="lazy" alt="">
-                <img onclick="changeImage(this)" src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}"
-                    class="itemImage cursor-pointer object-cover h-[6rem] overflow-hidden w-full" loading="lazy" alt="">
-                <img onclick="changeImage(this)" src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}"
-                    class="itemImage cursor-pointer object-cover h-[6rem] overflow-hidden w-full" loading="lazy" alt="">
-                <img onclick="changeImage(this)" src="{{ asset('assets/r-architecture-2gDwlIim3Uw-unsplash(1).jpg') }}"
-                    class="itemImage cursor-pointer object-cover h-[6rem] overflow-hidden w-full" loading="lazy" alt="">
+            <div class="grid h-fit gap-y-2 max-h-[33rem] max-w-[11rem]">
+                @foreach ($property?->photos as $photo)
+
+                @if ($loop->first)
+                <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
+                class="itemImage cursor-pointer object-cover h-[6rem] border-4 border-button w-full  overflow-hidden" loading="lazy" alt="">
+
+                @else
+                <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
+                class="itemImage cursor-pointer object-cover h-[6rem]  w-full  overflow-hidden" loading="lazy" alt="">
+
+                @endif
+                @endforeach
             </div>
 
         </div>
@@ -30,9 +32,9 @@
             <div class="w-full">
                 <div class="flex justify-between py-2">
                     <div>
-                        <h1 class=" text-text tracking-wider font-semibold uppercase  text-3xl">House 12313</h1>
+                        <h1 class=" text-text tracking-wider font-semibold uppercase  text-3xl">{{ $property->title }}</h1>
                         <p class="text-2xl text-paragraph ">
-                            ₱ 21,313
+                            ₱ {{ number_format($property->price) }}
                         </p>
                     </div>
                     <div class="flex items-center gap-x-2">
@@ -52,25 +54,31 @@
                     {{-- DESCRIPTION --}}
                     <div class="w-full">
                         <h1 class="text-text">Description</h1>
-                        <p class="text-paragraph px-3 py-6">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ea sint atque qui
-                            accusantium laudantium voluptatem eligendi nihil! Ratione, accusamus.
-                        </p>
+
+                        <div class="text-paragraph px-3 py-6 description  ">
+
+                           {!! $property->description !!}
+                        </div>
                     </div>
                     {{-- grap --}}
-                    <div class="w-[20rem]">
+                    {{-- <div class="w-[20rem]">
                         <div>
                             <canvas id="myChart"></canvas>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             {{-- agent --}}
             <div class="w-[27rem] px-2 pt-4">
                 <div class="border bg-body py-10 flex flex-col items-center ">
-                    <img src="{{ asset('assets/r-architecture-JvQ0Q5IkeMM-unsplash.jpg') }}"
-                        class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
-                    <p class="text-paragraph">Joshua Garcia</p>
+                    @if (!!$property->userInfo->profile)
+                    <img src="{{ asset($property->userInfo->profile) }}"
+                    class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                    @else
+                    <img  src="https://ui-avatars.com/api/?background=random&name={{ $property->userInfo->name }}"
+                    class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                    @endif
+                    <p class="text-paragraph pt-2">{{ $property->userInfo->name }}</p>
                     <div class="flex items-center space-x-1 pt-1">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">

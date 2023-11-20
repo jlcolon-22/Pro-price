@@ -16,6 +16,22 @@
             #carousel::-webkit-scrollbar {
                 display: none; /* for Chrome, Safari, and Opera */
             }
+            .description ul
+            { list-style-position: inside !important;
+
+              padding-left: 20px;
+
+            }
+            .description li{
+                list-style: disc !important;
+                list-style-position: inside;
+            }
+            .description table tbody tr td{
+                border: 2px solid black;
+                padding: 10px;
+
+            }
+
         </style>
 
 
