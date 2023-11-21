@@ -115,7 +115,7 @@
 
                     </button>
                     @foreach ($property->photos as $photo)
-                    @if ($loop->first)
+                    {{-- @if ($loop->first)
                     <div class="relative">
                         <label for="photo1"  class="w-fit z-0">
                             <div class="relative overflow-hidden border-2 border-gray-600 flex justify-center items-center h-[8rem] ">
@@ -134,9 +134,9 @@
                         placeholder=" ">
 
                     </div>
-                    @else
+                  --}}
                     <div class="relative img-{{ $loop->index }}}">
-                        <label for="photo{{ $loop->index }}"  class="w-fit z-0">
+                        <label   class="w-fit z-0">
                             <div class="relative overflow-hidden border-2 border-gray-600 flex justify-center items-center h-[8rem] ">
                                 <svg class="w-8 h-8 mb-4 text-gray-600  aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -152,7 +152,7 @@
                         placeholder=" ">
                         <a href="{{ route('seller_delete_property_photo',['id'=>$photo->id]) }}"><img src="{{ asset('icons/x.svg') }}"  class="absolute top-3 right-2 bg-red-500  rounded-full" alt=""></a>
                     </div>
-                    @endif
+
 
                     @endforeach
 

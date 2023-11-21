@@ -12,16 +12,15 @@
 
             <div class="grid h-fit gap-y-2 max-h-[33rem] max-w-[11rem]">
                 @foreach ($property?->photos as $photo)
-
-                @if ($loop->first)
-                <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
-                class="itemImage cursor-pointer object-cover h-[6rem] border-4 border-button w-full  overflow-hidden" loading="lazy" alt="">
-
-                @else
-                <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
-                class="itemImage cursor-pointer object-cover h-[6rem]  w-full  overflow-hidden" loading="lazy" alt="">
-
-                @endif
+                    @if ($loop->first)
+                        <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
+                            class="itemImage cursor-pointer object-cover h-[6rem] border-4 border-button w-full  overflow-hidden"
+                            loading="lazy" alt="">
+                    @else
+                        <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
+                            class="itemImage cursor-pointer object-cover h-[6rem]  w-full  overflow-hidden" loading="lazy"
+                            alt="">
+                    @endif
                 @endforeach
             </div>
 
@@ -32,18 +31,39 @@
             <div class="w-full">
                 <div class="flex justify-between py-2">
                     <div>
-                        <h1 class=" text-text tracking-wider font-semibold uppercase  text-3xl">{{ $property->title }}</h1>
-                        <p class="text-2xl text-paragraph ">
+                        <h1 class=" text-text tracking-wider font-semibold uppercase font-serif text-3xl">
+                            {{ $property->title }}</h1>
+                        <p class="text-2xl text-paragraph font-serif ">
                             ₱ {{ number_format($property->price) }}
                         </p>
                     </div>
                     <div class="flex items-center gap-x-2">
-                        <button class=" border  rounded px-4 py-2 text ">
+
+
+                        @if (Auth::guard('buyer')->check() || Auth::guard('seller')->check())
+
+                        @if (Auth::guard('buyer')->check())
+                            @if ($bookmark)
+                                <a href="{{ route('buyer_add_bookmark', ['id' => $property->id]) }}"
+                                    class=" border  rounded px-4 py-2 text ">
+                                    <img src="{{ asset('icons/bookmark_black_24dp.svg') }}" alt="">
+                                </a>
+                            @else
+                                <a href="{{ route('buyer_add_bookmark', ['id' => $property->id]) }}"
+                                    class=" border  rounded px-4 py-2 text ">
+                                    <img src="{{ asset('icons/bookmark.svg') }}" alt="">
+                                </a>
+                            @endif
+
+                        @endif
+                    @else
+                        <a type="button" onclick="modalLoginToggle()" class=" border  rounded px-4 py-2 text ">
                             <img src="{{ asset('icons/bookmark.svg') }}" alt="">
-                        </button>
+                        </a>
+                    @endif
                         <button
-                            class=" border flex gap-2 items-center rounded px-4 py-2 text-text bg-button  hover:bg-yellow-500  ">
-                            See Price Prediction <img src="{{ asset('icons/search.svg') }}" class="w-[1.3rem]"
+                            class=" border flex gap-2 h-fit whitespace-nowrap items-center rounded px-4 py-2 text-text bg-button  hover:bg-yellow-500  ">
+                            See Price Prediction <img src="{{ asset('icons/search.svg') }}" class="min-w-[1.3rem]"
                                 alt="">
                         </button>
                     </div>
@@ -53,11 +73,11 @@
                 <div class="flex py-4">
                     {{-- DESCRIPTION --}}
                     <div class="w-full">
-                        <h1 class="text-text">Description</h1>
+                        <h1 class="text-text font-serif">Description</h1>
 
-                        <div class="text-paragraph px-3 py-6 description  ">
+                        <div class="text-paragraph px-3 py-6 description font-serif ">
 
-                           {!! $property->description !!}
+                            {!! $property->description !!}
                         </div>
                     </div>
                     {{-- grap --}}
@@ -71,14 +91,25 @@
             {{-- agent --}}
             <div class="w-[27rem] px-2 pt-4">
                 <div class="border bg-body py-10 flex flex-col items-center ">
-                    @if (!!$property->userInfo->profile)
-                    <img src="{{ asset($property->userInfo->profile) }}"
-                    class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                    @if ($type == 'seller')
+                        @if (!!$property->sellerInfo->profile)
+                            <img src="{{ asset($property->sellerInfo->profile) }}"
+                                class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                        @else
+                            <img src="https://ui-avatars.com/api/?background=random&name={{ $property->sellerInfo->name }}"
+                                class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                        @endif
                     @else
-                    <img  src="https://ui-avatars.com/api/?background=random&name={{ $property->userInfo->name }}"
-                    class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                        @if (!!$property->agentInfo->profile)
+                            <img src="{{ asset($property->agentInfo->profile) }}"
+                                class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                        @else
+                            <img src="https://ui-avatars.com/api/?background=random&name={{ $property->agentInfo->name }}"
+                                class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
+                        @endif
                     @endif
-                    <p class="text-paragraph pt-2">{{ $property->userInfo->name }}</p>
+                    <p class="text-paragraph pt-2 font-serif">
+                        {{ $type == 'seller' ? $property->sellerInfo->name : $property->agentInfo->name }}</p>
                     <div class="flex items-center space-x-1 pt-1">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
@@ -87,15 +118,25 @@
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                     </div>
                     <div class="flex items-center space-x-3 pt-3">
-                        <a href="" class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
-                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                            Message
-                        </a>
+                        @if ($type == 'seller')
+                            <a href="{{ route('contact_seller_property', ['id' => $property->id]) }}"
+                                class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
+                                <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                Message
+                            </a>
+                        @else
+                            <a href=""
+                                class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
+                                <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                Message
+                            </a>
 
-                        <a href="" class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
-                            <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
-                            Call
-                        </a>
+                            <a href=""
+                                class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
+                                <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
+                                Call
+                            </a>
+                        @endif
                     </div>
 
                 </div>
@@ -107,23 +148,23 @@
     </section>
 
     {{-- footer --}}
-    <x-buyer.footer/>
+    <x-buyer.footer />
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/modal.js') }}"></script>
     <script>
         const mainImage = document.querySelector('#mainImage');
         const itemImage = document.querySelectorAll('.itemImage');
-        function changeImage(e)
-        {
+
+        function changeImage(e) {
             itemImage.forEach(element => {
                 element.classList.remove('border-4')
                 element.classList.remove('border-button')
             });
             e.classList.add('border-4');
             e.classList.add('border-button');
-           mainImage.src = e.src;
+            mainImage.src = e.src;
 
 
         }

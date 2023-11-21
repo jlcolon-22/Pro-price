@@ -75,11 +75,11 @@
                     </div>
                     <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownUserAvatarButton">
                         <li>
-                            <a href="{{ route('seller_account') }}"
+                            <a href="{{ route('buyer_account') }}"
                                 class="block px-4 py-2 hover:bg-gray-100 ">Account</a>
                         </li>
                         <li>
-                            <a href="{{ route('seller_manage_properties') }}"
+                            <a href="{{ route('buyer_bookmarks') }}"
                                 class="block px-4 py-2 hover:bg-gray-100 ">Bookmarks</a>
                         </li>
 
@@ -97,7 +97,7 @@
     </header>
     {{-- login modal --}}
     <div id="modalLogin"
-        class="fixed z-50 {{ $errors->has('email') || $errors->has('password') || Session::has('error') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
+        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -109,7 +109,9 @@
             {{-- modal body --}}
 
             <div>
-                <x-alert />
+               @if (Session::has('error_login'))
+               <x-alert />
+               @endif
                 <form action="{{ route('auth_signin') }}" method="POST" class="px-4 py-7">
                     @csrf
                     <div class="relative">
@@ -119,9 +121,11 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
+                    @if (Session::has('error_login'))
                     @error('email')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
+                    @endif
                     <div class="relative mt-10">
                         <input type="password" name="password"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" "
@@ -129,9 +133,11 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
                     </div>
+                    @if (Session::has('error_login'))
                     @error('password')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
+                    @endif
                     <div class="relative mt-7">
                         <button type="submit" class="text-text bg-button px-2 w-full py-2">Login</button>
 
@@ -181,7 +187,7 @@
 
     {{-- buyer customer --}}
     <div id="modalBuyer"
-        class="fixed z-50 {{ $errors->has('email') || $errors->has('password') || Session::has('error') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] ">
+        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] ">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -192,7 +198,9 @@
             </div>
             {{-- modal body --}}
             <div>
-                <x-alert />
+               @if (Session::has('error_buyer'))
+               <x-alert />
+               @endif
                 <form action="{{ route('auth_buyer_signup') }}" method="POST" class="px-4 py-7 z-0">
                     @csrf
                     <div class="relative">
@@ -209,9 +217,13 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
+                    @if (Session::has('error_buyer'))
+
                     @error('email')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
+
+                    @endif
                     <div class="relative mt-10">
                         <input type="text" name="phone_number"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
@@ -228,9 +240,11 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
                     </div>
+                    @if (Session::has('error_buyer'))
                     @error('password')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
+                    @endif
                     <div class="relative mt-10">
                         <input type="checkbox" required value="example">
                         <label class="text-sm">
@@ -246,7 +260,7 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 {{ Session::has('seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen">
+        class="fixed z-50 {{ Session::has('error_seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -257,7 +271,10 @@
             </div>
             {{-- modal body --}}
             <div>
+                @if (Session::has('error_seller'))
                 <x-alert />
+                @endif
+
 
                 <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST"
                     class="px-4 py-7" enctype="multipart/form-data">
@@ -277,9 +294,12 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
+                    @if ( Session::has('error_seller'))
                     @error('email')
-                        <small class="text-red-500 font-semibold">{{ $message }}</small>
-                    @enderror
+                    <small class="text-red-500 font-semibold">{{ $message }}</small>
+                @enderror
+                    @endif
+
                     <div class="relative mt-10">
                         <input type="text" name="phone_number"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
@@ -288,9 +308,11 @@
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Phone
                             Number</label>
                     </div>
+                    @if ( Session::has('error_seller'))
                     @error('phone_number')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
+                    @endif
                     <div class="relative mt-10">
                         <input type="password" name="password"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
@@ -298,9 +320,11 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
                     </div>
+                    @if ( Session::has('error_seller'))
                     @error('password')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
+                    @endif
                     <h1 class=" mt-10 text-center font-medium text-text">Upload License for validation</h1>
                     <div class="flex items-center justify-center w-full">
 
@@ -325,10 +349,11 @@
                         </label>
 
                     </div>
+                    @if ( Session::has('error_seller'))
                     @error('license')
                         <small class="text-red-500 font-semibold">{{ $message }}</small>
                     @enderror
-
+                    @endif
                     <div class="relative mt-10">
                         <input type="checkbox" required value="example">
                         <label class="text-sm">

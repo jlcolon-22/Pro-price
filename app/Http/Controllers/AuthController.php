@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -16,11 +17,22 @@ class AuthController extends Controller
     public function store_buyer(Request $request)
    {
 
+                $validator = Validator::make($request->all(), [
+                    "email"=> ['required','unique:buyers', 'unique:sellers'],
+                    'password' =>  ['required',Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()],
+                ]);
 
-            $request->validate([
-                "email"=> "required|unique:buyers",
-                'password' =>['required', Password::min(8)],
-            ]);
+                if ($validator->fails()) {
+                    Session::flash('error_buyer', 'info');
+                    return back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
             $sellerAccount = Buyer::create([
                 "email"=> $request->email,
@@ -30,19 +42,31 @@ class AuthController extends Controller
 
             ]);
 
-            Session::flash('buyer', 'info');
+            Session::flash('error_buyer', 'info');
 
             return back()->with('success','Created Successfully!');
     }
     public function store_seller(Request $request)
    {
+                $validator = Validator::make($request->all(), [
+                    "email"=> ["required" ,'unique:sellers','unique:buyers'],
+                    'license'=>['required'],
+                    'password' =>  ['required',Password::min(8)
+                        ->mixedCase()
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised()],
 
+                ]);
 
-            $request->validate([
-                "email"=> "required|unique:sellers",
-                'license'=>'required',
-                'password' =>['required', Password::min(8)],
-            ]);
+                if ($validator->fails()) {
+                    Session::flash('error_seller', 'info');
+                    return back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+
 
             $sellerAccount = Seller::create([
                 "email"=> $request->email,
@@ -60,17 +84,27 @@ class AuthController extends Controller
                 $request->license->storeAs('public/seller/license',$filename);
             }
 
-            Session::flash('seller', 'info');
+            Session::flash('error_seller', 'info');
 
             return back()->with('success','Created Successfully!');
     }
 
     public function login_account(Request $request)
     {
-        $request->validate([
-            'email'=>'required',
-            'password' =>['required', Password::min(8)],
+        $validator = Validator::make($request->all(), [
+            "email"=> ['required'],
+            'password' =>  ['required'],
+
         ]);
+
+        if ($validator->fails()) {
+            Session::flash('error_login', 'info');
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
 
         if(Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password]))
         {
@@ -84,9 +118,10 @@ class AuthController extends Controller
         {
             $request->session()->regenerate();
 
-            return redirect('/');
+            return redirect('/properties');
         }
         else{
+            Session::flash('error_login', 'info');
             return back()->with('error','Wrong Credentials');
         }
     }

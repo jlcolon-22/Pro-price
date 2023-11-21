@@ -81,3 +81,9 @@ function modalProfilefn()
     modalProfile.classList.toggle('hidden');
     modalProfile.classList.toggle('flex');
 }
+const modalPassword = document.querySelector("#modalPassword");
+function modalPasswordfn()
+{
+    modalPassword.classList.toggle('hidden');
+    modalPassword.classList.toggle('flex');
+}

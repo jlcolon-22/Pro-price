@@ -2,15 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use App\Models\Seller;
 use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PropertyPhoto;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class SellerController extends Controller
 {
+    public function seller_update_account_password(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' =>  ['required','same:confirm_password',Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()],
+            'confirm_password' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('error_password', 'info');
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = Seller::where('id', Auth::guard('seller')->user()->id)->first();
+        $user->update([
+            'password'=> Hash::make($request->password),
+        ]);
+        return back()->with('success','Password Updated Successfully!');
+    }
     public function seller_update_account_profile(Request $request)
     {
         $filename = Str::uuid().'.'.$request->profile->extension();
@@ -158,6 +187,7 @@ class SellerController extends Controller
                 unlink('storage/seller/property/'.$path[1]);
                 $photo->delete();
             }
+            Bookmark::where('property_id',$property->id)->delete();
             $property->delete();
         }
         return back()->with('success','Deleted Successfully!');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
@@ -16,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('homepage');
-});
+
 Route::controller(FrontendController::class)->group(function () {
+    Route::get('/','homepage');
     Route::get('/properties','properties');
     Route::get('/property/view/{id}','view_property')->name('view_property');
+    Route::get('/property/contact/{id}/seller','contact_seller_property')->name('contact_seller_property');
 });
 Route::controller(AuthController::class)->group(function () {
     Route::post('/auth/seller','store_seller')->name('auth_seller_signup');
@@ -42,5 +43,15 @@ Route::controller(SellerController::class)->group(function () {
     Route::get('/seller/account','seller_account')->name('seller_account');
     Route::post('/seller/account','seller_update_account')->name('seller_update_account');
     Route::post('/seller/account/profile','seller_update_account_profile')->name('seller_update_account_profile');
+    Route::post('/seller/account/password','seller_update_account_password')->name('seller_update_account_password');
 });
 
+Route::controller(BuyerController::class)->group(function () {
+
+    Route::get('/buyer/bookmark/{id}','buyer_add_bookmark')->name('buyer_add_bookmark');
+    Route::get('/buyer/bookmarks','buyer_bookmarks')->name('buyer_bookmarks');
+    Route::get('/buyer/account','buyer_account')->name('buyer_account');
+    Route::post('/buyer/account','buyer_update_account')->name('buyer_update_account');
+    Route::post('/buyer/account/profile','buyer_update_account_profile')->name('buyer_update_account_profile');
+    Route::post('/buyer/account/password','buyer_update_account_password')->name('buyer_update_account_password');
+});

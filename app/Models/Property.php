@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Agent;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
@@ -22,6 +23,7 @@ class Property extends Model
         'bath_room',
         'address',
         'description',
+        'user_type'
     ];
 
     public function photo()
@@ -32,8 +34,12 @@ class Property extends Model
     {
         return $this->hasMany(PropertyPhoto::class ,'property_id','id');
     }
-    public function userInfo()
+    public function sellerInfo()
     {
         return $this->belongsTo(Seller::class ,'seller_id');
+    }
+    public function agentInfo()
+    {
+        return $this->belongsTo(Agent::class ,'seller_id');
     }
 }
