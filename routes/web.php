@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\FrontendController;
@@ -60,11 +61,21 @@ Route::controller(BuyerController::class)->group(function () {
     Route::get('/buyer/bookmark/{id}','buyer_add_bookmark')->name('buyer_add_bookmark');
     Route::get('/buyer/bookmarks','buyer_bookmarks')->name('buyer_bookmarks');
     Route::get('/buyer/account','buyer_account')->name('buyer_account');
+    Route::get('/buyer/appointment','buyer_appointment')->name('buyer_appointment');
     Route::post('/buyer/account','buyer_update_account')->name('buyer_update_account');
     Route::post('/buyer/account/profile','buyer_update_account_profile')->name('buyer_update_account_profile');
     Route::post('/buyer/account/password','buyer_update_account_password')->name('buyer_update_account_password');
+
+    Route::post('/buyer/property/appointment/{property}/{agent}','buyer_add_ppointment')->name('buyer_add_ppointment');
 });
 
+Route::controller(AgentController::class)->group(function () {
+    Route::get('/agent/account','agent_account')->name('agent_account');
+    Route::get('/agent/assign_propery','agent_assign_propery')->name('agent_assign_propery');
+    Route::post('/agent/account','agent_update_account')->name('agent_update_account');
+    Route::post('/agent/account/profile','agent_update_account_profile')->name('agent_update_account_profile');
+    Route::post('/agent/account/password','agent_update_account_password')->name('agent_update_account_password');
+});
 Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/homepage','homepage')->name('admin_homepage');
 

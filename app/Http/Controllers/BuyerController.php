@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Buyer;
 use App\Models\Bookmark;
 use Illuminate\Support\Str;
@@ -14,6 +15,23 @@ use Illuminate\Validation\Rules\Password;
 
 class BuyerController extends Controller
 {
+    public function buyer_appointment()
+    {
+        return view('pages.buyer.appointment');
+    }
+    public function buyer_add_ppointment(Request $request,$property, $agent)
+    {
+        Appointment::query()->create([
+            'date'=>$request->date,
+            'time'=>$request->time,
+            'purpose'=>$request->purpose,
+            'agent_id'=>$agent,
+            'property_id'=>$property,
+            'buyer_id'=>Auth::guard('buyer')->user()->id
+        ]);
+
+        return back()->with('success','Submited Successully!');
+    }
     public function buyer_update_account_password(Request $request)
     {
         $validator = Validator::make($request->all(), [

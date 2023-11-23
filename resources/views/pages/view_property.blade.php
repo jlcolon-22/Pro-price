@@ -5,6 +5,7 @@
     <x-buyer.header />
 
     <section class="container mx-auto py-10 min-h-[calc(100svh-80px)]">
+         <x-alert/>
         {{-- property image --}}
         <div class=" flex justify-between gap-x-2">
             <img id="mainImage" src="{{ asset($property?->photos[0]->photo) }}"
@@ -40,7 +41,7 @@
                     <div class="flex items-center gap-x-2">
 
 
-                        @if (Auth::guard('buyer')->check() || Auth::guard('seller')->check())
+
 
                         @if (Auth::guard('buyer')->check())
                             @if ($bookmark)
@@ -56,11 +57,8 @@
                             @endif
 
                         @endif
-                    @else
-                        <a type="button" onclick="modalLoginToggle()" class=" border  rounded px-4 py-2 text ">
-                            <img src="{{ asset('icons/bookmark.svg') }}" alt="">
-                        </a>
-                    @endif
+
+
                         <button
                             class=" border flex gap-2 h-fit whitespace-nowrap items-center rounded px-4 py-2 text-text bg-button  hover:bg-yellow-500  ">
                             See Price Prediction <img src="{{ asset('icons/search.svg') }}" class="min-w-[1.3rem]"
@@ -119,11 +117,20 @@
                     </div>
                     <div class="flex items-center space-x-3 pt-3">
                         {{-- @if ($type == 'seller') --}}
-                            <a href="{{ route('contact_seller_property', ['id' => $property->id]) }}"
-                                class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
-                                <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                Appointment
-                            </a>
+                        {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
+                           @if ($appointment)
+                           <a type="button" onclick="alert('You have already submitted an appointment for this. Just check your appointment page for the status of your appointment request.')"
+                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 {{ $appointment ? 'select-none cursor-not-allowed opacity-50' : '' }}"  >
+                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                           Appointment
+                       </a>
+                           @else
+                           <a type="button" onclick="toggleAppointment()"
+                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 "  >
+                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                           Appointment
+                       </a>
+                           @endif
                         {{-- @else
                             <a href=""
                                 class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
@@ -144,7 +151,30 @@
 
         </div>
 
-
+        {{-- appointment modal --}}
+        <div id="appointment" class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center  bg-black/40">
+                {{-- apppointment form --}}
+                <form action="{{ route('buyer_add_ppointment',['property'=> $property->id, 'agent' => $property->agentInfo->id]) }}" class=" bg-white w-[30rem] relative" method="POST">
+                    @csrf
+                    <h1 class="px-2 py-3 shadow text-lg uppercase">Appointment</h1>
+                    <div class="px-2 py-2 grid grid-cols-3 items-center">
+                        <label for="">Date:</label>
+                        <input type="date" name="date" required class="px-2 py-3 bg-gray-100 w-full col-span-2" placeholder="Date">
+                    </div>
+                    <div class="px-2 py-2 grid grid-cols-3 items-center">
+                        <label for="">Time:</label>
+                        <input type="time" name="time" required class="px-2 py-3 bg-gray-100 w-full col-span-2" placeholder="Date">
+                    </div>
+                    <div class="px-2 py-2 grid grid-cols-3 items-start">
+                        <label for="">Purpose:</label>
+                        <textarea name="purpose" class="px-2 py-3 bg-gray-100 w-full col-span-2" required placeholder="Message..." rows="2"></textarea>
+                    </div>
+                    <div class="px-2 py-2  items-start">
+                        <button class="px-2 py-3 bg-blue-500 text-white w-full ">Submit</button>
+                    </div>
+                    <img onclick="toggleAppointment()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3" alt="">
+                </form>
+        </div>
     </section>
 
     {{-- footer --}}
@@ -217,6 +247,15 @@
             document.getElementById('myChart'),
             config
         );
+
+
+        const appointment = document.querySelector('#appointment');
+
+        function toggleAppointment()
+        {
+            appointment.classList.toggle('hidden')
+            appointment.classList.toggle('flex')
+        }
     </script>
     {{-- <script>
         const address = 'Santa Francesca, Spring Valley Ⅳ, Cupang, Antipolo, Rizal, Calabarzon, 1870, Philippines';

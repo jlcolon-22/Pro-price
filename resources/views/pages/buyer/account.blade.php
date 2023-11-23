@@ -6,14 +6,14 @@
     {{-- header --}}
     <x-buyer.header />
 
-    <section class="container mx-auto py-10">
+    <section class="container mx-auto py-10 px-3 lg:px-0 relative ">
         <h1 class="text-text font-serif font-bold">- ACCOUNT INFORMATION</h1>
         <x-alert />
 
-        <form action="{{ route('buyer_update_account') }}" method="POST">
+        <form action="{{ route('buyer_update_account') }}" method="POST"  class="w-full overflow-hidden">
             @csrf
-            <div class="grid md:grid-cols-3 mt-6">
-                <div class="flex flex-col items-center  col-span-1 px-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 mt-6">
+                <div class="grid justify-center items-center w-full ">
                     @if (!!Auth::guard('buyer')->user()->profile)
                         <img id="previewAgent" src="{{ asset(Auth::guard('buyer')->user()->profile) }}"
                             class="h-60 w-60 object-cover" alt="...">
@@ -58,7 +58,7 @@
 
                 </div>
             </div>
-            <div class="float-right">
+            <div class="float-right py-10 md:py-0">
                 <button class="bg-green-500 text-white px-3 py-2 rounded">Save Changes</button>
                 <button type="button" onclick="modalPasswordfn()" class="bg-red-500 text-white px-3 py-2 rounded">Update
                     Password</button>

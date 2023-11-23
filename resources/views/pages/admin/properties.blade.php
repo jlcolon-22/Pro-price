@@ -5,7 +5,7 @@
 
 
 @section('content')
-    <section class="bg-secondary flex min-h-screen">
+    <section class="bg-secondary flex min-h-screen relative">
         {{-- aside --}}
         <x-admin-aside />
 
@@ -128,7 +128,7 @@
 
         </main>
     </section>
-    <div id="agentContainer" class="fixed top-0 left-0 w-full h-[100svh]  bg-black/50 hidden justify-center items-center">
+    <div id="agentContainer" class="fixed top-0 left-0 w-screen h-[100svh]   bg-black/50 hidden justify-center items-center">
         <div class="w-[24rem] bg-body relative">
             <h1 class="px-3 py-4 font-medium shadow">All Agents</h1>
             <div id="container" class="py-3 space-y-4 px-2">
@@ -212,8 +212,9 @@
                 </div>
                             `);
 
-                           $('#agentContainer').toggleClass('hidden')
-                           $('#agentContainer').toggleClass('flex')
+                            $('#agentContainer').removeClass('hidden')
+                           $('#agentContainer').addClass('flex')
+
                         });
                     }
                 })
@@ -224,8 +225,8 @@
 
             $.fn.closeAgent = function()
             {
-                $('#agentContainer').toggleClass('hidden')
-                           $('#agentContainer').toggleClass('flex')
+                $('#agentContainer').addClass('hidden')
+                           $('#agentContainer').removeClass('flex')
             }
         })
     </script>

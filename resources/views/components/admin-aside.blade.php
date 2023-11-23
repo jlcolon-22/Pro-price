@@ -14,7 +14,7 @@
             <img src="{{ asset('icons/users.svg') }}" class="w-[1.2rem]" alt="">
             Agent Account
         </a>
-        <a href="{{ route('admin_properties') }}" class=" px-4 py-2 flex gap-x-2 items-center">
+        <a href="{{ route('admin_properties') }}" class="{{ request()->is('admin/properties') ? 'border-l-4 border-blue-500 bg-gray-200 px-3' : 'px-4' }}  py-2 flex gap-x-2 items-center">
             <img src="{{ asset('icons/list.svg') }}" class="w-[1.2rem]" alt="">
             Properties
         </a>

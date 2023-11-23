@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Bookmark;
 use App\Models\Property;
 use Illuminate\Http\Request;
@@ -92,6 +93,7 @@ class FrontendController extends Controller
 
 
         $bookmark = false;
+        $appointment = false;
         if(Auth::guard('buyer')->check())
         {
            $check = Bookmark::query()->where('buyer_id',Auth::guard('buyer')->id())->where('property_id',$property->id)->first();
@@ -99,8 +101,13 @@ class FrontendController extends Controller
            {
             $bookmark = true;
            }
+           $checkAppointment = Appointment::query()->where('buyer_id',Auth::guard('buyer')->id())->where('property_id',$property->id)->first();
+           if($checkAppointment)
+           {
+            $appointment = true;
+           }
 
         }
-        return view("pages.view_property",compact('property','bookmark','type'));
+        return view("pages.view_property",compact('property','bookmark','type','appointment'));
     }
 }

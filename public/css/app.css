@@ -598,6 +598,9 @@ video {
 .top-20 {
   top: 5rem;
 }
+.right-3 {
+  right: 0.75rem;
+}
 .-z-0 {
   z-index: 0;
 }
@@ -618,6 +621,9 @@ video {
 }
 .z-20 {
   z-index: 20;
+}
+.z-\[100\] {
+  z-index: 100;
 }
 .col-span-1 {
   grid-column: span 1 / span 1;
@@ -883,6 +889,9 @@ video {
 .min-w-\[4rem\] {
   min-width: 4rem;
 }
+.min-w-\[100svw\] {
+  min-width: 100svw;
+}
 .max-w-\[11rem\] {
   max-width: 11rem;
 }
@@ -891,6 +900,9 @@ video {
 }
 .max-w-7xl {
   max-width: 80rem;
+}
+.max-w-\[100svw\] {
+  max-width: 100svw;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -904,6 +916,17 @@ video {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.cursor-none {
+  cursor: none;
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+.select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .snap-x {
   scroll-snap-type: x var(--tw-scroll-snap-strictness);
@@ -927,6 +950,9 @@ video {
 }
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 .flex-col {
   flex-direction: column;
@@ -1299,6 +1325,14 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
+.bg-red-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+.bg-blue-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
+}
 .fill-blue-500 {
   fill: #3b82f6;
 }
@@ -1383,6 +1417,10 @@ video {
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.px-20 {
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 .pb-1 {
   padding-bottom: 0.25rem;
@@ -1868,6 +1906,10 @@ video {
     margin-right: 1.5rem;
   }
 
+  .md\:block {
+    display: block;
+  }
+
   .md\:flex {
     display: flex;
   }
@@ -1981,9 +2023,22 @@ video {
     padding-right: 0px;
   }
 
+  .md\:text-left {
+    text-align: left;
+  }
+
+  .md\:text-center {
+    text-align: center;
+  }
+
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+
+  .md\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 
   .md\:shadow-none {

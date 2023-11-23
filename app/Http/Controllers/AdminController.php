@@ -40,7 +40,7 @@ class AdminController extends Controller
     // ################## seller #############
     public function agent_account()
     {
-        $agents = Agent::latest()->paginate(1);
+        $agents = Agent::latest()->paginate(10);
         return view('pages.admin.agent_account', compact('agents'));
     }
     public function download_license(Seller $id)

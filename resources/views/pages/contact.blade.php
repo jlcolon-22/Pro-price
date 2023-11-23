@@ -7,14 +7,14 @@
 @section('content')
     {{-- header --}}
     <x-buyer.header/>
-    <section  class="container  mx-auto py-10 font-serif">
+    <section  class="container  mx-auto py-10 font-serif  px-3 md:px-0">
             {{-- image --}}
-           <div class="grid grid-cols-2 gap-x-20">
-            <img src="{{ asset('assets/pngwing.com.png') }}" alt="">
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20">
+            <img src="{{ asset('assets/pngwing.com.png') }}" class="hidden md:block" alt="">
 
 
             <div class="">
-                <h2 class="my-8 text-2xl font-bold text-text md:text-4xl">Contact Us</h2>
+                <h2 class="my-8 text-3xl  font-bold text-text md:text-4xl text-center md:text-left">Contact Us</h2>
                 <div class="relative mt-10">
                     <input type="text" name="password"
                         class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" "

@@ -25,7 +25,7 @@
                             <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
                                 alt="user photo">
                         @else
-                            <img class="w-8 h-8 rounded-full"
+                            <img class="min-w-[2rem] h-8 rounded-full"
                                 src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('seller')->user()->name }}"
                                 alt="user photo">
                         @endif
@@ -39,8 +39,22 @@
                             <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('buyer')->user()->profile) }}"
                                 alt="user photo">
                         @else
-                            <img class="w-8 h-8 rounded-full"
+                            <img class="min-w-[2rem] h-8 rounded-full"
                                 src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('buyer')->user()->name }}"
+                                alt="user photo">
+                        @endif
+                    </button>
+                    @elseif (Auth::guard('agent')->check())
+                    <button onclick="dropdownProfile()"
+                        class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 "
+                        type="button">
+                        <span class="sr-only">Open user menu</span>
+                        @if (!!Auth::guard('agent')->user()->profile)
+                            <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('agent')->user()->profile) }}"
+                                alt="user photo">
+                        @else
+                            <img class="min-w-[2rem] h-8 rounded-full"
+                                src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('agent')->user()->name }}"
                                 alt="user photo">
                         @endif
                     </button>
@@ -81,6 +95,29 @@
                             <li>
                                 <a href="{{ route('buyer_bookmarks') }}"
                                     class="block px-4 py-2 hover:bg-gray-100 ">Bookmarks</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('buyer_appointment') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Appointment</a>
+                            </li>
+
+                        </ul>
+                        @elseif (Auth::guard('agent')->check())
+                        <div class="px-4 py-3 text-sm text-gray-900 ">
+                            <div>{{ Auth::guard('agent')->user()->email }}</div>
+                        </div>
+                        <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownUserAvatarButton">
+                            <li>
+                                <a href="{{ route('agent_account') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Account</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('agent_assign_propery') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Assign Property</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('buyer_bookmarks') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Appointments</a>
                             </li>
 
                         </ul>

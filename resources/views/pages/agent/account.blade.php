@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manage Properties')
+@section('title', 'Account ')
 
 @section('content')
     {{-- header --}}
@@ -10,16 +10,16 @@
         <h1 class="text-text font-serif font-bold">- ACCOUNT INFORMATION</h1>
         <x-alert />
 
-        <form action="{{ route('seller_update_account') }}" method="POST" class="w-full overflow-hidden">
+        <form action="{{ route('agent_update_account') }}" method="POST" class="w-full overflow-hidden">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 mt-6 ">
                 <div class="grid justify-center items-center w-full ">
-                    @if (!!Auth::guard('seller')->user()->profile)
-                        <img id="previewAgent" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
+                    @if (!!Auth::guard('agent')->user()->profile)
+                        <img id="previewAgent" src="{{ asset(Auth::guard('agent')->user()->profile) }}"
                             class="h-60 w-60  object-cover" alt="...">
                     @else
                         <img id="previewAgent"
-                            src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('seller')->user()->name }}"
+                            src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('agent')->user()->name }}"
                             class="h-60 w-60 object-cover" alt="...">
                     @endif
                     <button type="button" onclick="modalProfilefn()" class="text-blue-500 ">Change Profile</button>
@@ -30,7 +30,7 @@
                         <div class="relative mt-10">
                             <input type="text" name="name"
                                 class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
-                                placeholder=" " value="{{ Auth::guard('seller')->user()->name }}">
+                                placeholder=" " value="{{ Auth::guard('agent')->user()->name }}">
                             <label for=""
                                 class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Name</label>
                         </div>
@@ -38,7 +38,7 @@
                         <div class="relative mt-10">
                             <input type="text" name="email"
                                 class="border-b outline-none border-text  bg-transparent w-full pt-3 peer focus:border-b-2"
-                                placeholder=" " value="{{ Auth::guard('seller')->user()->email }}">
+                                placeholder=" " value="{{ Auth::guard('agent')->user()->email }}">
                             <label for=""
                                 class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                         </div>
@@ -47,10 +47,18 @@
                         <div class="relative mt-10">
                             <input type="text" name="phone_number"
                                 class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
-                                placeholder=" " value="{{ Auth::guard('seller')->user()->phone_number }}">
+                                placeholder=" " value="{{ Auth::guard('agent')->user()->phone_number }}">
                             <label for=""
                                 class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Phone
                                 Number</label>
+                        </div>
+                        <div class="relative mt-10">
+                            <input type="text" name="company_name"
+                                class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
+                                placeholder=" " value="{{ Auth::guard('agent')->user()->company_name }}">
+                            <label for=""
+                                class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">
+                                Company Name</label>
                         </div>
 
 
@@ -80,7 +88,7 @@
 
                 <div>
 
-                    <form action="{{ route('seller_update_account_profile') }}" method="POST" enctype="multipart/form-data"
+                    <form action="{{ route('agent_update_account_profile') }}" method="POST" enctype="multipart/form-data"
                         class="px-4 py-7">
                         @csrf
 
@@ -118,7 +126,7 @@
 
                 <div>
 
-                    <form action="{{ route('seller_update_account_password') }}" method="POST"
+                    <form action="{{ route('agent_update_account_password') }}" method="POST"
                         enctype="multipart/form-data" class="px-4 py-7">
                         @csrf
 

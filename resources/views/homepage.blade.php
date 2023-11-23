@@ -8,7 +8,7 @@
     <x-buyer.header />
 
     {{-- carousel --}}
-    <section class="z-0">
+    <section class="z-0 " >
         <div class="relative w-full h-fit ">
             <div class="overflow-x-scroll h-56 md:h-[30rem] overflow-y-hidden relative flex max-w-screen  snap-x snap-mandatory scroll-smooth"
                 id="carousel">
@@ -42,7 +42,7 @@
     </section>
 
     {{-- features --}}
-    <section class=" bg-secondary">
+    <section class="px-3 md:px-0 bg-secondary">
         <div class="container mx-auto pb-10">
             <h1 class="py-10 text-center text-2xl font-serif font-semibold">Welcome to Proprice,where innovation meets your real estate dreams! </h1>
             <div class="grid md:grid-cols-3 gap-5">
@@ -74,14 +74,14 @@
     </section>
 
     {{-- properties --}}
-    <section class="container mx-auto py-10">
+    <section class="container mx-auto py-10 px-3 md:px-0">
         {{-- label and view all button --}}
             <div class=" flex justify-between items-center">
                 <h2 class="tracking-wider text-text font-semibold text-2xl">PROPERTIES</h2>
                 <a href="/properties" class="text-blue-500 font-semibold underline">view all</a>
             </div>
         {{-- property item --}}
-        <div class="grid grid-cols-3 gap-10 py-10">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
             @forelse ($properties as $property)
             <div class="bg-body border  h-fit rounded ">
                 <div class="p-3">
