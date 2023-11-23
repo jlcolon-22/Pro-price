@@ -49,8 +49,8 @@
                                 {{ app('request')->input('location') == 'San mateo' ? 'checked' : '' }}>San mateo
                         </div>
                         <div class="flex gap-x-2">
-                            <input type="radio" name="location" value="Cainta"
-                                {{ app('request')->input('location') == 'Cainta' ? 'checked' : '' }}>Cainta
+                            <input type="radio" name="location" value="Binangonan"
+                                {{ app('request')->input('location') == 'Binangonan' ? 'checked' : '' }}>Binangonan
                         </div>
                     </div>
                 </div>

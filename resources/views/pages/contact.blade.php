@@ -10,7 +10,7 @@
     <section  class="container  mx-auto py-10 font-serif  px-3 md:px-0">
             {{-- image --}}
            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20">
-            <img src="{{ asset('assets/pngwing.com.png') }}" class="hidden md:block" alt="">
+            <img src="{{ asset('assets/pngwing.com(1).png') }}" class="hidden md:block" alt="">
 
 
             <div class="">
