@@ -1,11 +1,11 @@
 <div>
     <footer class="bg-white md:flex md:items-center md:justify-between shadow  p-4 md:p-6 xl:p-8 border-t container mx-auto">
         <ul class="flex items-center flex-wrap mb-6 md:mb-0">
-            <li><a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Homepage</a>
+            <li><a href="/" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Homepage</a>
             </li>
-            <li><a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Properties</a></li>
-            <li><a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">About</a></li>
-            <li><a href="#" class="text-sm font-normal text-gray-500 hover:underline">Contact</a></li>
+            <li><a href="/properties" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Properties</a></li>
+            <li><a href="/about" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">About</a></li>
+            <li><a href="contact" class="text-sm font-normal text-gray-500 hover:underline">Contact</a></li>
         </ul>
         <div class="flex sm:justify-center space-x-6">
             <a href="#" class="text-gray-500 hover:text-gray-900">
