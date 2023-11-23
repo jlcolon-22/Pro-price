@@ -19,4 +19,13 @@ class Appointment extends Model
         'property_id',
         'buyer_id'
     ];
+
+    public function propertyDetails()
+    {
+        return $this->belongsTo(Property::class,'property_id');
+    }
+    public function agentInfo()
+    {
+        return $this->belongsTo(Agent::class,'agent_id');
+    }
 }

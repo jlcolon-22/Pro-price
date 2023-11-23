@@ -93,7 +93,9 @@ class FrontendController extends Controller
 
 
         $bookmark = false;
-        $appointment = false;
+        $appointment = [
+            'status' => false
+        ];
         if(Auth::guard('buyer')->check())
         {
            $check = Bookmark::query()->where('buyer_id',Auth::guard('buyer')->id())->where('property_id',$property->id)->first();
@@ -104,10 +106,11 @@ class FrontendController extends Controller
            $checkAppointment = Appointment::query()->where('buyer_id',Auth::guard('buyer')->id())->where('property_id',$property->id)->first();
            if($checkAppointment)
            {
-            $appointment = true;
+            $appointment = $checkAppointment;
            }
 
         }
+
         return view("pages.view_property",compact('property','bookmark','type','appointment'));
     }
 }

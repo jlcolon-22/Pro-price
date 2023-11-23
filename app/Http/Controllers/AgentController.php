@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agent;
 use App\Models\Property;
+use App\Models\Appointment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,28 @@ use Illuminate\Validation\Rules\Password;
 
 class AgentController extends Controller
 {
+    public function agent_update_appointment_approve(Request $request,$id)
+    {
+        Appointment::where('id',$id)->update([
+            'status'=>1,
+            'details'=>$request->details
+        ]);
+        return back()->with("success","Updated Successfully!");
+    }
+    public function agent_update_appointment_decline(Request $request,$id)
+    {
+        Appointment::where('id',$id)->update([
+            'status'=>2,
+            'details'=>$request->details
+        ]);
+        return back()->with("success","Updated Successfully!");
+    }
+    public function agent_appointment(Request $request)
+    {
+        $appointments = Appointment::query()->with('propertyDetails','agentInfo')->where('agent_id',Auth::guard('agent')->id())->latest()->paginate(10);
+
+        return view('pages.agent.appointment',compact('appointments'));
+    }
     public function agent_assign_propery()
     {
         $properties = Property::with('photo')->where('agent_id',Auth::guard('agent')->user()->id)->paginate(10);

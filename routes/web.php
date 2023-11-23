@@ -71,10 +71,13 @@ Route::controller(BuyerController::class)->group(function () {
 
 Route::controller(AgentController::class)->group(function () {
     Route::get('/agent/account','agent_account')->name('agent_account');
+    Route::get('/agent/appointment','agent_appointment')->name('agent_appointment');
     Route::get('/agent/assign_propery','agent_assign_propery')->name('agent_assign_propery');
     Route::post('/agent/account','agent_update_account')->name('agent_update_account');
     Route::post('/agent/account/profile','agent_update_account_profile')->name('agent_update_account_profile');
     Route::post('/agent/account/password','agent_update_account_password')->name('agent_update_account_password');
+    Route::post('/agent/appointment/approve/{id}','agent_update_appointment_approve')->name('agent_update_appointment_approve');
+    Route::post('/agent/appointment/decline/{id}','agent_update_appointment_decline')->name('agent_update_appointment_decline');
 });
 Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/homepage','homepage')->name('admin_homepage');

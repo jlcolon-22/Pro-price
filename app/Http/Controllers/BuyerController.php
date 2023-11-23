@@ -17,7 +17,8 @@ class BuyerController extends Controller
 {
     public function buyer_appointment()
     {
-        return view('pages.buyer.appointment');
+        $appointments = Appointment::query()->with('propertyDetails','agentInfo')->where('buyer_id',Auth::guard('buyer')->id())->latest()->paginate(10);
+        return view('pages.buyer.appointment',compact('appointments'));
     }
     public function buyer_add_ppointment(Request $request,$property, $agent)
     {

@@ -10,6 +10,7 @@
         {{-- filter button --}}
         <h1 class="text-text font-serif font-bold">-- APPOINTMENTS</h1>
         {{-- appointment table --}}
+        <x-alert/>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 mt-10">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                 <tr>
@@ -33,6 +34,9 @@
                      </th>
                     <th scope="col" class="px-6 py-3">
                        Details of appointment
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                       Action
                     </th>
 
 
@@ -67,14 +71,16 @@
                     <td class="px-6 py-4">
                        <a href="/property/view/{{ $appointment->propertyDetails->id }}" class="underline text-blue-600"> {{ $appointment->propertyDetails?->title }}</a>
                     </td>
-                    <td class="px-6 py-4 ">
-                        @if (!!$appointment->details)
+                    <td class="px-6 py-4">
                         <pre class="block text-left">{!! $appointment->details !!}</pre>
+                    </td>
+                    <td class="px-6 py-4 ">
 
-                        @else
-                        <p class="text-gray-400">The details section will show once the appointment request is approved.
-                        </p>
-                        @endif
+                            <div>
+                                <button onclick="toggleDetailsModal(0,{{  $appointment->id }})" class="px-4 py-2 bg-green-500 text-white">Approve.</button>
+                                <button onclick="toggleDetailsModal(1,{{  $appointment->id }})" class="px-4 py-2 bg-red-500 text-white">Decline.</button>
+                            </div>
+
                     </td>
 
                 </tr>
@@ -89,6 +95,12 @@
         <div class="py-2">
             {{ $appointments->links() }}
         </div>
+
+
+        <div id="detailsModal" class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center  bg-black/40">
+            {{-- apppointment form --}}
+
+         </div>
     </section>
 
     {{-- footer --}}
@@ -101,6 +113,49 @@
     const filterForm = document.querySelector('#filterForm');
     function showFIlter(){
         filterForm.classList.toggle('hidden');
+    }
+    const detailsModal = document.querySelector('#detailsModal');
+    function toggleDetailsModal(type, id)
+    {
+        if(type == 0)
+        {
+            detailsModal.innerHTML = `<form  action="/agent/appointment/approve/${id}" class=" bg-white w-[30rem] relative" method="POST">
+                @csrf
+                <h1 class="px-2 py-3 shadow text-lg uppercase">Appointment</h1>
+
+                <div class="px-2 py-2 grid grid-cols-3 items-start">
+                    <label for="">Details:</label>
+                    <textarea name="details" class="px-2 py-3 bg-gray-100 w-full col-span-2" required placeholder="Details..." rows="3" cols="1"></textarea>
+                </div>
+                <div class="px-2 py-2  items-start">
+                    <button class="px-2 py-3 bg-green-500 text-white w-full ">Approve</button>
+                </div>
+                <img onclick="closeDetailsModal()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3" alt="">
+            </form>`;
+            detailsModal.classList.toggle('hidden')
+            detailsModal.classList.toggle('flex')
+        }else{
+            detailsModal.innerHTML = `<form action="/agent/appointment/decline/${id}" class=" bg-white w-[30rem] relative" method="POST">
+                @csrf
+                <h1 class="px-2 py-3 shadow text-lg uppercase">Appointment</h1>
+
+                <div class="px-2 py-2 grid grid-cols-3 items-start">
+                    <label for="">Details:</label>
+                    <textarea name="details" class="px-2 py-3 bg-gray-100 w-full col-span-2" required placeholder="Details..." rows="3"></textarea>
+                </div>
+                <div class="px-2 py-2  items-start">
+                    <button class="px-2 py-3 bg-red-500 text-white w-full ">Decline</button>
+                </div>
+                <img onclick="closeDetailsModal()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3" alt="">
+            </form>`;
+            detailsModal.classList.toggle('hidden')
+            detailsModal.classList.toggle('flex')
+        }
+    }
+    function closeDetailsModal()
+    {
+        detailsModal.classList.toggle('hidden')
+            detailsModal.classList.toggle('flex')
     }
 </script>
 @endsection

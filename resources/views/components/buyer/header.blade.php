@@ -6,7 +6,7 @@
         {{-- navlist --}}
         <nav class="flex items-center space-x-3 md:space-x-12  z-50">
 
-            <div id="navbar" class="p-4 md:p-0 space-y-3 md:space-y-0 md:space-x-5 absolute left-0 top-20 z-0 h-fit hidden w-full bg-body shadow-md md:shadow-none md:flex md:relative md:left-0 md:top-0 md:bg-transparent">
+            <div id="navbar" class="p-4 md:px-0 space-y-3 md:space-y-0 md:space-x-5 absolute left-0 top-20 z-0 h-fit hidden w-full bg-body shadow-md md:shadow-none md:flex md:relative md:left-0 md:top-0 md:bg-transparent">
                 <a href="/"
                     class=" text-text text-sm uppercase tracking-wider {{ request()->is('/') ? 'font-bold ' : '' }}">Homepage</a>
                 <a href="/properties"
@@ -22,10 +22,10 @@
                         type="button">
                         <span class="sr-only">Open user menu</span>
                         @if (!!Auth::guard('seller')->user()->profile)
-                            <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
+                            <img class="min-w-[2rem] max-w-[2rem]  h-8 rounded-full" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
                                 alt="user photo">
                         @else
-                            <img class="min-w-[2rem] h-8 rounded-full"
+                            <img class="min-w-[2rem] max-w-[2rem] h-8 rounded-full"
                                 src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('seller')->user()->name }}"
                                 alt="user photo">
                         @endif
@@ -36,10 +36,10 @@
                         type="button">
                         <span class="sr-only">Open user menu</span>
                         @if (!!Auth::guard('buyer')->user()->profile)
-                            <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('buyer')->user()->profile) }}"
+                            <img class="min-w-[2rem] max-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('buyer')->user()->profile) }}"
                                 alt="user photo">
                         @else
-                            <img class="min-w-[2rem] h-8 rounded-full"
+                            <img class="min-w-[2rem] max-w-[2rem] h-8 rounded-full"
                                 src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('buyer')->user()->name }}"
                                 alt="user photo">
                         @endif
@@ -50,10 +50,10 @@
                         type="button">
                         <span class="sr-only">Open user menu</span>
                         @if (!!Auth::guard('agent')->user()->profile)
-                            <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('agent')->user()->profile) }}"
+                            <img class="min-w-[2rem] max-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('agent')->user()->profile) }}"
                                 alt="user photo">
                         @else
-                            <img class="min-w-[2rem] h-8 rounded-full"
+                            <img class="min-w-[2rem] max-w-[2rem] h-8 rounded-full"
                                 src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('agent')->user()->name }}"
                                 alt="user photo">
                         @endif
@@ -116,7 +116,7 @@
                                     class="block px-4 py-2 hover:bg-gray-100 ">Assign Property</a>
                             </li>
                             <li>
-                                <a href="{{ route('buyer_bookmarks') }}"
+                                <a href="{{ route('agent_appointment') }}"
                                     class="block px-4 py-2 hover:bg-gray-100 ">Appointments</a>
                             </li>
 
@@ -139,7 +139,7 @@
     </header>
     {{-- login modal --}}
     <div id="modalLogin"
-        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
+        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]  px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -197,7 +197,7 @@
 
     {{-- account type modal --}}
     <div id="modalType"
-        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
+        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center  pt-[5rem] px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -229,7 +229,7 @@
 
     {{-- buyer customer --}}
     <div id="modalBuyer"
-        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
+        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center   pt-[5rem] px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -300,7 +300,7 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 {{ Session::has('error_seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen px-2 md:p-0">
+        class="fixed z-50 {{ Session::has('error_seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center  py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -411,7 +411,7 @@
 
     {{-- agent customer --}}
     <div id="modalAgent"
-        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen px-2 md:p-0">
+        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
