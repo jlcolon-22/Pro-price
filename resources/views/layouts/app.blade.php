@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
         <style>
             #carousel {
                 -ms-overflow-style: none; /* for Internet Explorer, Edge */

@@ -26,42 +26,169 @@
 
 @section('scripts')
     <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="https://npmcdn.com/leaflet-geometryutil"></script>
+
 
     <script>
-        const address = '1600 Amphitheatre Parkway, Mountain View, CA';
-        const latitude = 14.548150402798472;
-        const longitude = 121.11220967093111;
+  var llPolyline1 = [
+    [51.51086, -0.13184],
+    [51.51268, -0.11518],
+    [51.51268, -0.07347],
+  ],
+  llPolyline2 = [
+    [51.51033, -0.05287],
+    [51.50093, -0.04137],
+    [51.49206, -0.06866],
+  ],
+  llSegment = [
+    [51.49024, -0.13184],
+    [51.49024, -0.04137],
+  ],
+  llPolygon1 = [
+    [
+      [51.50349, -0.12892],
+      [51.50958, -0.08926],
+      [51.49933, -0.0758],
+      [51.49612, -0.10557],
+      [51.49024, -0.12257],
+    ], // outer ring
+    [
+      [51.50189, -0.12531],
+      [51.50758, -0.08926],
+      [51.49933, -0.0858],
+      [51.49812, -0.10557],
+      [51.49224, -0.12157],
+    ], // hole
+  ],
+  _map = L.map('map').setView([51.505, -0.09], 13),
+  polygon1 = L.polygon(llPolygon1, {
+    color: 'blue',
+    className: 'polygon1',
+  }).addTo(_map),
+  polyline1 = L.polyline(llPolyline1, {
+    color: 'blue',
+    className: 'polyline1',
+  }).addTo(_map),
+  polyline2 = L.polyline(llPolyline2, {
+    color: 'blue',
+    className: 'polyline2',
+  }).addTo(_map),
+  segment = L.polyline(llSegment, { color: 'red', className: 'segment' }).addTo(
+    _map
+  ),
+  marker = null,
+  markerClosestPolygon1 = null,
+  markerClosestPolyline1 = null,
+  markerClosestPolyline2 = null,
+  markerClosestSegment = null;
 
-        // Initialize the map
-        const map = L.map('map').setView([latitude, longitude], 13);
+// console.log("latlngs of polygon1")
+// console.log(polygon1.getLatLngs())
+// console.log("latlngs of polyline1")
+// console.log(polyline1.getLatLngs())
+// console.log("latlngs of polyline2")
+// console.log(polyline2.getLatLngs())
 
-        // Add a tile layer to the map (you can choose a different tile provider)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-        map.on('click', function(e) {
-            const latitude = e.latlng.lat;
-            const longitude = e.latlng.lng;
-            const reverseGeocodeUrl =
-                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-            fetch(reverseGeocodeUrl)
-                .then(response => response.json())
-                .then(data => {
-                    // Extract and display the address
-                    const address = data.display_name;
-                    console.log(address)
-                })
-                .catch(error => console.error('Error fetching reverse geocoding data:', error));
+function init() {
+  if (marker) _map.removeLayer(marker);
+  if (markerClosestPolygon1) _map.removeLayer(markerClosestPolygon1);
+  if (markerClosestPolyline1) _map.removeLayer(markerClosestPolyline1);
+  if (markerClosestPolyline2) _map.removeLayer(markerClosestPolyline2);
+  if (markerClosestSegment) _map.removeLayer(markerClosestSegment);
 
-            marker.setLatLng([latitude, longitude]);
+  polygon1.setStyle({ color: 'blue' });
+  polyline1.setStyle({ color: 'blue' });
+  polyline2.setStyle({ color: 'blue' });
 
-            // Update the popup content if needed
-            marker.getPopup().setContent("<b>Pin Location</b>").update();
+  document.getElementById('closestLayer').innerHTML = '';
+  document.getElementById('closestLayerSnap').innerHTML = '';
+}
 
-            // Open the popup
-            marker.openPopup();
-        })
-        const marker = L.marker([latitude, longitude]).addTo(map);
-        marker.bindPopup("<b>Location Rizal</b>").openPopup();
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution:
+    '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(_map);
+
+_map.on('click', function (e) {
+  init();
+
+  marker = L.marker(e.latlng)
+    .addTo(_map)
+    .bindPopup(e.latlng + '<br/>' + e.layerPoint)
+    .openPopup();
+
+  var p_vertices = document.getElementById('p_vertices').checked,
+    p_tolerance =
+      document.getElementById('p_tolerance').value !== ''
+        ? parseInt(document.getElementById('p_tolerance').value)
+        : Infinity,
+    p_withVertices = document.getElementById('p_withVertices').checked,
+    closestPointToPolygon1 = L.GeometryUtil.closest(
+      _map,
+      polygon1,
+      e.latlng,
+      p_vertices
+    ),
+    closestPointToPolyline1 = L.GeometryUtil.closest(
+      _map,
+      polyline1,
+      e.latlng,
+      p_vertices
+    ),
+    closestPointToPolyline2 = L.GeometryUtil.closest(
+      _map,
+      polyline2,
+      e.latlng,
+      p_vertices
+    ),
+    closestLayer = L.GeometryUtil.closestLayer(
+      _map,
+      [polyline1, polyline2, polygon1],
+      e.latlng
+    ),
+    closestLayerSnap = L.GeometryUtil.closestLayerSnap(
+      _map,
+      [polyline1, polygon1, polyline2],
+      e.latlng,
+      p_tolerance,
+      p_withVertices
+    ),
+    closestOnSegment = L.GeometryUtil.closestOnSegment(
+      _map,
+      e.latlng,
+      llSegment[0],
+      llSegment[1]
+    );
+
+  // display the closest points
+  markerClosestPolygon1 = L.marker(closestPointToPolygon1)
+    .addTo(_map)
+    .bindPopup('Closest point on polygon1');
+  markerClosestPolyline1 = L.marker(closestPointToPolyline1)
+    .addTo(_map)
+    .bindPopup('Closest point on polyline1');
+  markerClosestPolyline2 = L.marker(closestPointToPolyline2)
+    .addTo(_map)
+    .bindPopup('Closest point on polyline2');
+
+  // change the color of closest layer
+  closestLayer.layer.setStyle({ color: 'green' });
+  document.getElementById('closestLayer').innerHTML =
+    closestLayer.layer.options.className;
+
+  // display the closest position for snap
+  document.getElementById('closestLayerSnap').innerHTML = closestLayerSnap
+    ? closestLayerSnap.layer.options.className
+    : 'unknown';
+
+  // display the closest point on red segment
+  markerClosestSegment = L.marker(closestOnSegment)
+    .addTo(_map)
+    .bindPopup('Closest point on segment');
+
+  console.log(polygon1.getLatLngs());
+});
+
+
     </script>
 @endsection

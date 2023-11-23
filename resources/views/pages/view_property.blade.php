@@ -9,6 +9,7 @@
         <div>
             <input type="hidden" id="longitude" value="{{ $property->longitude }}">
             <input type="hidden"  id="latitude" value="{{ $property->latitude }}">
+            <input type="hidden"  id="titles" value="{{ $property->address }}">
         </div>
         {{-- property image --}}
         <div class=" flex justify-between gap-x-2">
@@ -241,6 +242,7 @@
 @endsection
 
 @section('scripts')
+
     <script src="{{ asset('js/modal.js') }}"></script>
     <script>
         const mainImage = document.querySelector('#mainImage');
@@ -335,7 +337,7 @@
         }).addTo(map);
 
         const marker = L.marker([latitude, longitude]).addTo(map);
-        marker.bindPopup("<b>Location Rizal</b>").openPopup();
+        marker.bindPopup(`<b>${document.querySelector('#titles').value}</b>`).openPopup();
        }
        function closeMap()
        {
