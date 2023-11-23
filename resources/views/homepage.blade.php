@@ -7,8 +7,8 @@
     {{-- header --}}
     <x-buyer.header />
 
-    {{-- carousel --}}
-    <section class="z-0 " >
+    {{-- hearo section --}}
+    {{-- <section class="z-0 " >
         <div class="relative w-full h-fit ">
             <div class="overflow-x-scroll h-56 md:h-[30rem] overflow-y-hidden relative flex max-w-screen  snap-x snap-mandatory scroll-smooth"
                 id="carousel">
@@ -39,12 +39,26 @@
             </div>
 
         </div>
-    </section>
+    </section> --}}
+    <div class="items-center w-10/12 grid-cols-2 mx-auto overflow-x-hidden lg:grid md:py-14 lg:py-24 xl:py-14 lg:mt-3 xl:mt-5" data-aos="fade-right" data-aos-duration="800">
+        <div class="pr-2 md:mb-14 py-14 md:py-0">
+          <h1 class="text-3xl font-semibold text-text xl:text-5xl lg:text-3xl"><span class="block w-full">Let Proprice be your compass</span> in the world of property values and trends. </h1>
+          <p class="py-4 text-lg text-gray-500 2xl:py-8 md:py-6 2xl:pr-5">
+            Join Proprice today and revolutionize the way you engage with real estate – where accuracy meets user empowerment, shaping a seamless journey towards your dream property.
+          </p>
+          <div class="mt-4">
+            <a href="/properties" class="px-5 py-3 text-lg tracking-wider text-white bg-button rounded-lg md:px-8 hover:bg-button group"><span>Get Started</span> </a>
+          </div>
+        </div>
 
+        <div class="pb-10 overflow-hidden md:p-10 lg:p-0 sm:pb-0">
+          <img id="heroImg1" class="transition-all duration-300 ease-in-out hover:scale-105 lg:w-full sm:mx-auto sm:w-4/6 sm:pb-12 lg:pb-0" src="{{ asset('assets/pngwing.com(2).png') }}" alt="Awesome hero page image" width="500" height="488"/>
+        </div>
+      </div>
     {{-- features --}}
-    <section class="px-3 md:px-0 bg-secondary">
+    <section class="px-3 md:px-0 bg-secondary py-10">
         <div class="container mx-auto pb-10">
-            <h1 class="py-10 text-center text-2xl font-serif font-semibold">Welcome to Proprice,where innovation meets your real estate dreams! </h1>
+            <h1 class="py-10 text-center text-2xl  font-semibold">Welcome to Proprice,where innovation meets your real estate dreams! </h1>
             <div class="grid md:grid-cols-3 gap-5">
                 {{-- updated --}}
                 <div class="border px-5 py-8 bg-body space-y-3 rounded">
@@ -62,7 +76,7 @@
                     </p>
                 </div>
                 <div class="border px-5 py-8 bg-body space-y-3 rounded">
-                    <img src="{{ asset('icons/dollar-sign.svg') }}" class="bg-button rounded-md p-3 " alt="">
+                    <img src="{{ asset('icons/bar-chart.svg') }}" class="bg-button rounded-md p-3 " alt="">
                     <h2 class="tracking-wider text-text font-semibold">Continuous Improvement</h2>
                     <p class="tracking-wider text-paragraph">
                         We believe in evolving together. Proprice continually refines its prediction models based on the data uploaded by buyers. This feedback loop enriches our algorithms, enhancing future predictions and ensuring a dynamic, ever-improving system.

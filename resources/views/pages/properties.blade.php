@@ -59,14 +59,14 @@
                     <label for="labels-range-input" class="">Labels range(<span id="currentPrice">₱{{ app('request')->input('price') ? number_format(app('request')->input('price')) : '50000' }}</span>  )</label>
                     <input id="labels-range-input" name="price" onchange="searchPrice(this)" type="range" value="{{ app('request')->input('price') ? app('request')->input('price') : '50000' }}" min="50000" max="100000000"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
-                    <span class="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">Min (₱ 100K)</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">Min (₱ 50k)</span>
 
                     <span class="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">Max (₱ 100M)</span>
                 </div>
 
 
 
-                <div class="mt-4 space-y-1">
+                <div class="mt-4 grid space-y-1">
                     <button type="submit" class="bg-button px-5 py-2 w-full text-text">Submit</button>
                     <a href="/properties" type="button" class="bg-gray-300 px-5 py-2 w-full text-center text-text">Clear</a>
                 </div>
@@ -100,6 +100,7 @@
                     </div>
                 </div>
             @empty
+            <h1>No Property found....</h1>
             @endforelse
 
 
