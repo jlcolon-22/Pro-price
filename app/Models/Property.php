@@ -25,7 +25,9 @@ class Property extends Model
         'description',
         'user_type',
         'agent_id',
-        'title_copy'
+        'title_copy',
+        'longitude',
+        'latitude'
     ];
 
     public function photo()
@@ -42,6 +44,6 @@ class Property extends Model
     }
     public function agentInfo()
     {
-        return $this->belongsTo(Agent::class ,'seller_id');
+        return $this->belongsTo(Agent::class ,'agent_id');
     }
 }

@@ -93,3 +93,14 @@ function modalPasswordfn()
     modalPassword.classList.toggle('hidden');
     modalPassword.classList.toggle('flex');
 }
+
+
+// toggle navbar
+const navbar = document.querySelector('#navbar');
+
+
+function toggleNavbar()
+{
+    navbar.classList.toggle('hidden');
+    navbar.classList.toggle('grid');
+}

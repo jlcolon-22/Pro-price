@@ -8,7 +8,7 @@
     <x-buyer.header />
 
     {{-- carousel --}}
-    <section>
+    <section class="z-0">
         <div class="relative w-full h-fit ">
             <div class="overflow-x-scroll h-56 md:h-[30rem] overflow-y-hidden relative flex max-w-screen  snap-x snap-mandatory scroll-smooth"
                 id="carousel">
@@ -17,6 +17,12 @@
                 <img src="{{ asset('assets/r-architecture-JvQ0Q5IkeMM-unsplash.jpg') }}" class="object-cover min-w-full snap-start"
                     alt="...">
             </div>
+           <div class="absolute w-full top-0 left-0 h-full bg-black/60 flex justify-center items-center flex-col">
+            <h1 class="text-body font-semibold  text-3xl  text-center">Let Proprice be your compass in the world of property values and trends. </h1>
+            <p class="text-body w-[60%] text-center">
+                Join Proprice today and revolutionize the way you engage with real estate – where accuracy meets user empowerment, shaping a seamless journey towards your dream property.
+            </p>
+           </div>
             <div class="absolute top-0 bottom-0 left-4 flex items-center">
                 <button onclick="scrollCarousel(0)">
                     <img src="{{ asset('icons/arrow-left.svg') }}" loading="lazy"
@@ -37,37 +43,32 @@
 
     {{-- features --}}
     <section class=" bg-secondary">
-        <div class="container mx-auto py-10">
-            <div class="grid md:grid-cols-4 gap-5">
+        <div class="container mx-auto pb-10">
+            <h1 class="py-10 text-center text-2xl font-serif font-semibold">Welcome to Proprice,where innovation meets your real estate dreams! </h1>
+            <div class="grid md:grid-cols-3 gap-5">
                 {{-- updated --}}
                 <div class="border px-5 py-8 bg-body space-y-3 rounded">
                     <img src="{{ asset('icons/refresh-ccw.svg') }}" class="bg-button rounded-md p-3 " alt="">
-                    <h2 class="tracking-wider text-text font-semibold">UPDATED</h2>
+                    <h2 class="tracking-wider text-text font-semibold">Predictive Precision</h2>
                     <p class="tracking-wider text-paragraph">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste voluptate culpa nam consectetur natus harum quidem, possimus accusamus nemo ex.
+                        While our system might occasionally require adjustments for precision, fear not! Sellers can fine-tune and modify their property details, ensuring accuracy. Dive in, upload your property, and tweak as needed for spot-on predictions!
                     </p>
                 </div>
                 <div class="border px-5 py-8 bg-body space-y-3 rounded">
                     <img src="{{ asset('icons/star.svg') }}" class="bg-button rounded-md p-3 " alt="">
-                    <h2 class="tracking-wider text-text font-semibold">HIGH QUALITY HOUSES</h2>
+                    <h2 class="tracking-wider text-text font-semibold">Interactive Engagement</h2>
                     <p class="tracking-wider text-paragraph">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste voluptate culpa nam consectetur natus harum quidem, possimus accusamus nemo ex.
+                        Buyers, this is your playground! Bookmark your favorites, and view properties. Connect effortlessly, set appointments with agents, and engage in insightful inquiries, all at your convenience.
                     </p>
                 </div>
                 <div class="border px-5 py-8 bg-body space-y-3 rounded">
                     <img src="{{ asset('icons/dollar-sign.svg') }}" class="bg-button rounded-md p-3 " alt="">
-                    <h2 class="tracking-wider text-text font-semibold">LONG TERM PAYMENTS</h2>
+                    <h2 class="tracking-wider text-text font-semibold">Continuous Improvement</h2>
                     <p class="tracking-wider text-paragraph">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste voluptate culpa nam consectetur natus harum quidem, possimus accusamus nemo ex.
+                        We believe in evolving together. Proprice continually refines its prediction models based on the data uploaded by buyers. This feedback loop enriches our algorithms, enhancing future predictions and ensuring a dynamic, ever-improving system.
                     </p>
                 </div>
-                <div class="border px-5 py-8 bg-body space-y-3 rounded">
-                    <img src="{{ asset('icons/shield.svg') }}" class="bg-button rounded-md p-3 " alt="">
-                    <h2 class="tracking-wider text-text font-semibold">SAFE AND RELIABLE CONTRACTS</h2>
-                    <p class="tracking-wider text-paragraph">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste voluptate culpa nam consectetur natus harum quidem, possimus accusamus nemo ex.
-                    </p>
-                </div>
+
             </div>
         </div>
     </section>

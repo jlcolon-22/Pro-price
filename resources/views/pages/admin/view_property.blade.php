@@ -24,8 +24,8 @@
                         <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->price }}">
                     </div>
                     <div class="grid">
-                        <label for="">Address</label>
-                        <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->address }}">
+                        <label for="">Type</label>
+                        <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->type }}">
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-x-10 p-4">
@@ -42,7 +42,7 @@
                         <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->bed_room }}">
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-x-10 p-4">
+                <div class="grid grid-cols-3 items-start gap-x-10 p-4">
                     <div class="grid">
                         <label for="">Bath Room</label>
                         <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->bath_room }}">
@@ -51,9 +51,11 @@
                         <label for="">Floor Number</label>
                         <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->floor_number }}">
                     </div>
+
                     <div class="grid">
-                        <label for="">Type</label>
-                        <input type="text" class="px-3 py-2 bg-black/10 opacity-75 " disabled value="{{ $property->type }}">
+                        <label for="">Address</label>
+
+                        <textarea class="px-3 py-2 bg-black/10 opacity-75 " disabled rows="4">{{ $property->address }}</textarea>
                     </div>
                 </div>
             </div>

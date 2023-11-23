@@ -16,6 +16,7 @@ use Illuminate\Validation\Rules\Password;
 
 class SellerController extends Controller
 {
+
     public function seller_update_account_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -114,7 +115,7 @@ class SellerController extends Controller
                 'type'=>$request->type,
                 'floor_area'=>$request->floor_area,
                 'floor_number'=>$request->floor_number,
-                'status'=>$request->status,
+
                 'land_size'=>$request->land_size,
                 'price'=>$request->price,
                 'seller_id'=>Auth::guard('seller')->id(),
@@ -122,6 +123,8 @@ class SellerController extends Controller
                 'bath_room'=>$request->bath_room,
                 'address'=>$request->address,
                 'description'=>$request->description,
+                'longitude'=>$request->longitude,
+                'latitude'=>$request->latitude,
 
             ]
         );
@@ -165,7 +168,6 @@ class SellerController extends Controller
                 'type'=>$request->type,
                 'floor_area'=>$request->floor_area,
                 'floor_number'=>$request->floor_number,
-                'status'=>$request->status,
                 'land_size'=>$request->land_size,
                 'price'=>$request->price,
                 'seller_id'=>Auth::guard('seller')->id(),
@@ -173,6 +175,8 @@ class SellerController extends Controller
                 'bath_room'=>$request->bath_room,
                 'address'=>$request->address,
                 'description'=>$request->description,
+                'longitude'=>$request->longitude,
+                'latitude'=>$request->latitude,
             ]
         );
         if(!!$request->photo)

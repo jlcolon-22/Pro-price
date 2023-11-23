@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/','homepage');
+    Route::get('/privacy-policy','privacy');
+    Route::get('/terms_and_conditions','terms_and_conditions');
+    Route::get('/about','about');
+    Route::get('/contact','contact');
     Route::get('/properties','properties');
     Route::get('/property/view/{id}','view_property')->name('view_property');
     Route::get('/property/contact/{id}/seller','contact_seller_property')->name('contact_seller_property');
@@ -79,4 +83,6 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/property/approve/{id}','property_approve')->name('admin_property_approve');
     Route::get('/admin/property/decline/{id}','property_decline')->name('admin_property_decline');
     Route::get('/admin/property/view/{id}','property_view')->name('admin_property_view');
+    Route::get('/admin/property/agents','property_agents')->name('admin_property_agents');
+    Route::get('/admin/property/assign/{agent}/{property}','property_assign')->name('admin_property_assign');
 });

@@ -24,14 +24,14 @@
 
    </section>
     @else
-    <section class="container mx-auto py-10">
+    <section class="container mx-auto py-10 px-3 md:px-0">
 
         <div class="pb-2">
             <a href="{{ route('seller_add_property') }}" class="px-5 text-text bg-button py-3 ">Add Properties</a>
         </div>
         <x-alert />
         {{-- property item --}}
-        <div class="grid grid-cols-3 gap-10 py-10">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
 
             @forelse ($properties as $property)
                 <div class="bg-body border  h-fit rounded ">

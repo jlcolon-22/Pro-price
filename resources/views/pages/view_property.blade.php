@@ -92,11 +92,11 @@
             <div class="w-[27rem] px-2 pt-4">
                 <div class="border bg-body py-10 flex flex-col items-center ">
                     @if ($type == 'seller')
-                        @if (!!$property->sellerInfo->profile)
-                            <img src="{{ asset($property->sellerInfo->profile) }}"
+                        @if (!!$property->agentInfo->profile)
+                            <img src="{{ asset($property->agentInfo->profile) }}"
                                 class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
                         @else
-                            <img src="https://ui-avatars.com/api/?background=random&name={{ $property->sellerInfo->name }}"
+                            <img src="https://ui-avatars.com/api/?background=random&name={{ $property->agentInfo->name }}"
                                 class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
                         @endif
                     @else
@@ -109,7 +109,7 @@
                         @endif
                     @endif
                     <p class="text-paragraph pt-2 font-serif">
-                        {{ $type == 'seller' ? $property->sellerInfo->name : $property->agentInfo->name }}</p>
+                        {{ $type == 'seller' ? $property->agentInfo->name : $property->agentInfo->name }}</p>
                     <div class="flex items-center space-x-1 pt-1">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
@@ -118,13 +118,13 @@
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                     </div>
                     <div class="flex items-center space-x-3 pt-3">
-                        @if ($type == 'seller')
+                        {{-- @if ($type == 'seller') --}}
                             <a href="{{ route('contact_seller_property', ['id' => $property->id]) }}"
                                 class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
                                 <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                Message
+                                Appointment
                             </a>
-                        @else
+                        {{-- @else
                             <a href=""
                                 class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
                                 <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
@@ -136,7 +136,7 @@
                                 <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
                                 Call
                             </a>
-                        @endif
+                        @endif --}}
                     </div>
 
                 </div>
@@ -218,4 +218,31 @@
             config
         );
     </script>
+    {{-- <script>
+        const address = 'Santa Francesca, Spring Valley Ⅳ, Cupang, Antipolo, Rizal, Calabarzon, 1870, Philippines';
+
+        // Initialize the map
+        const map = L.map('map').setView([0, 0], 20);
+
+        // Add a tile layer to the map (you can choose a different tile provider)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Use Nominatim to convert the address to coordinates
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+          .then(response => response.json())
+          .then(data => {
+            const location = data[0];
+            const { lat, lon } = location;
+
+            // Add a marker to the map
+            L.marker([lat, lon]).addTo(map)
+              .bindPopup(`<b>${address}</b>`).openPopup();
+
+            // Pan the map to the marker's location
+            map.panTo([lat, lon]);
+          })
+          .catch(error => console.error('Error:', error));
+      </script> --}}
 @endsection

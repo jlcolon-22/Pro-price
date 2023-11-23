@@ -10,9 +10,21 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function property_assign($agent ,Property $property)
+    {
+       $property->update([
+        'agent_id'=>$agent
+       ]);
+       return back()->with('success','Assign Successfully!');
+    }
+    public function property_agents()
+    {
+        $agents = Agent::where('status',1)->get();
+        return response()->json($agents);
+    }
     public function properties()
     {
-        $properties = Property::with('sellerInfo')->latest()->paginate(10);
+        $properties = Property::with('sellerInfo','agentInfo')->latest()->paginate(10);
         return view("pages.admin.properties", compact("properties"));
     }
     public function homepage()

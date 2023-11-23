@@ -6,7 +6,7 @@
     {{-- header --}}
     <x-buyer.header />
 
-    <section class="container mx-auto py-10">
+    <section class="container mx-auto py-10 px-3 lg:px-0">
         <h1 class="text-text font-serif font-bold">- EDIT PROPERTY</h1>
         <x-alert/>
         <form novalidate action="{{ route('seller_update_property',['id'=>$property->id]) }}" method="post" enctype="multipart/form-data"
@@ -32,13 +32,18 @@
                     </div>
 
                     <div class="relative mt-10">
-                        <input type="text" name="address"
+                        <input type="text" onclick="toggleMap()" id="address" name="address"
                             class="border-b outline-none border-text  bg-transparent w-full pt-3 peer focus:border-b-2"
                             placeholder=" " value="{{ $property->address }}">
                         <label for=""
                             class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Google
                             map address</label>
                     </div>
+                </div>
+                <div id="maps" class=" grid  md:gap-x-6 pt-2">
+                    <div id="map" class="" style="height: 400px;width:100%"></div>
+                    <input type="hidden" name="longitude" value="{{ $property->longitude }}" id="longitude">
+                    <input type="hidden" name="latitude" value="{{ $property->latitude }}" id="latitude">
                 </div>
                 <div class="grid md:grid-cols-2 md:gap-x-6">
                     <div class="relative mt-10">
@@ -276,5 +281,54 @@
                 buttonAdd.classList.remove('opacity-50')
             }
         }
+    </script>
+    <script>
+        const latitude = document.querySelector('#latitude').value;
+        const longitude = document.querySelector('#longitude').value;
+
+        // Initialize the map
+        const map = L.map('map').setView([latitude, longitude], 16);
+
+        // Add a tile layer to the map (you can choose a different tile provider)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+         map.on('click',async function(e) {
+            const latitude = e.latlng.lat;
+            const longitude = e.latlng.lng;
+            document.querySelector('#latitude').value = latitude;
+            document.querySelector('#longitude').value = longitude;
+            const reverseGeocodeUrl =
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+           await fetch(reverseGeocodeUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Extract and display the address
+                    const address = data.display_name;
+                    document.querySelector('#address').value = address;
+                })
+                .catch(error => console.error('Error fetching reverse geocoding data:', error));
+
+            marker.setLatLng([latitude, longitude]);
+
+            // Update the popup content if needed
+            marker.getPopup().setContent(`<b>${document.querySelector('#address').value}</b>`).update();
+
+            // Open the popup
+            marker.openPopup();
+        })
+        const marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup("<b>Location Rizal</b>").openPopup();
+
+        const maps = document.querySelector('#maps');
+
+        function toggleMap() {
+
+            maps.classList.toggle('hidden')
+
+
+        }
+
+
     </script>
 @endsection

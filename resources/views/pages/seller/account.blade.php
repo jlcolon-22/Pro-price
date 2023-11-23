@@ -6,28 +6,27 @@
     {{-- header --}}
     <x-buyer.header />
 
-    <section class="container mx-auto py-10">
+    <section class="container mx-auto py-10 px-3 lg:px-0 overflow-hidden">
         <h1 class="text-text font-serif font-bold">- ACCOUNT INFORMATION</h1>
         <x-alert />
 
         <form action="{{ route('seller_update_account') }}" method="POST">
             @csrf
-            <div class="grid md:grid-cols-3 mt-6">
-                <div class="flex flex-col items-center  col-span-1 px-10">
+            <div class="grid md:grid-cols-3 mt-6 ">
+                <div class="flex flex-col w-screen items-center  md:col-span-1  md:px-10 md:w-auto ">
                     @if (!!Auth::guard('seller')->user()->profile)
-                    <img id="previewAgent"
-                    src="{{ asset(Auth::guard('seller')->user()->profile) }}"
-                    class="h-60 w-60 object-cover" alt="...">
+                        <img id="previewAgent" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
+                            class="h-60 w-60  object-cover" alt="...">
                     @else
-                    <img id="previewAgent"
-                    src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('seller')->user()->name }}"
-                    class="h-60 w-60 object-cover" alt="...">
+                        <img id="previewAgent"
+                            src="https://ui-avatars.com/api/?background=random&name={{ Auth::guard('seller')->user()->name }}"
+                            class="h-60 w-60 object-cover" alt="...">
                     @endif
-                        <button type="button" onclick="modalProfilefn()" class="text-blue-500">Change Profile</button>
+                    <button type="button" onclick="modalProfilefn()" class="text-blue-500">Change Profile</button>
                 </div>
 
                 <div class="col-span-2">
-                    <div class="grid md:grid-cols-2 md:gap-x-6 ">
+                    <div class="grid pr-10 md:pr-0 md:grid-cols-2 md:gap-x-6 ">
                         <div class="relative mt-10">
                             <input type="text" name="name"
                                 class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
@@ -44,7 +43,7 @@
                                 class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                         </div>
                     </div>
-                    <div class="grid md:grid-cols-2 md:gap-x-6 ">
+                    <div class="grid pr-10 md:pr-0 md:grid-cols-2 md:gap-x-6 ">
                         <div class="relative mt-10">
                             <input type="text" name="phone_number"
                                 class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
@@ -59,51 +58,54 @@
 
                 </div>
             </div>
-            <div class="float-right">
+            <div class="float-right py-10 md:py-0">
                 <button class="bg-green-500 text-white px-3 py-2 rounded">Save Changes</button>
-                <button type="button"  onclick="modalPasswordfn()" class="bg-red-500 text-white px-3 py-2 rounded">Update Password</button>
+                <button type="button" onclick="modalPasswordfn()" class="bg-red-500 text-white px-3 py-2 rounded">Update
+                    Password</button>
             </div>
         </form>
 
-    {{-- profile modal --}}
-    <div id="modalProfile"
-        class="fixed z-50 left-0 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
-        <div class="bg-body h-fit w-[30rem]">
-            {{-- modal header --}}
-            <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
-                <h1 class="font-semibold text-text  text-2xl">UPDATE PROFILE</h1>
-                <button onclick="modalProfilefn()" class="hover:opacity-90">
-                    <img src="{{ asset('icons/x.svg') }}" alt="">
-                </button>
-            </div>
-            {{-- modal body --}}
+        {{-- profile modal --}}
+        <div id="modalProfile"
+            class="fixed z-50 left-0 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
+            <div class="bg-body h-fit w-[30rem]">
+                {{-- modal header --}}
+                <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
+                    <h1 class="font-semibold text-text  text-2xl">UPDATE PROFILE</h1>
+                    <button onclick="modalProfilefn()" class="hover:opacity-90">
+                        <img src="{{ asset('icons/x.svg') }}" alt="">
+                    </button>
+                </div>
+                {{-- modal body --}}
 
-            <div>
+                <div>
 
-                <form action="{{ route('seller_update_account_profile') }}" method="POST" enctype="multipart/form-data" class="px-4 py-7">
-                    @csrf
+                    <form action="{{ route('seller_update_account_profile') }}" method="POST" enctype="multipart/form-data"
+                        class="px-4 py-7">
+                        @csrf
 
-                    <div class="relative ">
-                        <input type="file" name="profile"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" " >
-                        <label for=""
-                            class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Profile</label>
-                    </div>
-                    @error('password')
-                    <small class="text-red-500 font-semibold">{{ $message }}</small>
-                    @enderror
-                    <div class="relative mt-7">
-                        <button type="submit" class=" bg-green-600 hover:bg-green-500 text-white px-2 w-full py-2">UPDATE</button>
+                        <div class="relative ">
+                            <input type="file" name="profile"
+                                class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" ">
+                            <label for=""
+                                class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Profile</label>
+                        </div>
+                        @error('password')
+                            <small class="text-red-500 font-semibold">{{ $message }}</small>
+                        @enderror
+                        <div class="relative mt-7">
+                            <button type="submit"
+                                class=" bg-green-600 hover:bg-green-500 text-white px-2 w-full py-2">UPDATE</button>
 
-                    </div>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="modalPassword"
-            class="fixed z-50 left-0 {{ Session::has('error_password') ? 'flex' : 'hidden' }}    overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
+        <div id="modalPassword"
+            class="fixed z-50 left-0 {{ Session::has('error_password') ? 'flex' : 'hidden' }}    overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
             <div class="bg-body h-fit w-[30rem]">
                 {{-- modal header --}}
                 <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -134,24 +136,24 @@
                             <input type="password" name="confirm_password"
                                 class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
                                 placeholder=" " ">
-                        <label for=""
-                            class="absolute -top-4 left-0 -z-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Confirm password</label>
-                    </div>
-                    @error('confirm_password')
+                                    <label for=""
+                                        class="absolute -top-4 left-0 -z-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Confirm password</label>
+                                </div>
+                                @error('confirm_password')
         <small class="text-red-500 font-semibold">{{ $message }}</small>
     @enderror
-                    <div class="relative mt-7">
-                        <button type="submit" class=" bg-red-600 hover:bg-red-500 text-white px-2 w-full py-2">UPDATE PASSWORD</button>
+                                <div class="relative mt-7">
+                                    <button type="submit" class=" bg-red-600 hover:bg-red-500 text-white px-2 w-full py-2">UPDATE PASSWORD</button>
 
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-    </section>
+                </div>
+                </section>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/modal.js') }}"></script>
+                <script src="{{ asset('js/modal.js') }}"></script>
 @endsection

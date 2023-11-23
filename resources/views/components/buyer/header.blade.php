@@ -1,18 +1,18 @@
-<div class="border-b bg-body ">
-    <header class="flex justify-between items-center container mx-auto h-20">
+<div class="border-b relative bg-body z-50">
+    <header class="flex justify-between items-center container mx-auto h-20  z-50  px-2  md:px-0">
         {{-- logo --}}
         <h1 class="text-text text-2xl font-semibold tracking-wider">Pro price</h1>
 
         {{-- navlist --}}
-        <nav class="flex items-center space-x-12">
+        <nav class="flex items-center space-x-3 md:space-x-12  z-50">
 
-            <div class="flex space-x-5">
+            <div id="navbar" class="p-4 md:p-0 space-y-3 md:space-y-0 md:space-x-5 absolute left-0 top-20 z-0 h-fit hidden w-full bg-body shadow-md md:shadow-none md:flex md:relative md:left-0 md:top-0 md:bg-transparent">
                 <a href="/"
-                    class="text-text text-sm uppercase tracking-wider {{ request()->is('/') ? 'font-bold ' : '' }}">Homepage</a>
+                    class=" text-text text-sm uppercase tracking-wider {{ request()->is('/') ? 'font-bold ' : '' }}">Homepage</a>
                 <a href="/properties"
                     class="text-text text-sm uppercase tracking-wider {{ request()->is('properties') ? 'font-bold ' : '' }}">Properties</a>
-                <a href="" class="text-text text-sm uppercase tracking-wider">About</a>
-                <a href="" class="text-text text-sm uppercase tracking-wider">Contact</a>
+                <a href="/about" class="text-text text-sm uppercase tracking-wider {{ request()->is('about') ? 'font-bold ' : '' }}">About</a>
+                <a href="/contact" class="text-text text-sm uppercase tracking-wider {{ request()->is('contact') ? 'font-bold ' : '' }}">Contact</a>
             </div>
             {{-- login button --}}
             <div class="relative">
@@ -22,7 +22,7 @@
                         type="button">
                         <span class="sr-only">Open user menu</span>
                         @if (!!Auth::guard('seller')->user()->profile)
-                            <img class="w-8 h-8 rounded-full" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
+                            <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('seller')->user()->profile) }}"
                                 alt="user photo">
                         @else
                             <img class="w-8 h-8 rounded-full"
@@ -36,7 +36,7 @@
                         type="button">
                         <span class="sr-only">Open user menu</span>
                         @if (!!Auth::guard('buyer')->user()->profile)
-                            <img class="w-8 h-8 rounded-full" src="{{ asset(Auth::guard('buyer')->user()->profile) }}"
+                            <img class="min-w-[2rem] h-8 rounded-full" src="{{ asset(Auth::guard('buyer')->user()->profile) }}"
                                 alt="user photo">
                         @else
                             <img class="w-8 h-8 rounded-full"
@@ -93,11 +93,16 @@
                 </div>
 
             </div>
+
+            {{-- burger menu --}}
+
+                <button type="button" onclick="toggleNavbar()" class="md:hidden"><img src="{{ asset('icons/menu.svg') }}" class="w-[2rem]" alt=""></button>
+
         </nav>
     </header>
     {{-- login modal --}}
     <div id="modalLogin"
-        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
+        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -155,7 +160,7 @@
 
     {{-- account type modal --}}
     <div id="modalType"
-        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]">
+        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -187,7 +192,7 @@
 
     {{-- buyer customer --}}
     <div id="modalBuyer"
-        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] ">
+        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -246,7 +251,7 @@
                     <div class="relative mt-10">
                         <input type="checkbox" required value="example">
                         <label class="text-sm">
-                            I have read and agree to the <a href="" class="text-blue-500 underline">Privacy Policy</a> and <a href="" class="text-blue-500 underline">Terms and Conditions</a>.
+                            I have read and agree to the <a href="/privacy-policy" class="text-blue-500 underline">Privacy Policy</a> and <a href="/terms_and_conditions" class="text-blue-500 underline">Terms and Conditions</a>
                         </label>
                     </div>
                     <div class="relative mt-7">
@@ -258,7 +263,7 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 {{ Session::has('error_seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen">
+        class="fixed z-50 {{ Session::has('error_seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen px-2 md:p-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -355,7 +360,7 @@
                     <div class="relative mt-10">
                         <input type="checkbox" required value="example">
                         <label class="text-sm">
-                            I have read and agree to the <a href="" class="text-blue-500 underline">Privacy Policy</a> and <a href="" class="text-blue-500 underline">Terms and Conditions</a>
+                            I have read and agree to the <a href="/privacy-policy" class="text-blue-500 underline">Privacy Policy</a> and <a href="/terms_and_conditions" class="text-blue-500 underline">Terms and Conditions</a>
                         </label>
                     </div>
                     <div class="relative mt-7">
@@ -369,7 +374,7 @@
 
     {{-- agent customer --}}
     <div id="modalAgent"
-        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen">
+        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen px-2 md:p-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -476,7 +481,7 @@
                 <div class="relative mt-10">
                     <input type="checkbox" required value="example">
                     <label class="text-sm">
-                        I have read and agree to the <a href="" class="text-blue-500 underline">Privacy Policy</a> and <a href="" class="text-blue-500 underline">Terms and Conditions</a>
+                        I have read and agree to the <a href="/privacy-policy" class="text-blue-500 underline">Privacy Policy</a> and <a href="/terms_and_conditions" class="text-blue-500 underline">Terms and Conditions</a>
                     </label>
                 </div>
                 <div class="relative mt-7">
