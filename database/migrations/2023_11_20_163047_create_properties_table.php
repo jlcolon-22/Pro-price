@@ -27,6 +27,8 @@ class CreatePropertiesTable extends Migration
             $table->boolean('status')->default(0)->nullable();
             $table->string('type');
             $table->unsignedBigInteger('seller_id');
+            $table->string('title_copy')->nullable();
+            $table->unsignedBigInteger('agent_id')->nullable();
             $table->timestamps();
         });
     }

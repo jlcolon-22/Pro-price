@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\FrontendController;
@@ -26,9 +27,13 @@ Route::controller(FrontendController::class)->group(function () {
 });
 Route::controller(AuthController::class)->group(function () {
     Route::post('/auth/seller','store_seller')->name('auth_seller_signup');
+    Route::post('/auth/agent','store_agent')->name('auth_agent_signup');
     Route::post('/auth/buyer','store_buyer')->name('auth_buyer_signup');
     Route::post('/auth/login','login_account')->name('auth_signin');
     Route::get('/auth/logout','user_logout')->name('auth_user_logout');
+    Route::get('/admin/login','admin_login')->name('admin_login');
+    Route::post('/admin/login','admin_login_post')->name('admin_login_post');
+    Route::get('/admin/logout','admin_logout')->name('admin_logout');
 });
 
 Route::controller(SellerController::class)->group(function () {
@@ -54,4 +59,24 @@ Route::controller(BuyerController::class)->group(function () {
     Route::post('/buyer/account','buyer_update_account')->name('buyer_update_account');
     Route::post('/buyer/account/profile','buyer_update_account_profile')->name('buyer_update_account_profile');
     Route::post('/buyer/account/password','buyer_update_account_password')->name('buyer_update_account_password');
+});
+
+Route::controller(AdminController::class)->group(function () {
+    Route::get('/admin/homepage','homepage')->name('admin_homepage');
+
+    Route::get('/admin/seller_account','seller_account')->name('admin_seller_account');
+    Route::get('/admin/seller/license/download/{id}','download_license')->name('admin_license_download');
+    Route::get('/admin/seller/approve/{id}','seller_approve')->name('admin_seller_approve');
+    Route::get('/admin/seller/decline/{id}','seller_decline')->name('admin_seller_decline');
+
+    Route::get('/admin/agent_account','agent_account')->name('admin_agent_account');
+    Route::get('/admin/agent/license/download/{id}','agent_download_license')->name('admin_agent_license_download');
+    Route::get('/admin/agent/approve/{id}','agent_approve')->name('admin_agent_approve');
+    Route::get('/admin/agent/decline/{id}','agent_decline')->name('admin_agent_decline');
+
+
+    Route::get('/admin/properties','properties')->name('admin_properties');
+    Route::get('/admin/property/approve/{id}','property_approve')->name('admin_property_approve');
+    Route::get('/admin/property/decline/{id}','property_decline')->name('admin_property_decline');
+    Route::get('/admin/property/view/{id}','property_view')->name('admin_property_view');
 });

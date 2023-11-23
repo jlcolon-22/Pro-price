@@ -87,7 +87,7 @@ class SellerController extends Controller
     public function store_property(Request $request)
     {
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'title'=>'required',
             'type'=>'required',
             'floor_area'=>'required',
@@ -98,7 +98,16 @@ class SellerController extends Controller
             'bath_room'=>'required',
             'address'=>'required',
             'description'=>'required',
+            'title_copy'=>'required',
+            // 'photos.0'=>['required'],
         ]);
+
+        if ($validator->fails()) {
+
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         $property = Property::query()->create(
             [
                 'title'=>$request->title,
@@ -113,6 +122,7 @@ class SellerController extends Controller
                 'bath_room'=>$request->bath_room,
                 'address'=>$request->address,
                 'description'=>$request->description,
+
             ]
         );
         if(!!$request->photo)
@@ -127,6 +137,14 @@ class SellerController extends Controller
                 ]);
                 $photo->storeAs('public/seller/property',$filename);
             }
+        }
+        if(!!$request->title_copy)
+        {
+            $filename =  Str::uuid().'.'.$request->title_copy->extension();
+               $property->update([
+                'title_copy'=>'/storage/seller/property/title/'.$filename
+               ]);
+                $request->title_copy->storeAs('public/seller/property/title',$filename);
         }
 
         return redirect('/seller/manage_properties')->with('success','Created Successfully!');
@@ -169,6 +187,16 @@ class SellerController extends Controller
                 ]);
                 $photo->storeAs('public/seller/property',$filename);
             }
+        }
+        if(!!$request->title_copy)
+        {
+            $path = explode('property/',$property->title_copy);
+            unlink('storage/seller/property/'.$path[1]);
+            $filename =  Str::uuid().'.'.$request->title_copy->extension();
+            $property->update([
+             'title_copy'=>'/storage/seller/property/title/'.$filename
+            ]);
+             $request->title_copy->storeAs('public/seller/property/title',$filename);
         }
         return back()->with('success','Updated Successfully!');
     }

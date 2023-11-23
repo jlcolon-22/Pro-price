@@ -48,6 +48,12 @@
 
 
    // upload file seller
+   const previewImageAgents = document.querySelector('#previewAgent')
+   function uploadFileAgent(e)
+   {
+    previewImageAgents.src = URL.createObjectURL(e.files[0]);
+
+   }
    const previewImage = document.querySelector('#preview')
    function uploadFile(e)
    {

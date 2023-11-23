@@ -87,11 +87,17 @@
                     </div>
 
                     <div class="relative mt-10">
-                        <input type="text" name="type"
-                            class="border-b outline-none border-text  bg-transparent w-full pt-3 peer focus:border-b-2"
-                            placeholder=" " value="{{ $property->type }}">
+                        <select value="" required autocomplete="off"  name="type" class="border-b outline-none border-text  bg-transparent w-full pt-3 pb-1.5 peer focus:border-b-2">
+                            <option value="" >Choose...</option>
+                            <option value="Bungalow"  {{ $property->type == 'Bungalow' ? 'selected' : '' }}>Bungalow</option>
+                            <option value="Townhouse"  {{ $property->type == 'Townhouse' ? 'selected' : '' }}>Townhouse</option>
+                            <option value="Duplex"  {{ $property->type == 'Duplex' ? 'selected' : '' }}>Duplex</option>
+                            <option value="Single Attached"  {{ $property->type == 'Single Attached' ? 'selected' : '' }}>Single Attached</option>
+                        </select>
                         <label for=""
                             class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Type</label>
+
+
                     </div>
                 </div>
                 <div class="relative mt-10">
@@ -158,10 +164,30 @@
 
                 </div>
 
-                {{-- <button id="buttonAdd" type="button" onclick="addPhoto()"
-                    class="bg-green-500 p-1 mt-1 float-right rounded-full">
-                    <img src="{{ asset('icons/plus.svg') }}" alt="">
-                </button> --}}
+                <h1 class="mt-10">Upload Copy of Title of land</h1>
+                <div class="grid md:grid-cols-3">
+                    <div class="relative">
+                        <label for="copyTitle"  class="w-fit z-0">
+                            <div class="relative overflow-hidden border-2 border-gray-600 flex justify-center items-center h-[8rem] ">
+                                <svg class="w-8 h-8 mb-4 text-gray-600  aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+
+                            <img src="{{ asset($property->title_copy) }}" class="-z-10 object-cover absolute opacity-40" alt="">
+
+                            </div>
+                        </label>
+                        <input type="file" id="copyTitle" name="title_copy"  onchange="previewImageProperty(this)"
+                        class="border hidden px-2 outline-none border-text w-full py-3 peer focus:border-b-2"
+                        placeholder=" ">
+                        @error('title_copy')
+                        <small class="text-red-500 font-medium">{{ $message }}</small>
+                    @enderror
+                    </div>
+
+                </div>
             </div>
             <button type="submit" class="bg-green-600 text-white hover:bg-green-500 px-3 py-2">UPDATE PROPERTY</button>
         </form>

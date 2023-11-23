@@ -6,6 +6,24 @@
     {{-- header --}}
     <x-buyer.header />
 
+    @if (Auth::guard('seller')->user()->status == 0)
+   <section class="px-10 py-10">
+    <div class="bg-body border shadow flex items-center gap-x-3 py-4 px-4 text-paragraph">
+        <img src="{{ asset('icons/warning_black_24dp.svg') }}" class="
+        p-1 bg-yellow-200 rounded-full" alt="">
+        <h3> Your account has not been approved yet. That's why you can't use this feature for now.</h3>
+    </div>
+   </section>
+   @elseif (Auth::guard('seller')->user()->status == 2)
+   <section class="px-10 py-10">
+    <div class="bg-body border shadow flex items-center gap-x-3 py-4 px-4 text-paragraph">
+        <img src="{{ asset('icons/error_black_24dp.svg') }}" class="
+        p-1 bg-red-200 rounded-full" alt="">
+        <h3>Your account was declined because it did not meet the necessary requirements</h3>
+    </div>
+
+   </section>
+    @else
     <section class="container mx-auto py-10">
 
         <div class="pb-2">
@@ -31,7 +49,16 @@
                         <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
                         {{ $property->address }}
                     </p>
-                    <div class="flex items-center justify-end px-3 gap-x-2 pb-3">
+                    <div class="flex items-center justify-end px-3 gap-x-2 pb-3 relative">
+                        <small class="absolute bottom-2 left-2">status:
+                            @if ($property->status == 0)
+                            <span class="px-2 py-2  text-yellow-700 rounded-md text-xs">Processing</span>
+                        @elseif ($property->status == 1)
+                            <span class="px-2 py-2  text-green-700 rounded-md text-xs">Approved</span>
+                        @elseif ($property->status == 2)
+                            <span class="px-2 py-2  text-red-700 rounded-md text-xs">Declined</span>
+                        @endif
+                        </small>
                         {{-- href="{{ route('seller_delete_property', ['id' => $property->id]) }}" --}}
                         <a onclick="$.fn.deleteProperty({{ $property->id }})" data-ids="dsadad"
                             class="bg-transparent border border-red-400 rounded px-4 py-2 text-red-600 font-medium hover:bg-red-500 hover:text-white transition-all ease-in-out">
@@ -53,6 +80,8 @@
             {{ $properties->links() }}
         </div>
     </section>
+    @endif
+
 @endsection
 
 @section('scripts')

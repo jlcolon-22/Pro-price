@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agent;
 use App\Models\Buyer;
 use App\Models\Seller;
 use Illuminate\Support\Str;
@@ -14,6 +15,25 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function admin_login(Request $request)
+    {
+        return view('pages.admin.login');
+    }
+    public function admin_login_post(Request $request)
+    {
+        $request->validate([
+            'email'=>'required',
+            'password'=>'required',
+        ]);
+
+        if(Auth::guard('web')->attempt(['email'=>$request->email,'password'=>$request->password])) {
+            $request->session()->regenerate();
+
+            return redirect('/admin/homepage');
+        }else{
+            return back()->with('error','Wrong Credentials');
+        }
+    }
     public function store_buyer(Request $request)
    {
 
@@ -88,6 +108,50 @@ class AuthController extends Controller
 
             return back()->with('success','Created Successfully!');
     }
+    public function store_agent(Request $request)
+   {
+                $validator = Validator::make($request->all(), [
+                    "email"=> ["required" ,'unique:sellers','unique:buyers'],
+                    'license'=>['required'],
+                    'company_name'=>['required'],
+                    'password' =>  ['required',Password::min(8)
+                        ->mixedCase()
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised()],
+
+                ]);
+
+                if ($validator->fails()) {
+                    Session::flash('error_agent', 'info');
+                    return back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+
+
+            $agentAccount = Agent::create([
+                "email"=> $request->email,
+                "name"=> $request->name,
+                "company_name"=> $request->company_name,
+                "phone_number"=> $request->phone_number,
+                "password"=> Hash::make($request->password),
+
+            ]);
+            if(!!$request->license)
+            {
+                $filename = Str::uuid().'.'.$request->license->extension();
+                $agentAccount->update([
+                    'license'=>'/storage/agent/license/'.$filename
+                ]);
+                $request->license->storeAs('public/agent/license',$filename);
+            }
+
+            Session::flash('error_agent', 'info');
+
+            return back()->with('success','Created Successfully!');
+    }
 
     public function login_account(Request $request)
     {
@@ -106,15 +170,18 @@ class AuthController extends Controller
 
 
 
-        if(Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password]))
-        {
-
-        }elseif(Auth::guard('seller')->attempt(['email' => $request->email, 'password' => $request->password]))
+       if(Auth::guard('seller')->attempt(['email' => $request->email, 'password' => $request->password]))
         {
             $request->session()->regenerate();
 
             return redirect('/');
         }elseif(Auth::guard('buyer')->attempt(['email' => $request->email, 'password' => $request->password]))
+        {
+            $request->session()->regenerate();
+
+            return redirect('/properties');
+        }
+        elseif(Auth::guard('agent')->attempt(['email' => $request->email, 'password' => $request->password]))
         {
             $request->session()->regenerate();
 
@@ -140,4 +207,17 @@ class AuthController extends Controller
         }
         return redirect('/');
     }
+    public function admin_logout(Request $request)
+    {
+        $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        if(Auth::guard('web')->check())
+        {
+            Auth::guard('web')->logout();
+        }
+
+        return redirect('/admin/login');
+    }
+
+
 }

@@ -40,7 +40,7 @@ class FrontendController extends Controller
     }
     public function properties()
     {
-        $properties = Property::with('photo')->latest()->paginate(15);
+        $properties = Property::with('photo')->where('status',1)->latest()->paginate(15);
         return view("pages.properties",compact('properties'));
     }
     public function view_property(Property $id)

@@ -26,7 +26,7 @@ class AddSellerProfileToSellers extends Migration
     public function down()
     {
         Schema::table('sellers', function (Blueprint $table) {
-            //
+            $table->string('profile')->nullable();
         });
     }
 }

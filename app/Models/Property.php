@@ -23,7 +23,9 @@ class Property extends Model
         'bath_room',
         'address',
         'description',
-        'user_type'
+        'user_type',
+        'agent_id',
+        'title_copy'
     ];
 
     public function photo()

@@ -8,8 +8,8 @@
         {{-- property image --}}
         <div class=" flex justify-between gap-x-2">
             <img id="mainImage" src="{{ asset($property?->photos[0]->photo) }}"
-                class=" object-cover   h-[33rem] w-full overflow-hidden" loading="lazy" alt="">
-
+                class=" object-cover max-h-[40rem]  w-full overflow-hidden" loading="lazy" alt="">
+                {{-- h-[33rem] --}}
             <div class="grid h-fit gap-y-2 max-h-[33rem] max-w-[11rem]">
                 @foreach ($property?->photos as $photo)
                     @if ($loop->first)
