@@ -5,6 +5,7 @@
     <x-buyer.header />
 
     <section class="container mx-auto py-10 min-h-[calc(100svh-80px)]">
+        {{-- alert section --}}
         <x-alert />
         <div>
             <input type="hidden" id="longitude" value="{{ $property->longitude }}">
@@ -230,6 +231,8 @@
             </form>
         </div>
     </section>
+
+    {{-- map modal --}}
    <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
         <div class="w-[30rem] bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">House address</h1>

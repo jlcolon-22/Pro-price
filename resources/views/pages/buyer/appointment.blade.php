@@ -40,6 +40,7 @@
                 </tr>
             </thead>
             <tbody>
+                {{-- fetch all property with pagination --}}
                 @forelse ($appointments as $appointment)
                       <tr class="bg-white border-b ">
                     <th scope="row"
@@ -79,13 +80,16 @@
 
                 </tr>
                 @empty
-
+                    <tr>
+                        <td>No property Found...</td>
+                    </tr>
                 @endforelse
 
 
 
             </tbody>
         </table>
+        {{-- pagination link --}}
         <div class="py-2">
             {{ $appointments->links() }}
         </div>

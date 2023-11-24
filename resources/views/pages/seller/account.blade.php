@@ -8,8 +8,10 @@
 
     <section class="container mx-auto py-10 px-3 lg:px-0 relative">
         <h1 class="text-text font-serif font-bold">- ACCOUNT INFORMATION</h1>
+        {{-- alert section --}}
         <x-alert />
 
+        {{-- update information form --}}
         <form action="{{ route('seller_update_account') }}" method="POST" class="w-full overflow-hidden">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 mt-6 ">
@@ -79,7 +81,7 @@
                 {{-- modal body --}}
 
                 <div>
-
+                    {{--update profile form --}}
                     <form action="{{ route('seller_update_account_profile') }}" method="POST" enctype="multipart/form-data"
                         class="px-4 py-7">
                         @csrf
@@ -104,6 +106,7 @@
             </div>
         </div>
 
+        {{-- password modal --}}
         <div id="modalPassword"
             class="fixed z-50 left-0 {{ Session::has('error_password') ? 'flex' : 'hidden' }}    overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
             <div class="bg-body h-fit w-[30rem]">
@@ -117,7 +120,7 @@
                 {{-- modal body --}}
 
                 <div>
-
+                    {{-- update password form --}}
                     <form action="{{ route('seller_update_account_password') }}" method="POST"
                         enctype="multipart/form-data" class="px-4 py-7">
                         @csrf

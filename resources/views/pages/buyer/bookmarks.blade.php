@@ -12,7 +12,7 @@
         {{-- property item --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
 
-
+            {{-- fetch all user bookmark with pagination --}}
             @forelse ($bookmarks as $bookmark)
             <div class="bg-body border  h-fit rounded ">
                 <div class="p-3">
@@ -46,7 +46,7 @@
 
 
         </div>
-        <div>
+        <div class="py-2">
             {{ $bookmarks->links() }}
         </div>
     </section>

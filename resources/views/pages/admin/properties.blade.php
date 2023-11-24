@@ -14,13 +14,14 @@
             <h1 class="py-10">-- Properties</h1>
 
             <div class="py-2">
+                {{-- alert section --}}
                 <x-alert />
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
 
 
-
+                {{-- properties table --}}
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                         <tr>
@@ -70,21 +71,21 @@
                                     {{ $property->sellerInfo->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                   @if ($property->agentInfo?->name)
-                                   {{ $property->agentInfo?->name }}
+                                    @if ($property->agentInfo?->name)
+                                        {{ $property->agentInfo?->name }}
                                     @else
-                                    <button type="button" onclick="$.fn.showAgent({{ $property->id }})"
-                                        class=" text-blue-500 whitespace-nowrap flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather fill-blue-500 w-[1rem] feather-plus">
-                                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg>
-                                        <span>Assign</span>
-                                    </button>
-                                   @endif
+                                        <button type="button" onclick="$.fn.showAgent({{ $property->id }})"
+                                            class=" text-blue-500 whitespace-nowrap flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather fill-blue-500 w-[1rem] feather-plus">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            </svg>
+                                            <span>Assign</span>
+                                        </button>
+                                    @endif
 
                                 </td>
                                 <td class="px-6 py-4">
@@ -128,7 +129,10 @@
 
         </main>
     </section>
-    <div id="agentContainer" class="fixed top-0 left-0 w-screen h-[100svh]   bg-black/50 hidden justify-center items-center">
+
+    {{-- agent modal --}}
+    <div id="agentContainer"
+        class="fixed top-0 left-0 w-screen h-[100svh]   bg-black/50 hidden justify-center items-center">
         <div class="w-[24rem] bg-body relative">
             <h1 class="px-3 py-4 font-medium shadow">All Agents</h1>
             <div id="container" class="py-3 space-y-4 px-2">
@@ -169,7 +173,12 @@
 
             </div>
             <button onclick=" $.fn.closeAgent()" class="top-4 right-2 absolute cursor-pointer hover:fill-red-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x hover:fill-red-400"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-x hover:fill-red-400">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
             </button>
 
         </div>
@@ -213,7 +222,7 @@
                             `);
 
                             $('#agentContainer').removeClass('hidden')
-                           $('#agentContainer').addClass('flex')
+                            $('#agentContainer').addClass('flex')
 
                         });
                     }
@@ -223,10 +232,9 @@
 
             }
 
-            $.fn.closeAgent = function()
-            {
+            $.fn.closeAgent = function() {
                 $('#agentContainer').addClass('hidden')
-                           $('#agentContainer').removeClass('flex')
+                $('#agentContainer').removeClass('flex')
             }
         })
     </script>

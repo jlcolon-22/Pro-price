@@ -43,11 +43,14 @@
     <body class="bg-body">
 
         <div id="app">
+            {{-- main container --}}
             @yield('content')
         </div>
 
+        {{-- javascript --}}
         <script src="{{ mix('js/app.js') }}"></script>
 
+        {{--other javascript --}}
         @yield('scripts')
     </body>
 </html>

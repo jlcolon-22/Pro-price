@@ -15,6 +15,7 @@
                 <img src="{{ asset('icons/search.svg') }}" class="w-[1rem]" alt="">
             </button>
 
+            {{-- search property --}}
             <form id="filterForm" class="absolute z-40 bg-body shadow border w-full md:w-[30rem] p-2 hidden">
                 <div class="grid md:grid-cols-2">
                     <div class="mt-2">
@@ -75,7 +76,7 @@
         {{-- property item --}}
         <div class="grid  md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
 
-
+            {{-- fetch all approved property with pagination --}}
             @forelse ($properties as $property)
                 <div class="bg-body border  h-fit rounded ">
                     <div class="p-3">
@@ -106,7 +107,7 @@
 
 
         </div>
-        <div>
+        <div class="py-2">
             {{ $properties->links() }}
         </div>
     </section>

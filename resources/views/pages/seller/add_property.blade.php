@@ -9,6 +9,8 @@
     <section class="container mx-auto py-10 px-3 lg:px-0">
         <h1 class="text-text font-serif font-bold">- ADD PROPERTY</h1>
         <x-alert />
+
+        {{-- add property form --}}
         <form action="{{ route('seller_store_property') }}" method="post" enctype="multipart/form-data"
             class="grid md:grid-cols-2 gap-10 pt-10 z-0">
             @csrf
@@ -226,6 +228,7 @@
 @section('scripts')
     <script src="{{ asset('js/modal.js') }}"></script>
 
+    {{-- text editor js --}}
     <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor', {
@@ -307,6 +310,7 @@
         }
     </script>
 
+    {{-- map script --}}
     <script>
         const latitude = 14.548150402798472;
         const longitude = 121.11220967093111;

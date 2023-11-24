@@ -10,6 +10,7 @@
         <h1 class="text-text font-serif font-bold">- ACCOUNT INFORMATION</h1>
         <x-alert />
 
+        {{-- update information form --}}
         <form action="{{ route('agent_update_account') }}" method="POST" class="w-full overflow-hidden">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 mt-6 ">
@@ -112,6 +113,7 @@
             </div>
         </div>
 
+        {{-- password modal --}}
         <div id="modalPassword"
             class="fixed z-50 left-0 {{ Session::has('error_password') ? 'flex' : 'hidden' }}    overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem] px-2 md:p-0">
             <div class="bg-body h-fit w-[30rem]">
@@ -125,7 +127,7 @@
                 {{-- modal body --}}
 
                 <div>
-
+                    {{-- update password form --}}
                     <form action="{{ route('agent_update_account_password') }}" method="POST"
                         enctype="multipart/form-data" class="px-4 py-7">
                         @csrf
@@ -144,24 +146,24 @@
                             <input type="password" name="confirm_password"
                                 class="border-b outline-none bg-transparent border-text w-full pt-3 peer focus:border-b-2"
                                 placeholder=" " ">
-                                    <label for=""
-                                        class="absolute -top-4 left-0 -z-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Confirm password</label>
-                                </div>
-                                @error('confirm_password')
-                                    <small class="text-red-500 font-semibold">{{ $message }}</small>
-                                @enderror
-                                <div class="relative mt-7">
-                                    <button type="submit" class=" bg-red-600 hover:bg-red-500 text-white px-2 w-full py-2">UPDATE PASSWORD</button>
+                                        <label for=""
+                                            class="absolute -top-4 left-0 -z-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Confirm password</label>
+                                    </div>
+                                    @error('confirm_password')
+        <small class="text-red-500 font-semibold">{{ $message }}</small>
+    @enderror
+                                    <div class="relative mt-7">
+                                        <button type="submit" class=" bg-red-600 hover:bg-red-500 text-white px-2 w-full py-2">UPDATE PASSWORD</button>
 
-                                </div>
+                                    </div>
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-     </section>
+         </section>
 @endsection
 
 @section('scripts')
-                <script src="{{ asset('js/modal.js') }}"></script>
+                    <script src="{{ asset('js/modal.js') }}"></script>
 @endsection

@@ -7,14 +7,17 @@
 @section('content')
     {{-- header --}}
     <x-buyer.header />
+
     <section class="container mx-auto py-10">
         <div class="sm:flex flex-row-reverse items-start max-w-screen-xl">
+            {{-- image --}}
             <div class="sm:w-1/2 ">
                 <div class="image object-center text-center">
                     <img src="{{ asset('assets/pngwing.com(2).png') }}">
                 </div>
 
             </div>
+            {{-- content --}}
             <div class="sm:w-1/2 p-5">
                 <div class="text">
                     <span class="text-gray-500 border-b-2 border-indigo-600 uppercase">About Pro-Price</span>

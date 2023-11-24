@@ -96,8 +96,10 @@
             </div>
         {{-- property item --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
+            {{-- display 6 propery only --}}
             @forelse ($properties as $property)
             <div class="bg-body border  h-fit rounded ">
+
                 <div class="p-3">
                     <img src="{{ asset($property->photo?->photo) }}" loading="lazy" class="h-64 w-full object-cover" alt="">
                 </div>
@@ -117,18 +119,19 @@
                     </a>
                 </div>
             </div>
+            {{-- if walang laman yung request ito yung lalabas --}}
             @empty
-
+                <h1>no propery found...</h1>
             @endforelse
 
         </div>
     </section>
 
-    {{-- footer --}}
-
+    {{-- footer makikita moto sa /resources/views/buyer --}}
     <x-buyer.footer/>
 @endsection
 @section('scripts')
+    {{-- javascript modal --}}
     <script src="{{ asset('js/modal.js') }}"></script>
     <script>
         const carousel = document.querySelector('#carousel');

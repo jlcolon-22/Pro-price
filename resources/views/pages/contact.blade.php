@@ -7,12 +7,14 @@
 @section('content')
     {{-- header --}}
     <x-buyer.header/>
+
+
     <section  class="container  mx-auto py-10 font-serif  px-3 md:px-0">
             {{-- image --}}
            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20">
             <img src="{{ asset('assets/pngwing.com(1).png') }}" class="hidden md:block" alt="">
 
-
+            {{-- contact form --}}
             <div class="">
                 <h2 class="my-8 text-3xl  font-bold text-text md:text-4xl text-center md:text-left">Contact Us</h2>
                 <div class="relative mt-10">

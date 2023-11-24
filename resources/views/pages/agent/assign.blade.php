@@ -12,7 +12,7 @@
         {{-- property item --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
 
-
+            {{-- fetch all property with pagination --}}
             @forelse ($properties as $property)
             <div class="bg-body border  h-fit rounded ">
                 <div class="p-3">
@@ -46,7 +46,8 @@
 
 
         </div>
-        <div>
+        {{-- pagination --}}
+        <div class="py-2">
             {{ $properties->links() }}
         </div>
     </section>

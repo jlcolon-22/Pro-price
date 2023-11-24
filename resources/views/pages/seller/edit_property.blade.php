@@ -8,7 +8,9 @@
 
     <section class="container mx-auto py-10 px-3 lg:px-0">
         <h1 class="text-text font-serif font-bold">- EDIT PROPERTY</h1>
+        {{-- alert section --}}
         <x-alert/>
+        {{-- update propery form --}}
         <form novalidate action="{{ route('seller_update_property',['id'=>$property->id]) }}" method="post" enctype="multipart/form-data"
             class="grid md:grid-cols-2 gap-10 pt-10 z-0">
             @csrf
@@ -202,6 +204,7 @@
 @section('scripts')
     <script src="{{ asset('js/modal.js') }}"></script>
 
+    {{-- text editor cdn --}}
     <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor', {
@@ -282,6 +285,7 @@
             }
         }
     </script>
+    {{-- map script --}}
     <script>
         const latitude = document.querySelector('#latitude').value;
         const longitude = document.querySelector('#longitude').value;

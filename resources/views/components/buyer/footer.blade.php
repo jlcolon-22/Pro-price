@@ -1,12 +1,19 @@
 <div>
     <footer class="bg-white md:flex md:items-center md:justify-between shadow  p-4 md:p-6 xl:p-8 border-t container mx-auto">
+        {{-- container link --}}
         <ul class="flex items-center flex-wrap mb-6 md:mb-0">
+            {{-- homepage link --}}
             <li><a href="/" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Homepage</a>
             </li>
+             {{-- properties link --}}
             <li><a href="/properties" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Properties</a></li>
+            {{-- about link --}}
             <li><a href="/about" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">About</a></li>
+            {{-- contact link --}}
             <li><a href="contact" class="text-sm font-normal text-gray-500 hover:underline">Contact</a></li>
         </ul>
+
+        {{-- social media container --}}
         <div class="flex sm:justify-center space-x-6">
             <a href="#" class="text-gray-500 hover:text-gray-900">
                 <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
