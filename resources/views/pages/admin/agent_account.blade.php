@@ -6,6 +6,7 @@
 
 @section('content')
     <section class="bg-secondary flex min-h-screen">
+
         {{-- aside --}}
         <x-admin-aside />
 
@@ -14,14 +15,15 @@
 
 
 
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="relative overflow-x-auto sm:rounded-lg">
+                <h1 class="font-serif font-semibold py-4">-- AGENT AGENT</h1>
                 {{-- alert section --}}
                 <div class="py-2">
                     <x-alert />
                 </div>
 
                 {{-- agent account table --}}
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <table class="w-full text-sm  shadow-md text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                         <tr>
                             <th scope="col" class="px-6 py-3">
@@ -98,7 +100,7 @@
 
                         @empty
                             <tr>
-                                <td>
+                                <td class="p-2">
                                     No Seller Found...
                                 </td>
                             </tr>
@@ -108,7 +110,7 @@
             </div>
 
             {{-- pagination link --}}
-           <div class="py-10">
+           <div class="py-2">
             {{ $agents->links() }}
            </div>
 

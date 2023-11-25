@@ -88,7 +88,10 @@
                                 <a href="{{ route('seller_manage_properties') }}"
                                     class="block px-4 py-2 hover:bg-gray-100 ">Manage Properties</a>
                             </li>
-
+                            <li>
+                                <a href="{{ route('seller_feedback') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Feedback</a>
+                            </li>
                         </ul>
                      {{-- check if user type is buyer --}}
                     @elseif (Auth::guard('buyer')->check())
@@ -107,6 +110,10 @@
                             <li>
                                 <a href="{{ route('buyer_appointment') }}"
                                     class="block px-4 py-2 hover:bg-gray-100 ">Appointment</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('buyer_feedback') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Feedback</a>
                             </li>
 
                         </ul>
@@ -128,7 +135,10 @@
                                 <a href="{{ route('agent_appointment') }}"
                                     class="block px-4 py-2 hover:bg-gray-100 ">Appointments</a>
                             </li>
-
+                            <li>
+                                <a href="{{ route('agent_feedback') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Feedback</a>
+                            </li>
                         </ul>
                     @endif
                     <div class="py-2">

@@ -6,9 +6,14 @@
     <div class="grid space-y-3">
 
         {{-- homepage link --}}
-        <a href="" class="{{ request()->is('admin/homepage') ? 'border-l-4 border-blue-500 bg-gray-200 px-3' : 'px-4' }}  py-2 flex gap-x-2 items-center">
+        <a href="{{ route('admin_homepage') }}" class="{{ request()->is('admin/homepage') ? 'border-l-4 border-blue-500 bg-gray-200 px-3' : 'px-4' }}  py-2 flex gap-x-2 items-center">
             <img src="{{ asset('icons/home.svg') }}" class="w-[1.2rem]" alt="">
             Homepage
+        </a>
+        {{-- buyer link --}}
+        <a href="{{ route('admin_buyer_account') }}" class="{{ request()->is('admin/buyer_account') ? 'border-l-4 border-blue-500 bg-gray-200 px-3' : 'px-4' }}  py-2 flex gap-x-2 items-center">
+            <img src="{{ asset('icons/users.svg') }}" class="w-[1.2rem]" alt="">
+            Buyer Account
         </a>
         {{-- seller link --}}
         <a href="{{ route('admin_seller_account') }}" class="{{ request()->is('admin/seller_account') ? 'border-l-4 border-blue-500 bg-gray-200 px-3' : 'px-4' }}  py-2 flex gap-x-2 items-center">

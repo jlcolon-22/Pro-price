@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Buyer;
 use App\Models\Bookmark;
+use App\Models\Feedback;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,26 @@ use Illuminate\Validation\Rules\Password;
 
 class BuyerController extends Controller
 {
+
+    public function buyer_add_feedback(Request $request)
+    {
+        Feedback::query()->create([
+            'feedback'=>$request->feedback,
+            'user_type'=>'buyer',
+            'user_id'=>Auth::guard('buyer')->id(),
+        ]);
+        return redirect()->back()->with('success','Submited Successfully!');
+    }
+    public function buyer_delete_feedback( $feedback)
+    {
+        Feedback::where('id',$feedback)->delete();
+        return redirect()->back()->with('success','Deleted Successfully!');
+    }
+    public function buyer_feedback(Request $request)
+    {
+        $feedbacks = Feedback::where('user_id',Auth::guard('buyer')->id())->where('user_type','buyer')->latest()->paginate(7);
+        return view('pages.buyer.feedback',compact('feedbacks'));
+    }
     public function buyer_appointment()
     {
         $appointments = Appointment::query()->with('propertyDetails','agentInfo')->where('buyer_id',Auth::guard('buyer')->id())->latest()->paginate(10);

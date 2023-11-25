@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Buyer;
 use App\Models\Seller;
 use App\Models\Property;
 use Illuminate\Http\Request;
@@ -10,6 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function buyer_account()
+    {
+        $buyers = Buyer::latest()->paginate(10);
+        return view('pages.admin.buyer_account',compact('buyers'));
+    }
+
     public function property_assign($agent ,Property $property)
     {
        $property->update([
@@ -29,7 +36,12 @@ class AdminController extends Controller
     }
     public function homepage()
     {
-        return view('pages.admin.homepage');
+        $propertyCount = Property::get()->count();
+        $sellerCount = Seller::get()->count();
+        $agentCount = Agent::get()->count();
+        $buyerCount = Buyer::get()->count();
+
+        return view('pages.admin.homepage',compact('propertyCount','buyerCount','agentCount','sellerCount'));
     }
     public function seller_account()
     {

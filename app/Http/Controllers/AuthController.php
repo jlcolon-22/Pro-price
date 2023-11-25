@@ -7,14 +7,43 @@ use App\Models\Buyer;
 use App\Models\Seller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function verify_email(Request $request,$email,$type)
+    {
+        if($type == "buyer")
+        {
+            $buyer = Buyer::where('email',$email)->first();
+            $buyer->markEmailAsVerified();
+            $request->session()->regenerate();
+            Auth::guard('buyer')->login($buyer);
+            return redirect('/properties')->with('success','Your email has been successfully verified.');
+        }
+        if($type == "agent")
+        {
+            $agent = Agent::where('email',$email)->first();
+            $agent->markEmailAsVerified();
+            $request->session()->regenerate();
+            Auth::guard('agent')->login($agent);
+            return redirect('/properties')->with('success','Your email has been successfully verified.');
+        }
+        if($type == "seller")
+        {
+            $seller = Seller::where('email',$email)->first();
+            $seller->markEmailAsVerified();
+            $request->session()->regenerate();
+            Auth::guard('seller')->login($seller);
+            return redirect('/properties')->with('success','Your email has been successfully verified.');
+        }
+    }
     public function admin_login(Request $request)
     {
         return view('pages.admin.login');
@@ -37,6 +66,7 @@ class AuthController extends Controller
     public function store_buyer(Request $request)
    {
 
+
                 $validator = Validator::make($request->all(), [
                     "email"=> ['required','unique:buyers', 'unique:sellers'],
                     'password' =>  ['required',Password::min(8)
@@ -53,7 +83,11 @@ class AuthController extends Controller
                         ->withErrors($validator)
                         ->withInput();
                 }
-
+                $data = [
+                    'email'=>$request->email,
+                    'url'=>'http://127.0.0.1:8000/auth/verify/'.$request->email.'/buyer'
+                ];
+                Mail::to($request->email)->send(new VerificationEmail($data));
             $sellerAccount = Buyer::create([
                 "email"=> $request->email,
                 "name"=> $request->name,
@@ -64,10 +98,11 @@ class AuthController extends Controller
 
             Session::flash('error_buyer', 'info');
 
-            return back()->with('success','Created Successfully!');
+            return back()->with('success',' A verification link has been sent to your email address.');
     }
     public function store_seller(Request $request)
    {
+
                 $validator = Validator::make($request->all(), [
                     "email"=> ["required" ,'unique:sellers','unique:buyers'],
                     'license'=>['required'],
@@ -87,7 +122,11 @@ class AuthController extends Controller
                         ->withInput();
                 }
 
-
+                $data = [
+                    'email'=>$request->email,
+                    'url'=>'http://127.0.0.1:8000/auth/verify/'.$request->email.'/seller'
+                ];
+                Mail::to($request->email)->send(new VerificationEmail($data));
             $sellerAccount = Seller::create([
                 "email"=> $request->email,
                 "name"=> $request->name,
@@ -106,7 +145,7 @@ class AuthController extends Controller
 
             Session::flash('error_seller', 'info');
 
-            return back()->with('success','Created Successfully!');
+            return back()->with('success',' A verification link has been sent to your email address.');
     }
     public function store_agent(Request $request)
    {
@@ -130,7 +169,11 @@ class AuthController extends Controller
                         ->withInput();
                 }
 
-
+                $data = [
+                    'email'=>$request->email,
+                    'url'=>'http://127.0.0.1:8000/auth/verify/'.$request->email.'/agent'
+                ];
+                Mail::to($request->email)->send(new VerificationEmail($data));
             $agentAccount = Agent::create([
                 "email"=> $request->email,
                 "name"=> $request->name,
@@ -150,7 +193,7 @@ class AuthController extends Controller
 
             Session::flash('error_agent', 'info');
 
-            return back()->with('success','Created Successfully!');
+            return back()->with('success',' A verification link has been sent to your email address.');
     }
 
     public function login_account(Request $request)
@@ -173,19 +216,50 @@ class AuthController extends Controller
        if(Auth::guard('seller')->attempt(['email' => $request->email, 'password' => $request->password]))
         {
             $request->session()->regenerate();
-
-            return redirect('/');
+            if(!!Auth::guard('seller')->user()->email_verified_at)
+            {
+                return redirect('/');
+            }
+           else{
+            Auth::guard('seller')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Session::flash('error_login', 'info');
+            return back()->with('error','Your email is not verified. Please verify it before logging in. Check your email '.$request->email.' to complete the verification.');
+           }
         }elseif(Auth::guard('buyer')->attempt(['email' => $request->email, 'password' => $request->password]))
         {
             $request->session()->regenerate();
 
-            return redirect('/properties');
+
+            if(!!Auth::guard('buyer')->user()->email_verified_at)
+            {
+                return redirect('/properties');
+            }
+           else{
+            Auth::guard('buyer')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Session::flash('error_login', 'info');
+            return back()->with('error','Your email is not verified. Please verify it before logging in. Check your email '.$request->email.' to complete the verification.');
+           }
+
         }
         elseif(Auth::guard('agent')->attempt(['email' => $request->email, 'password' => $request->password]))
         {
             $request->session()->regenerate();
 
-            return redirect('/properties');
+            if(!!Auth::guard('agent')->user()->email_verified_at)
+            {
+                return redirect('/');
+            }
+           else{
+            Auth::guard('agent')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Session::flash('error_login', 'info');
+            return back()->with('error','Your email is not verified. Please verify it before logging in. Check your email '.$request->email.' to complete the verification.');
+           }
         }
         else{
             Session::flash('error_login', 'info');

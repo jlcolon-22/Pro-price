@@ -9,6 +9,7 @@
     <section class="container mx-auto py-10 px-3 md:px-0">
         {{-- filter button --}}
         <div class="relative">
+            <x-alert/>
             <button id="filterButton" onclick="showFIlter()"
                 class="border w-full md:w-[20rem] flex items-center justify-between gap-x-4 space-x-5 px-5 py-2 bg-body rounded text-gray-400">
                 Search

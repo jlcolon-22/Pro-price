@@ -88,6 +88,9 @@
 
                     </tr>
                 @empty
+                <tr>
+                    <td class="p-4"> no appointment found</td>
+                </tr>
                 @endforelse
 
 

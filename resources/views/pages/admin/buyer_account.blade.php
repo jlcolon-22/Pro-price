@@ -6,7 +6,6 @@
 
 @section('content')
     <section class="bg-secondary flex min-h-screen">
-
         {{-- aside --}}
         <x-admin-aside />
 
@@ -15,14 +14,15 @@
 
 
 
-            <div class="relative overflow-x-auto sm:rounded-lg">
-                <h1 class="font-serif font-semibold py-4">-- SELLER ACCOUNT</h1>
+            <div class="relative overflow-x-auto  sm:rounded-lg">
+                <h1 class="font-serif font-semibold py-4">-- BUYER ACCOUNT</h1>
+                {{-- alert section --}}
                 <div class="py-2">
-                    {{-- alert section --}}
                     <x-alert />
                 </div>
-                {{-- seller table --}}
-                <table class="w-full text-sm  shadow-md text-left rtl:text-right text-gray-500">
+
+                {{-- agent account table --}}
+                <table class="w-full text-sm text-left shadow-md rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                         <tr>
                             <th scope="col" class="px-6 py-3">
@@ -38,63 +38,36 @@
                                 Phone Number
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Status
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                License
+                                Email Verified
                             </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($sellers as $seller)
+                        @forelse ($buyers as $buyer)
                             <tr class="bg-white border-b ">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                    {{ $seller->id }}
+                                    {{ $buyer->id }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $seller->name }}
+                                    {{ $buyer->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $seller->email }}
+                                    {{ $buyer->email }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $seller->phone_number }}
+                                    {{ $buyer->phone_number }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    @if ($seller->status == 0)
-                                        <span
-                                            class="px-2 py-2 bg-yellow-300 text-yellow-700 rounded-md text-xs">Processing</span>
-                                    @elseif ($seller->status == 1)
-                                        <span
-                                            class="px-2 py-2 bg-green-300 text-green-700 rounded-md text-xs">Approved</span>
-                                    @elseif ($seller->status == 2)
-                                        <span class="px-2 py-2 bg-red-300 text-red-700 rounded-md text-xs">Declined</span>
+                                    @if (!!$buyer->email_verified_at)
+                                    <span class="text-green-500 font-bold">YES</span>
+                                    @else
+                                    <span class="text-red-500 font-bold">NO</span>
                                     @endif
-                                </td>
-                                <td class="px-6 py-4">
 
-                                    <button onclick="viewLicense(this)" data-url="{{ $seller->license }}"
-                                        class="underline text-blue-500">
-                                        view
-                                    </button>
-                                    |
-                                    <a href="{{ route('admin_license_download', ['id' => $seller->id]) }}"
-                                        class="underline text-blue-500">download</a>
                                 </td>
-                                <td class="px-6 py-4 space-x-2">
-                                    @if ($seller->status != 1)
-                                        <a href="{{ route('admin_seller_approve', ['id' => $seller->id]) }}"
-                                            class="font-medium text-green-600 0 hover:underline">Aprove</a>
-                                    @endif
-                                    @if ($seller->status != 2)
-                                        <a href="{{ route('admin_seller_decline', ['id' => $seller->id]) }}"
-                                            class="font-medium text-red-600 0 hover:underline">Decline</a>
-                                    @endif
-                                </td>
+
+
                             </tr>
 
                         @empty
@@ -108,14 +81,15 @@
                 </table>
             </div>
 
-           <div class="py-2">
-            {{ $sellers->links() }}
+            {{-- pagination link --}}
+           <div class="py-10">
+            {{ $buyers->links() }}
            </div>
 
         </main>
     </section>
 
-    {{-- license modal --}}
+    {{-- view lincese modal --}}
     <div id="modal" class="hidden top-0 left-0 overflow-y-auto  w-full min-h-[100svh] bg-black/40 p-10">
         <div class="relative oveflow-y-auto max-h-[500px]">
             <img src="{{ asset('icons/x.svg') }}" onclick="closeModal()"
@@ -129,7 +103,7 @@
 
 @section('scripts')
     <script>
-        // open license function
+        // lincense modal view function
         function viewLicense(e) {
             const modal = document.querySelector("#modal");
 
@@ -140,7 +114,7 @@
             modal.classList.toggle('fixed');
 
         }
-          // close license function
+        // lincense modal close function
         function closeModal() {
             modal.classList.toggle('hidden');
             modal.classList.toggle('fixed');

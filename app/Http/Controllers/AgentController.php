@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Feedback;
 use App\Models\Property;
 use App\Models\Appointment;
 use Illuminate\Support\Str;
@@ -15,6 +16,25 @@ use Illuminate\Validation\Rules\Password;
 
 class AgentController extends Controller
 {
+    public function agent_feedback()
+    {
+        $feedbacks = Feedback::where('user_id',Auth::guard('agent')->id())->where('user_type','agent')->latest()->paginate(7);
+        return view('pages.agent.feedback',compact('feedbacks'));
+    }
+    public function agent_add_feedback(Request $request)
+    {
+        Feedback::query()->create([
+            'feedback'=>$request->feedback,
+            'user_type'=>'agent',
+            'user_id'=>Auth::guard('agent')->id(),
+        ]);
+        return redirect()->back()->with('success','Submited Successfully!');
+    }
+    public function agent_delete_feedback($feedback)
+    {
+        Feedback::where('id',$feedback)->delete();
+        return redirect()->back()->with('success','Deleted Successfully!');
+    }
     public function agent_update_appointment_approve(Request $request,$id)
     {
         Appointment::where('id',$id)->update([

@@ -1,4 +1,4 @@
-<div class="px-4 pt-2">
+<div class="px-4 py-2">
 
     {{-- success alert --}}
     @if (Session::has('success'))

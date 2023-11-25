@@ -116,7 +116,7 @@
 
                         @empty
                             <tr>
-                                <td>
+                                <td class="p-2">
                                     No Seller Found...
                                 </td>
                             </tr>
@@ -125,7 +125,9 @@
                 </table>
             </div>
 
+         <div class="py-2">
             {{ $properties->links() }}
+         </div>
 
         </main>
     </section>

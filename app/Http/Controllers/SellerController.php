@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
 use App\Models\Seller;
+use App\Models\Bookmark;
+use App\Models\Feedback;
 use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -17,6 +18,27 @@ use Illuminate\Validation\Rules\Password;
 class SellerController extends Controller
 {
 
+    public function seller_delete_feedback($feedback)
+    {
+        Feedback::where('id',$feedback)->delete();
+        return redirect()->back()->with('success','Deleted Successfully!');
+    }
+
+
+    public function seller_feedback(Request $request)
+    {
+        $feedbacks = Feedback::where('user_id',Auth::guard('seller')->id())->where('user_type','seller')->latest()->paginate(7);
+        return view('pages.seller.feedback',compact('feedbacks'));
+    }
+    public function seller_add_feedback(Request $request)
+    {
+        Feedback::query()->create([
+            'feedback'=>$request->feedback,
+            'user_type'=>'seller',
+            'user_id'=>Auth::guard('seller')->id(),
+        ]);
+        return redirect()->back()->with('success','Submited Successfully!');
+    }
     public function seller_update_account_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
