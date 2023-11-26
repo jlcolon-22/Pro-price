@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amenity;
 use App\Models\Seller;
 use App\Models\Bookmark;
 use App\Models\Feedback;
@@ -122,8 +123,18 @@ class SellerController extends Controller
             'address'=>'required',
             'description'=>'required',
             'title_copy'=>'required',
+            'area_situation'=>'required',
             // 'photos.0'=>['required'],
+            'outdoor'=>['required', 'array'],
+            'outdoor.*' => ['required'],
+            'indoor'=>['required', 'array'],
+            'indoor.*' => ['required'],
+            'photo'=>['required', 'array'],
+            'photo.*' => ['required'],
+
+
         ]);
+
 
         if ($validator->fails()) {
 
@@ -147,9 +158,23 @@ class SellerController extends Controller
                 'description'=>$request->description,
                 'longitude'=>$request->longitude,
                 'latitude'=>$request->latitude,
+                'area_situation'=>$request->area_situation
 
             ]
         );
+        foreach ($request->outdoor as $odoor) {
+            Amenity::create([
+                'property_id'=>$property->id,
+                'amenity'=>$odoor
+            ]);
+        }
+        foreach ($request->indoor as $idoor) {
+            Amenity::create([
+                'property_id'=>$property->id,
+                'amenity'=>$idoor,
+                'type'=>1
+            ]);
+        }
         if(!!$request->photo)
         {
             foreach($request->photo as $photo)
@@ -177,12 +202,57 @@ class SellerController extends Controller
 
     public function edit_property($id)
     {
-        $property = Property::query()->with('photos')->where('id',$id)->first();
-    return view('pages.seller.edit_property',compact('property'));
+        $property = Property::query()->with('photos')->with('amenities')->where('id',$id)->first();
+
+        $odoor = [];
+        $idoor = [];
+        foreach($property['amenities'] as $amenity)
+        {
+            if($amenity['type'] == 0)
+            {
+                $odoor[] = $amenity['amenity'];
+            }else{
+                $idoor[] = $amenity['amenity'];
+            }
+        }
+
+
+
+    return view('pages.seller.edit_property',compact('property','odoor','idoor'));
     }
 
     public function update_property(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'title'=>'required',
+            'type'=>'required',
+            'floor_area'=>'required',
+            'floor_number'=>'required',
+            'land_size'=>'required',
+            'price'=>'required',
+            'bed_room'=>'required',
+            'bath_room'=>'required',
+            'address'=>'required',
+            'description'=>'required',
+
+            'area_situation'=>'required',
+            // 'photos.0'=>['required'],
+            'outdoor'=>['required', 'array'],
+            'outdoor.*' => ['required'],
+            'indoor'=>['required', 'array'],
+            'indoor.*' => ['required'],
+
+
+
+        ]);
+
+
+        if ($validator->fails()) {
+
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         $property = Property::query()->where('id',$id)->where('seller_id',Auth::guard('seller')->user()->id)->first();
         $property->update(
             [
@@ -199,8 +269,23 @@ class SellerController extends Controller
                 'description'=>$request->description,
                 'longitude'=>$request->longitude,
                 'latitude'=>$request->latitude,
+                'area_situation'=>$request->area_situation
             ]
         );
+        Amenity::where('property_id',$property->id)->delete();
+        foreach ($request->outdoor as $odoor) {
+            Amenity::create([
+                'property_id'=>$property->id,
+                'amenity'=>$odoor
+            ]);
+        }
+        foreach ($request->indoor as $idoor) {
+            Amenity::create([
+                'property_id'=>$property->id,
+                'amenity'=>$idoor,
+                'type'=>1
+            ]);
+        }
         if(!!$request->photo)
         {
             foreach($request->photo as $photo)

@@ -27,7 +27,8 @@ class Property extends Model
         'agent_id',
         'title_copy',
         'longitude',
-        'latitude'
+        'latitude',
+        'area_situation'
     ];
 
     public function photo()
@@ -45,5 +46,10 @@ class Property extends Model
     public function agentInfo()
     {
         return $this->belongsTo(Agent::class ,'agent_id');
+    }
+
+    public function amenities()
+    {
+        return $this->hasMany(Amenity::class,'property_id');
     }
 }

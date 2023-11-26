@@ -2,14 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
 use App\Models\Bookmark;
 use App\Models\Property;
+use App\Mail\ContactMail;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class FrontendController extends Controller
 {
+    public function send_contact(Request $request)
+    {
+        $data = [
+            'email'=>$request->email,
+            'name'=>$request->name,
+            'message'=>$request->message,
+        ];
+        Mail::to('xxdekuxxweak@gmail.com')->send(new ContactMail($data));
+        Session::flash('success_contact', 'info');
+        return back()->with('success','Submited Successfully!');
+
+    }
     public function about()
     {
         return view("pages.about");

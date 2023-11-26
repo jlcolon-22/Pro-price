@@ -107,9 +107,113 @@
 
                     </div>
                 </div>
+                <div>
+                    <div class="relative mt-10">
+
+                        <select value="" name="area_situation"
+                            class="border-b outline-none border-text  bg-transparent w-full pt-3 pb-1.5 peer focus:border-b-2">
+                            <option value="" selected>Choose...</option>
+                            <option value="flood_prone_area"  {{ $property->area_situation == 'flood_prone_area' ? 'selected' : '' }}>Flood prone area</option>
+                            <option value="landslide"  {{ $property->area_situation == 'landslide' ? 'selected' : '' }}>Landslide</option>
+                            <option value="earthquake"  {{ $property->area_situation == 'earthquake' ? 'selected' : '' }}>Earthquake</option>
+
+                        </select>
+                        <label for=""
+                            class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">House
+                            Type</label>
+                        @error('area_situation')
+                            <small class="text-red-500 font-medium">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
                 <div class="relative mt-10">
                     <h1 class="text-paragraph">Description</h1>
                     <textarea id="ckeditor" name="description">{{ $property->description }}</textarea>
+                </div>
+
+                <div class="mt-10 relative ">
+                    <h1 class="text-xl">Amenities</h1>
+
+                    <div class="p-4">
+                        <h2 class="text-sm">Outdoor Amenities:</h2>
+                        @error('outdoor')
+                        <small class="text-red-500 font-medium">{{ $message }}</small>
+                    @enderror
+                        <div class="p-3 grid grid-cols-3">
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Garden/landscaped yard',$odoor) ? 'checked' : '' }} value="Garden/landscaped yard" id="">
+                                <small>Garden/landscaped yard</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Patio/deck',$odoor) ? 'checked' : '' }} value="Patio/deck" id="">
+                                <small>Patio/deck</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Swimming pool',$odoor) ? 'checked' : '' }} value="Swimming pool" id="">
+                                <small>Swimming pool</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Outdoor kitchen/BBQ area',$odoor) ? 'checked' : '' }} value="Outdoor kitchen/BBQ area" id="">
+                                <small>Outdoor kitchen/BBQ area</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Playground area',$odoor) ? 'checked' : '' }}  value="Playground area" id="">
+                                <small>Playground area</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Tennis/basketball court',$odoor) ? 'checked' : '' }}  value="Tennis/basketball court" id="">
+                                <small>Tennis/basketball court</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Fenced yard',$odoor) ? 'checked' : '' }} value="Fenced yard" id="">
+                                <small>Fenced yard</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" {{ in_array('Outdoor lighting',$odoor) ? 'checked' : '' }} value="Outdoor lighting" id="">
+                                <small>Outdoor lighting</small>
+                            </div>
+                        </div>
+                        <h2 class="text-sm">Indoor Amenities:</h2>
+                        @error('indoor')
+                        <small class="text-red-500 font-medium">{{ $message }}</small>
+                    @enderror
+                        <div class="p-3 grid grid-cols-3">
+
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Fireplace',$idoor) ? 'checked' : '' }}  value="Fireplace"  id="">
+                                <small>Fireplace</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Home office/study room',$idoor) ? 'checked' : '' }}  value="Home office/study room" id="">
+                                <small>Home office/study room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Laundry room',$idoor) ? 'checked' : '' }} value="Laundry room" id="">
+                                <small>Laundry room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Walk-in closets',$idoor) ? 'checked' : '' }}  value="Walk-in closets" id="">
+                                <small>Walk-in closets</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Home theater/media room',$idoor) ? 'checked' : '' }} value="Home theater/media room" id="">
+                                <small>Home theater/media room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Gym/fitness room',$idoor) ? 'checked' : '' }} value="Gym/fitness room" id="">
+                                <small>Gym/fitness room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Wine cellar',$idoor) ? 'checked' : '' }} value="Wine cellar" id="">
+                                <small>Wine cellar</small>
+                            </div>
+                            <div class="flex items-center gap-x-2 col-span-2">
+                                <input type="checkbox" name="indoor[]" {{ in_array('Air conditioning/heating system',$idoor) ? 'checked' : '' }} value="Air conditioning/heating system"
+                                    id="">
+                                <small>Air conditioning/heating system</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{-- right --}}

@@ -344,7 +344,7 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 {{ Session::has('error_seller') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center  py-[5rem] max-h-screen px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_seller') || Session::has('error_seller_success') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center  py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -356,9 +356,11 @@
             {{-- modal body --}}
             <div>
                   {{-- alert container makikita to sa /resources/views/components --}}
-                @if (Session::has('error_seller'))
+                @if (Session::has('error_seller_success'))
                     <x-alert />
-                @endif
+                @else
+
+
 
                 {{-- seller signup form --}}
                 <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST"
@@ -462,6 +464,7 @@
 
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

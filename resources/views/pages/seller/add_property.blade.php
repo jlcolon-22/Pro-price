@@ -137,12 +137,116 @@
                         @enderror
                     </div>
                 </div>
+                <div>
+                    <div class="relative mt-10">
+
+                        <select value="" name="area_situation"
+                            class="border-b outline-none border-text  bg-transparent w-full pt-3 pb-1.5 peer focus:border-b-2">
+                            <option value="" selected>Choose...</option>
+                            <option value="flood_prone_area">Flood prone area</option>
+                            <option value="landslide">Landslide</option>
+                            <option value="earthquake">Earthquake</option>
+
+                        </select>
+                        <label for=""
+                            class="absolute -top-4 left-0 -z-10 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">House
+                            Type</label>
+                        @error('area_situation')
+                            <small class="text-red-500 font-medium">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
                 <div class="relative mt-10">
                     <h1 class="text-paragraph">Description</h1>
                     <textarea id="ckeditor" name="description"></textarea>
                     @error('description')
                         <small class="text-red-500 font-medium">{{ $message }}</small>
                     @enderror
+                </div>
+
+                <div class="mt-10 relative ">
+                    <h1 class="text-xl">Amenities</h1>
+
+                    <div class="p-4">
+                        <h2 class="text-sm">Outdoor Amenities:</h2>
+                        @error('outdoor')
+                        <small class="text-red-500 font-medium">{{ $message }}</small>
+                    @enderror
+                        <div class="p-3 grid grid-cols-3">
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Garden/landscaped yard" id="">
+                                <small>Garden/landscaped yard</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Patio/deck" id="">
+                                <small>Patio/deck</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Swimming pool" id="">
+                                <small>Swimming pool</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Outdoor kitchen/BBQ area" id="">
+                                <small>Outdoor kitchen/BBQ area</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Playground area" id="">
+                                <small>Playground area</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Tennis/basketball court" id="">
+                                <small>Tennis/basketball court</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Fenced yard" id="">
+                                <small>Fenced yard</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="outdoor[]" value="Outdoor lighting" id="">
+                                <small>Outdoor lighting</small>
+                            </div>
+                        </div>
+                        <h2 class="text-sm">Indoor Amenities:</h2>
+                        @error('indoor')
+                        <small class="text-red-500 font-medium">{{ $message }}</small>
+                    @enderror
+                        <div class="p-3 grid grid-cols-3">
+
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Fireplace" id="">
+                                <small>Fireplace</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Home office/study room" id="">
+                                <small>Home office/study room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Laundry room" id="">
+                                <small>Laundry room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Walk-in closets" id="">
+                                <small>Walk-in closets</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Home theater/media room" id="">
+                                <small>Home theater/media room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Gym/fitness room" id="">
+                                <small>Gym/fitness room</small>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <input type="checkbox" name="indoor[]" value="Wine cellar" id="">
+                                <small>Wine cellar</small>
+                            </div>
+                            <div class="flex items-center gap-x-2 col-span-2">
+                                <input type="checkbox" name="indoor[]" value="Air conditioning/heating system"
+                                    id="">
+                                <small>Air conditioning/heating system</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{-- right --}}
@@ -181,7 +285,7 @@
                             class="border hidden px-2 outline-none border-text w-full py-3 peer focus:border-b-2"
                             placeholder=" ">
 
-                        @error('photos.0')
+                        @error('photo')
                             <small class="text-red-500 font-medium absolute">{{ $message }}</small>
                         @enderror
                     </div>
@@ -322,14 +426,14 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-         map.on('click',async function(e) {
+        map.on('click', async function(e) {
             const latitude = e.latlng.lat;
             const longitude = e.latlng.lng;
             document.querySelector('#latitude').value = latitude;
             document.querySelector('#longitude').value = longitude;
             const reverseGeocodeUrl =
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-           await fetch(reverseGeocodeUrl)
+            await fetch(reverseGeocodeUrl)
                 .then(response => response.json())
                 .then(data => {
                     // Extract and display the address
@@ -357,7 +461,5 @@
 
 
         }
-
-
     </script>
 @endsection

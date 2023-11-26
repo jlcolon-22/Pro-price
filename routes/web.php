@@ -35,6 +35,7 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/properties','properties');
     Route::get('/property/view/{id}','view_property')->name('view_property');
     Route::get('/property/contact/{id}/seller','contact_seller_property')->name('contact_seller_property');
+    Route::post('/contact','send_contact')->name('contact_store');
 });
 Route::controller(AuthController::class)->group(function () {
     Route::post('/auth/seller','store_seller')->name('auth_seller_signup');
