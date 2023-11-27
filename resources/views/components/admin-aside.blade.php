@@ -30,6 +30,11 @@
             <img src="{{ asset('icons/list.svg') }}" class="w-[1.2rem]" alt="">
             Properties
         </a>
+         {{-- feedback link --}}
+         <a href="{{ route('admin_feedback') }}" class="{{ request()->is('admin/feedback') ? 'border-l-4 border-blue-500 bg-gray-200 px-3' : 'px-4' }}  py-2 flex gap-x-2 items-center">
+            <img src="{{ asset('icons/list.svg') }}" class="w-[1.2rem]" alt="">
+            Feedback
+        </a>
         {{-- logout link --}}
         <a href="{{ route('admin_logout') }}" class=" px-4 py-2 flex gap-x-2 items-center">
             <img src="{{ asset('icons/log-out.svg') }}" class="w-[1.2rem]" alt="">

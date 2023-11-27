@@ -11,7 +11,7 @@
 
         {{-- main content --}}
         <main class="w-full px-10 py-10">
-            <h1 class="py-10">-- Properties</h1>
+            <h1 class="font-serif font-semibold py-4">-- PROPERTIES</h1>
 
             <div class="py-2">
                 {{-- alert section --}}

@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Agent;
 use App\Models\Buyer;
 use App\Models\Seller;
+use App\Models\Feedback;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function admin_feedback()
+    {
+        $feedbacks = Feedback::with('agent','seller','buyer')->latest()->paginate(10);
+        return view('pages.admin.feedback',compact('feedbacks'));
+    }
     public function buyer_account()
     {
         $buyers = Buyer::latest()->paginate(10);

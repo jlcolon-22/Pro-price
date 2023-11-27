@@ -155,7 +155,7 @@ class FrontendController extends Controller
     {
 
 
-        $property = Property::with('photos', 'agentInfo')->find($id->id);
+        $property = Property::with('photos', 'agentInfo','amenities')->find($id->id);
         $type = 'seller';
 
 

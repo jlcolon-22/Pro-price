@@ -149,4 +149,6 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/property/view/{id}', 'property_view')->name('admin_property_view');
     Route::get('/admin/property/agents', 'property_agents')->name('admin_property_agents');
     Route::get('/admin/property/assign/{agent}/{property}', 'property_assign')->name('admin_property_assign');
+
+    Route::get('/admin/feedback','admin_feedback')->name('admin_feedback');
 });

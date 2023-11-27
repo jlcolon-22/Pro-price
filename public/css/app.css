@@ -856,6 +856,9 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-\[50rem\] {
+  width: 50rem;
+}
 .min-w-\[1\.3rem\] {
   min-width: 1.3rem;
 }
@@ -971,6 +974,9 @@ video {
 }
 .gap-5 {
   gap: 1.25rem;
+}
+.gap-1 {
+  gap: 0.25rem;
 }
 .gap-x-10 {
   -moz-column-gap: 2.5rem;
@@ -1477,6 +1483,10 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 .font-bold {
   font-weight: 700;

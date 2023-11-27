@@ -107,6 +107,26 @@
 
 
                         </div>
+                       <div class="p-4">
+                        <h1 class="text-gray-600 text-base">Outdoor Amenities</h1>
+                        <div class="py-6 grid gap-1 grid-cols-3 ">
+
+                            @foreach ($property->amenities as $amenity)
+                               @if ($amenity->type == 0)
+                               <p class="text-sm">-- {{ $amenity->amenity }}</p>
+                               @endif
+                            @endforeach
+                        </div>
+                        <h1 class="text-gray-600 text-base">Indoor Amenities</h1>
+                        <div class="py-6 grid gap-1 grid-cols-3 ">
+
+                            @foreach ($property->amenities as $amenity)
+                               @if ($amenity->type == 1)
+                               <p class="text-sm">-- {{ $amenity->amenity }}</p>
+                               @endif
+                            @endforeach
+                        </div>
+                       </div>
                         <div class="text-paragraph px-3 py-6 description font-serif ">
 
                             {!! $property->description !!}
@@ -251,9 +271,9 @@
 
     {{-- map modal --}}
     <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
-        <div class="w-[30rem] bg-white relative">
+        <div class="w-[50rem] h-fit bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">House address</h1>
-            <div id="map" class="" style="height: 300px;width:100%"></div>
+            <div id="map" class="" style="height: 500px;width:100%"></div>
             <img onclick="closeMap()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3" alt="">
         </div>
     </div>
@@ -261,7 +281,7 @@
     {{-- id number --}}
     <div id="yearContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
         <div class="w-[30rem] bg-white relative">
-            <h1 class="px-2 py-3 shadow text-lg">Years</h1>
+            <h1 class="px-2 py-3 shadow text-lg">Select prediction duration</h1>
             <div class="grid p-3 gap-y-3">
 
                 <a href="/property/predict/{{ $property->id }}/1"
