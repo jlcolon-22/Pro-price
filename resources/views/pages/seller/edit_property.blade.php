@@ -113,6 +113,7 @@
                         <select value="" name="area_situation"
                             class="border-b outline-none border-text  bg-transparent w-full pt-3 pb-1.5 peer focus:border-b-2">
                             <option value="" selected>Choose...</option>
+
                             <option value="flood_prone_area"  {{ $property->area_situation == 'flood_prone_area' ? 'selected' : '' }}>Flood prone area</option>
                             <option value="landslide"  {{ $property->area_situation == 'landslide' ? 'selected' : '' }}>Landslide</option>
                             <option value="earthquake"  {{ $property->area_situation == 'earthquake' ? 'selected' : '' }}>Earthquake</option>

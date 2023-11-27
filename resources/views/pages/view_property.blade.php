@@ -9,8 +9,8 @@
         <x-alert />
         <div>
             <input type="hidden" id="longitude" value="{{ $property->longitude }}">
-            <input type="hidden"  id="latitude" value="{{ $property->latitude }}">
-            <input type="hidden"  id="titles" value="{{ $property->address }}">
+            <input type="hidden" id="latitude" value="{{ $property->latitude }}">
+            <input type="hidden" id="titles" value="{{ $property->address }}">
         </div>
         {{-- property image --}}
         <div class=" flex justify-between gap-x-2">
@@ -68,11 +68,11 @@
                         @endif
 
 
-                        <button
+                        <a type="button" onclick="yearContainerToggle()"
                             class=" border flex gap-2 h-fit whitespace-nowrap items-center rounded px-4 py-2 text-text bg-button  hover:bg-yellow-500  ">
                             See Price Prediction <img src="{{ asset('icons/search.svg') }}" class="min-w-[1.3rem]"
                                 alt="">
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <hr>
@@ -84,17 +84,26 @@
                         <h1 class="text-text font-serif">Description</h1>
                         <div class="py-6 grid gap-3 grid-cols-3 ">
 
-                            <span class="bg-blue-100 text-center text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded  ">Bedroom
+                            <span
+                                class="bg-blue-100 text-center text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded  ">Bedroom
                                 - {{ $property->bed_room }} </span>
-                            <span class="bg-gray-100  text-center text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">Bathroom
+                            <span
+                                class="bg-gray-100  text-center text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">Bathroom
                                 - {{ $property->bath_room }} </span>
-                            <span class="bg-red-100  text-center text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded "> Land size
+                            <span
+                                class="bg-red-100  text-center text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">
+                                Land size
                                 - {{ $property->land_size }}sqm</span>
-                            <span class="bg-green-100  text-center text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded "> Floor
+                            <span
+                                class="bg-green-100  text-center text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">
+                                Floor
                                 area - {{ $property->floor_area }}sqm</span>
-                            <span class="bg-yellow-100  text-center text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">
+                            <span
+                                class="bg-yellow-100  text-center text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">
                                 Floor Number - {{ $property->floor_number }}</span>
-                                <span class="bg-pink-100 text-center text-pink-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">  Type - {{ $property->type }}</span>
+                            <span
+                                class="bg-pink-100 text-center text-pink-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">
+                                Type - {{ $property->type }}</span>
 
 
                         </div>
@@ -173,11 +182,19 @@
                                 </a>
                             @endif
                         @else
-                            <a type="button" onclick="modalLoginToggle()"
-                                class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
-                                <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                Appointment
-                            </a>
+                           @if (Auth::guard('seller')->check())
+                           {{-- <a type="button" onclick="modalLoginToggle()"
+                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                           Appointment
+                       </a> --}}
+                           @else
+                           <a type="button" onclick="modalLoginToggle()"
+                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                           Appointment
+                       </a>
+                           @endif
                         @endif
                         {{-- @else
                             <a href=""
@@ -233,13 +250,48 @@
     </section>
 
     {{-- map modal --}}
-   <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
+    <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
         <div class="w-[30rem] bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">House address</h1>
             <div id="map" class="" style="height: 300px;width:100%"></div>
             <img onclick="closeMap()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3" alt="">
         </div>
-   </div>
+    </div>
+
+    {{-- id number --}}
+    <div id="yearContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
+        <div class="w-[30rem] bg-white relative">
+            <h1 class="px-2 py-3 shadow text-lg">Years</h1>
+            <div class="grid p-3 gap-y-3">
+
+                <a href="/property/predict/{{ $property->id }}/1"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">1 year</a>
+                <a href="/property/predict/{{ $property->id }}/2"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">2 years</a>
+                <a href="/property/predict/{{ $property->id }}/3"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">3 years</a>
+                <a href="/property/predict/{{ $property->id }}/4"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">4 years</a>
+                <a href="/property/predict/{{ $property->id }}/5"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">5 years</a>
+                <a href="/property/predict/{{ $property->id }}/6"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">6 years</a>
+                <a href="/property/predict/{{ $property->id }}/7"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">7 years</a>
+                <a href="/property/predict/{{ $property->id }}/8"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">8 year</a>
+                <a href="/property/predict/{{ $property->id }}/9"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">9 years</a>
+                <a href="/property/predict/{{ $property->id }}/10"
+                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">10 years</a>
+
+
+
+            </div>
+            <img onclick="yearContainerToggle()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3"
+                alt="">
+        </div>
+    </div>
     {{-- footer --}}
     <x-buyer.footer />
 @endsection
@@ -322,31 +374,36 @@
     </script>
 
     <script>
-       const mapContainer = document.querySelector('#mapContainer');
-       function viewMap()
-       {
+        const mapContainer = document.querySelector('#mapContainer');
 
-        mapContainer.classList.toggle('hidden')
-        mapContainer.classList.toggle('flex')
-        const latitude = document.querySelector('#latitude').value;
-        const longitude = document.querySelector('#longitude').value
+        function viewMap() {
 
-        // Initialize the map
-        const map = L.map('map').setView([latitude, longitude], 16);
+            mapContainer.classList.toggle('hidden')
+            mapContainer.classList.toggle('flex')
+            const latitude = document.querySelector('#latitude').value;
+            const longitude = document.querySelector('#longitude').value
 
-        // Add a tile layer to the map (you can choose a different tile provider)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+            // Initialize the map
+            const map = L.map('map').setView([latitude, longitude], 16);
 
-        const marker = L.marker([latitude, longitude]).addTo(map);
-        marker.bindPopup(`<b>${document.querySelector('#titles').value}</b>`).openPopup();
-       }
-       function closeMap()
-       {
-        mapContainer.classList.toggle('hidden')
-        mapContainer.classList.toggle('flex')
-       }
+            // Add a tile layer to the map (you can choose a different tile provider)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
+            const marker = L.marker([latitude, longitude]).addTo(map);
+            marker.bindPopup(`<b>${document.querySelector('#titles').value}</b>`).openPopup();
+        }
+
+        function closeMap() {
+            mapContainer.classList.toggle('hidden')
+            mapContainer.classList.toggle('flex')
+        }
+        const yearContainer = document.querySelector('#yearContainer');
+
+        function yearContainerToggle() {
+            yearContainer.classList.toggle('hidden')
+            yearContainer.classList.toggle('flex')
+        }
     </script>
 @endsection

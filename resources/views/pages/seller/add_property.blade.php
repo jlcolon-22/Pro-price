@@ -143,6 +143,7 @@
                         <select value="" name="area_situation"
                             class="border-b outline-none border-text  bg-transparent w-full pt-3 pb-1.5 peer focus:border-b-2">
                             <option value="" selected>Choose...</option>
+
                             <option value="flood_prone_area">Flood prone area</option>
                             <option value="landslide">Landslide</option>
                             <option value="earthquake">Earthquake</option>
