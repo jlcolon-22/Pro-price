@@ -8,9 +8,9 @@
         {{-- alert section --}}
         <x-alert />
 
-            <input type="hidden" id="longitude" value="{{ $property->longitude }}">
-            <input type="hidden" id="latitude" value="{{ $property->latitude }}">
-            <input type="hidden" id="titles" value="{{ $property->address }}">
+        <input type="hidden" id="longitude" value="{{ $property->longitude }}">
+        <input type="hidden" id="latitude" value="{{ $property->latitude }}">
+        <input type="hidden" id="titles" value="{{ $property->address }}">
 
         {{-- property image --}}
         <div class="grid lg:flex lg:justify-between gap-x-2 gap-y-2 lg:gap-y-0 ">
@@ -40,7 +40,8 @@
             <div class="w-full">
                 <div class="grid gap-y-4 md:gap-y-0 md:flex justify-between py-2">
                     <div>
-                        <h1 class=" text-text tracking-wider font-semibold uppercase font-serif text-2xl break-words md:text-3xl">
+                        <h1
+                            class=" text-text tracking-wider font-semibold uppercase font-serif text-2xl break-words md:text-3xl">
                             {{ $property->title }}</h1>
                         <p class="text-lg md:text-2xl text-paragraph font-serif ">
                             ₱ {{ number_format($property->price) }}
@@ -122,7 +123,7 @@
 
                                 @foreach ($property->amenities as $amenity)
                                     @if ($amenity->type == 1)
-                                    <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
+                                        <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
                                     @endif
                                 @endforeach
                             </div>
@@ -164,82 +165,169 @@
                     <p class="text-paragraph pt-2 font-serif">
 
                         @if ($type == 'seller')
-                        {{ $property->agentInfo->name }}(Agent)
+                            {{ $property->agentInfo->name }}(Agent)
                         @elseif($type == 'agent')
-                        {{ $property->sellerInfo->name }}(Seller)
+                            {{ $property->sellerInfo->name }}(Seller)
                         @else
-                       {{ $property->agentInfo->name}}
+                            {{ $property->agentInfo->name }}
                         @endif
                     </p>
                     @if ($type != 'agent')
-                    <div class="flex items-center space-x-1 pt-1">
-                        <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
-                        <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
-                        <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
-                        <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
-                        <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
-                    </div>
-                    @endif
-                    <div class="flex items-center space-x-3 pt-3">
-                        {{-- @if ($type == 'seller') --}}
-                        {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
+                        @if (!!$property->agentInfo->getRating)
+
+                            @if ($property->agentInfo->getRating->avg('rating') == 1)
+                                <div class="flex items-center space-x-1 pt-1">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                </div>
+                            @elseif($property->agentInfo->getRating->avg('rating') == 2)
+                                <div class="flex items-center space-x-1 pt-1">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                </div>
+                            @elseif($property->agentInfo->getRating->avg('rating') == 3)
+                                <div class="flex items-center space-x-1 pt-1">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                </div>
+                            @elseif($property->agentInfo->getRating->avg('rating') == 4)
+                                <div class="flex items-center space-x-1 pt-1">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                </div>
+                            @elseif($property->agentInfo->getRating->avg('rating') == 5)
+                                <div class="flex items-center space-x-1 pt-1">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                    <img src="{{ asset('icons/star_rate_black_24dp.svg') }}" class="w-[1.8rem]"
+                                        alt="">
+                                </div>
+                            @else
+                                <div class="flex items-center space-x-1 pt-1">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                    <img src="{{ asset('icons/star.svg') }}" class="w-[1.8rem]" alt="">
+                                </div>
+                            @endif
+                        @else
+                            <div class="flex items-center space-x-1 pt-1">
+                                <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
+                                <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
+
+                                <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
+                                <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
+                                <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
+                            </div>
+                        @endif
+
                         @if (Auth::guard('buyer')->check())
                             @if (!!$appointment['status'])
                                 @if ($appointment->status == 1)
-                                    <a href="sms:{{ $property->agentInfo->phone_number }}"
-                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
-                                        <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                        Message
-                                    </a>
+                                <button onclick="ratingContainerToggle()"
+                                class="underline text-blue-500 cursor-pointer">Rate
+                                Agent</button>
 
-                                    <a href="tel:{{ $property->agentInfo->phone_number }}"
-                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
-                                        <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
-                                        Call
-                                    </a>
+                                @endif
+                            @endif
+
+                            @endif
+                        @endif
+                        <div class="flex items-center space-x-3 pt-3">
+                            {{-- @if ($type == 'seller') --}}
+                            {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
+                            @if (Auth::guard('buyer')->check())
+                                @if (!!$appointment['status'])
+                                    @if ($appointment->status == 1)
+                                        <a href="sms:{{ $property->agentInfo->phone_number }}"
+                                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
+                                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                            Message
+                                        </a>
+
+                                        <a href="tel:{{ $property->agentInfo->phone_number }}"
+                                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
+                                            <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
+                                            Call
+                                        </a>
+                                    @else
+                                        <a type="button"
+                                            onclick="alert('You have already submitted an appointment for this. Just check your appointment page for the status of your appointment request.')"
+                                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 {{ $appointment ? 'select-none cursor-not-allowed opacity-50' : '' }}">
+                                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                            Appointment
+                                        </a>
+                                    @endif
                                 @else
-                                    <a type="button"
-                                        onclick="alert('You have already submitted an appointment for this. Just check your appointment page for the status of your appointment request.')"
-                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 {{ $appointment ? 'select-none cursor-not-allowed opacity-50' : '' }}">
+                                    <a type="button" onclick="toggleAppointment()"
+                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
                                         <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
                                         Appointment
                                     </a>
                                 @endif
                             @else
-                                <a type="button" onclick="toggleAppointment()"
-                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
-                                    <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                    Appointment
-                                </a>
-                            @endif
-                        @else
-                            @if (Auth::guard('seller')->check())
-                                {{-- <a type="button" onclick="modalLoginToggle()"
+                                @if (Auth::guard('seller')->check())
+                                    {{-- <a type="button" onclick="modalLoginToggle()"
                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
                            Appointment
                        </a> --}}
-                            @elseif(Auth::guard('agent')->check())
-                            <a  href="mailto:{{ $property->sellerInfo->email }}" target="_blank"
-                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
-                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                            Email
-                        </a>
+                                @elseif(Auth::guard('agent')->check())
+                                    <a href="mailto:{{ $property->sellerInfo->email }}" target="_blank"
+                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
+                                        <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                        Email
+                                    </a>
 
-                        <a  href="tel:{{ $property->sellerInfo->phone_number }}" target="_blank"
-                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
-                            <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
-                            Call
-                        </a>
-                            @else
-                                <a type="button" onclick="modalLoginToggle()"
-                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
-                                    <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                    Appointment
-                                </a>
+                                    <a href="tel:{{ $property->sellerInfo->phone_number }}" target="_blank"
+                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
+                                        <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
+                                        Call
+                                    </a>
+                                @else
+                                    <a type="button" onclick="modalLoginToggle()"
+                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                                        <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                        Appointment
+                                    </a>
+                                @endif
                             @endif
-                        @endif
-                        {{-- @else
+                            {{-- @else
                             <a href=""
                                 class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
                                 <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
@@ -252,7 +340,7 @@
                                 Call
                             </a>
                         @endif --}}
-                    </div>
+                        </div>
 
                 </div>
             </div>
@@ -293,7 +381,8 @@
     </section>
 
     {{-- map modal --}}
-    <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
+    <div id="mapContainer"
+        class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
         <div class="w-[50rem] h-fit bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">House address</h1>
             <div id="map" class="" style="height: 500px;width:100%"></div>
@@ -302,7 +391,8 @@
     </div>
 
     {{-- id number --}}
-    <div id="yearContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
+    <div id="yearContainer"
+        class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
         <div class="w-[30rem] bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">Select prediction duration</h1>
             <div class="grid p-3 gap-y-3">
@@ -332,6 +422,46 @@
 
             </div>
             <img onclick="yearContainerToggle()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3"
+                alt="">
+        </div>
+    </div>
+    {{-- id rating modal --}}
+    <div id="ratingContainer"
+        class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
+        <div class="w-[30rem] h-fit bg-white relative">
+            <h1 class="px-2 py-3 shadow text-lg">Rate the Agent</h1>
+            <div class="flex justify-center p-3 gap-y-3">
+
+                @if (Auth::guard('buyer')->check())
+                    <div class="flex items-center space-x-1 pt-1">
+                        <a
+                            href="{{ route('buyer_agent_rate', ['value' => 1, 'agent' => $property->agentInfo?->id, 'property' => $property->id]) }}"><img
+                                src="{{ asset('icons/star_border_black_24dp.svg') }}"
+                                class="w-[4rem] hover:opacity-40 fill-blue-500" alt=""></a>
+                        <a
+                            href="{{ route('buyer_agent_rate', ['value' => 2, 'agent' => $property->agentInfo?->id, 'property' => $property->id]) }}"><img
+                                src="{{ asset('icons/star_border_black_24dp.svg') }}"
+                                class="w-[4rem] hover:opacity-40 fill-blue-500" alt=""></a>
+                        <a
+                            href="{{ route('buyer_agent_rate', ['value' => 3, 'agent' => $property->agentInfo?->id, 'property' => $property->id]) }}"><img
+                                src="{{ asset('icons/star_border_black_24dp.svg') }}"
+                                class="w-[4rem] hover:opacity-40 fill-blue-500" alt=""></a>
+                        <a
+                            href="{{ route('buyer_agent_rate', ['value' => 4, 'agent' => $property->agentInfo?->id, 'property' => $property->id]) }}"><img
+                                src="{{ asset('icons/star_border_black_24dp.svg') }}"
+                                class="w-[4rem] hover:opacity-40 fill-blue-500" alt=""></a>
+                        <a
+                            href="{{ route('buyer_agent_rate', ['value' => 5, 'agent' => $property->agentInfo?->id, 'property' => $property->id]) }}"><img
+                                src="{{ asset('icons/star_border_black_24dp.svg') }}"
+                                class="w-[4rem] hover:opacity-40 fill-blue-500" alt=""></a>
+
+                    </div>
+                @endif
+
+
+
+            </div>
+            <img onclick="ratingContainerToggle()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3"
                 alt="">
         </div>
     </div>
@@ -447,6 +577,12 @@
         function yearContainerToggle() {
             yearContainer.classList.toggle('hidden')
             yearContainer.classList.toggle('flex')
+        }
+        const ratingContainer = document.querySelector('#ratingContainer');
+
+        function ratingContainerToggle() {
+            ratingContainer.classList.toggle('hidden')
+            ratingContainer.classList.toggle('flex')
         }
     </script>
 @endsection

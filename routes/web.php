@@ -116,6 +116,7 @@ Route::middleware(['buyer.only'])->controller(BuyerController::class)->group(fun
     Route::post('/buyer/property/appointment/{property}/{agent}', 'buyer_add_ppointment')->name('buyer_add_ppointment');
     Route::post('/buyer/feedback', 'buyer_add_feedback')->name('buyer_add_feedback');
     Route::get('/buyer/feedback/{id}/delete', 'buyer_delete_feedback')->name('buyer_delete_feedback');
+    Route::get('/buyer/rate/{value}/{agent}/{property}', 'buyer_agent_rate')->name('buyer_agent_rate');
 });
 
 Route::middleware(['agent.only'])->controller(AgentController::class)->group(function () {

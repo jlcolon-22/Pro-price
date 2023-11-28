@@ -155,7 +155,10 @@ class FrontendController extends Controller
     {
 
 
-        $property = Property::with('photos', 'agentInfo','amenities','sellerInfo')->find($id->id);
+        $property = Property::with('photos','amenities','sellerInfo')->with('agentInfo',function($q)
+        {
+            $q->with('getRating');
+        })->find($id->id);
         $type = 'seller';
         if(Auth::guard('agent')->check())
         {

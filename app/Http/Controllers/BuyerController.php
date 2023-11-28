@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Buyer;
 use App\Models\Bookmark;
 use App\Models\Feedback;
+use App\Models\Rating;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,25 @@ use Illuminate\Validation\Rules\Password;
 class BuyerController extends Controller
 {
 
+    public function buyer_agent_rate($value, $agent, $property)
+    {
+        $check = Rating::where('buyer_id',Auth::guard('buyer')->id())->where('agent_id',$agent)->first();
+        if($check)
+        {
+            $check->update([
+                'rating'=>$value
+            ]);
+        }else{
+            Rating::create([
+                'property_id'=>$property,
+                'rating'=>$value,
+                'agent_id'=>$agent,
+                'buyer_id'=>Auth::guard('buyer')->id()
+            ]);
+        }
+
+        return back()->with('success','Rate Submitted Successfully');
+    }
     public function buyer_add_feedback(Request $request)
     {
         Feedback::query()->create([

@@ -15,4 +15,9 @@ class Agent extends Authenticatable
 
         "name","email","phone_number","password","license",'status','profile','company_name'
     ];
+
+    public function getRating()
+    {
+        return $this->hasMany(Rating::class,'agent_id');
+    }
 }
