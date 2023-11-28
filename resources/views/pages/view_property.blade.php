@@ -4,24 +4,24 @@
     {{-- header --}}
     <x-buyer.header />
 
-    <section class="container mx-auto py-10 min-h-[calc(100svh-80px)]">
+    <section class="container mx-auto py-10 min-h-[calc(100svh-80px)] overflow-hidden  px-3 md:px-0">
         {{-- alert section --}}
         <x-alert />
-        <div>
+
             <input type="hidden" id="longitude" value="{{ $property->longitude }}">
             <input type="hidden" id="latitude" value="{{ $property->latitude }}">
             <input type="hidden" id="titles" value="{{ $property->address }}">
-        </div>
+
         {{-- property image --}}
-        <div class=" flex justify-between gap-x-2">
+        <div class="grid lg:flex lg:justify-between gap-x-2 gap-y-2 lg:gap-y-0 ">
             <img id="mainImage" src="{{ asset($property?->photos[0]->photo) }}"
                 class=" object-cover max-h-[40rem]  w-full overflow-hidden" loading="lazy" alt="">
             {{-- h-[33rem] --}}
-            <div class="grid h-fit gap-y-2 max-h-[33rem] max-w-[11rem]">
+            <div class="grid grid-cols-5 gap-x-2 lg:gap-x-0 lg:grid-cols-1 h-fit gap-y-2 max-h-[33rem] lg:max-w-[11rem] ">
                 @foreach ($property?->photos as $photo)
                     @if ($loop->first)
                         <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
-                            class="itemImage cursor-pointer object-cover h-[6rem] border-4 border-button w-full  overflow-hidden"
+                            class="itemImage cursor-pointer object-cover h-[6rem] border-4 border-button  w-full  overflow-hidden"
                             loading="lazy" alt="">
                     @else
                         <img onclick="changeImage(this)" src="{{ asset($photo->photo) }}"
@@ -33,16 +33,16 @@
 
         </div>
 
-        <div class="flex">
+        <div class="flex flex-col-reverse md:flex-row">
 
 
             {{-- details --}}
             <div class="w-full">
-                <div class="flex justify-between py-2">
+                <div class="grid gap-y-4 md:gap-y-0 md:flex justify-between py-2">
                     <div>
-                        <h1 class=" text-text tracking-wider font-semibold uppercase font-serif text-3xl">
+                        <h1 class=" text-text tracking-wider font-semibold uppercase font-serif text-2xl break-words md:text-3xl">
                             {{ $property->title }}</h1>
-                        <p class="text-2xl text-paragraph font-serif ">
+                        <p class="text-lg md:text-2xl text-paragraph font-serif ">
                             ₱ {{ number_format($property->price) }}
                         </p>
                         <button onclick="viewMap()" class="text-blue-500 underline">view map</button>
@@ -77,7 +77,7 @@
                 </div>
                 <hr>
                 {{-- description and graph --}}
-                <div class="flex py-4">
+                <div class="flex py-4 ">
 
                     {{-- DESCRIPTION --}}
                     <div class="w-full">
@@ -107,26 +107,27 @@
 
 
                         </div>
-                       <div class="p-4">
-                        <h1 class="text-gray-600 text-base">Outdoor Amenities</h1>
-                        <div class="py-6 grid gap-1 grid-cols-3 ">
+                        <div class="p-4">
+                            <h1 class="text-gray-600 text-base font-semibold">Outdoor Amenities</h1>
+                            <div class="py-6  ">
 
-                            @foreach ($property->amenities as $amenity)
-                               @if ($amenity->type == 0)
-                               <p class="text-sm">-- {{ $amenity->amenity }}</p>
-                               @endif
-                            @endforeach
-                        </div>
-                        <h1 class="text-gray-600 text-base">Indoor Amenities</h1>
-                        <div class="py-6 grid gap-1 grid-cols-3 ">
+                                @foreach ($property->amenities as $amenity)
+                                    @if ($amenity->type == 0)
+                                        <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <h1 class="text-gray-600 text-base font-semibold">Indoor Amenities</h1>
+                            <div class="py-6  ">
 
-                            @foreach ($property->amenities as $amenity)
-                               @if ($amenity->type == 1)
-                               <p class="text-sm">-- {{ $amenity->amenity }}</p>
-                               @endif
-                            @endforeach
+                                @foreach ($property->amenities as $amenity)
+                                    @if ($amenity->type == 1)
+                                    <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
-                       </div>
+                        <h1 class="text-gray-400 text-base font-semibold">Other Description</h1>
                         <div class="text-paragraph px-3 py-6 description font-serif ">
 
                             {!! $property->description !!}
@@ -141,7 +142,7 @@
                 </div>
             </div>
             {{-- agent --}}
-            <div class="w-[27rem] px-2 pt-4">
+            <div class="w-full md:w-[27rem] px-2 pt-4 ">
                 <div class="border bg-body py-10 flex flex-col items-center ">
                     @if ($type == 'seller')
                         @if (!!$property->agentInfo->profile)
@@ -152,16 +153,25 @@
                                 class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
                         @endif
                     @else
-                        @if (!!$property->agentInfo->profile)
-                            <img src="{{ asset($property->agentInfo->profile) }}"
+                        @if (!!$property->sellerInfo->profile)
+                            <img src="{{ asset($property->sellerInfo->profile) }}"
                                 class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
                         @else
-                            <img src="https://ui-avatars.com/api/?background=random&name={{ $property->agentInfo->name }}"
+                            <img src="https://ui-avatars.com/api/?background=random&name={{ $property->sellerInfo->name }}"
                                 class="h-[7rem] w-[7rem] rounded-full object-cover" alt="">
                         @endif
                     @endif
                     <p class="text-paragraph pt-2 font-serif">
-                        {{ $type == 'seller' ? $property->agentInfo->name : $property->agentInfo->name }}</p>
+
+                        @if ($type == 'seller')
+                        {{ $property->agentInfo->name }}(Agent)
+                        @elseif($type == 'agent')
+                        {{ $property->sellerInfo->name }}(Seller)
+                        @else
+                       {{ $property->agentInfo->name}}
+                        @endif
+                    </p>
+                    @if ($type != 'agent')
                     <div class="flex items-center space-x-1 pt-1">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
@@ -169,19 +179,20 @@
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                         <img src="{{ asset('icons/star.svg') }}" class="w-[1.3rem]" alt="">
                     </div>
+                    @endif
                     <div class="flex items-center space-x-3 pt-3">
                         {{-- @if ($type == 'seller') --}}
                         {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
                         @if (Auth::guard('buyer')->check())
                             @if (!!$appointment['status'])
                                 @if ($appointment->status == 1)
-                                    <a href=""
+                                    <a href="sms:{{ $property->agentInfo->phone_number }}"
                                         class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
                                         <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
                                         Message
                                     </a>
 
-                                    <a href=""
+                                    <a href="tel:{{ $property->agentInfo->phone_number }}"
                                         class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
                                         <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
                                         Call
@@ -202,19 +213,31 @@
                                 </a>
                             @endif
                         @else
-                           @if (Auth::guard('seller')->check())
-                           {{-- <a type="button" onclick="modalLoginToggle()"
+                            @if (Auth::guard('seller')->check())
+                                {{-- <a type="button" onclick="modalLoginToggle()"
                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
                            Appointment
                        </a> --}}
-                           @else
-                           <a type="button" onclick="modalLoginToggle()"
-                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
-                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                           Appointment
-                       </a>
-                           @endif
+                            @elseif(Auth::guard('agent')->check())
+                            <a  href="mailto:{{ $property->sellerInfo->email }}" target="_blank"
+                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
+                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                            Email
+                        </a>
+
+                        <a  href="tel:{{ $property->sellerInfo->phone_number }}" target="_blank"
+                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
+                            <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
+                            Call
+                        </a>
+                            @else
+                                <a type="button" onclick="modalLoginToggle()"
+                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                                    <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                    Appointment
+                                </a>
+                            @endif
                         @endif
                         {{-- @else
                             <a href=""
@@ -270,7 +293,7 @@
     </section>
 
     {{-- map modal --}}
-    <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
+    <div id="mapContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
         <div class="w-[50rem] h-fit bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">House address</h1>
             <div id="map" class="" style="height: 500px;width:100%"></div>
@@ -279,7 +302,7 @@
     </div>
 
     {{-- id number --}}
-    <div id="yearContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70]">
+    <div id="yearContainer" class="fixed w-full h-screen hidden justify-center py-10 top-0 left-0 bg-black/60 z-[70] px-2 md:px-0">
         <div class="w-[30rem] bg-white relative">
             <h1 class="px-2 py-3 shadow text-lg">Select prediction duration</h1>
             <div class="grid p-3 gap-y-3">

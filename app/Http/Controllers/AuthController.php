@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgetMail;
 use App\Models\Agent;
 use App\Models\Buyer;
 use App\Models\Seller;
@@ -17,6 +18,87 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function update_change_password(Request $request,$email,$type)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' =>  ['required', Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()],
+            'password_confirmation' => 'required|same:password',
+        ]);
+
+        if ($validator->fails()) {
+            // Handle validation failure, for example, return back with errors
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if($type == 'buyer')
+        {
+            $buyer = Buyer::where('email',$request->email)->first();
+            $buyer->update([
+                'password'=>Hash::make($request->password)
+            ]);
+            $request->session()->regenerate();
+            Auth::guard('buyer')->login($buyer);
+              return redirect('/properties')->with('success', 'You successfully changed your password.');
+        }
+        if($type == 'seller')
+        {
+            $seller = Seller::where('email',$request->email)->first();
+            $seller->update([
+                'password'=>Hash::make($request->password)
+            ]);
+            $request->session()->regenerate();
+            Auth::guard('seller')->login($seller);
+              return redirect('/properties')->with('success', 'You successfully changed your password.');
+        }
+        if($type == 'agent')
+        {
+            $agent = Agent::where('email',$request->email)->first();
+            $agent->update([
+                'password'=>Hash::make($request->password)
+            ]);
+            $request->session()->regenerate();
+            Auth::guard('agent')->login($agent);
+              return redirect('/properties')->with('success', 'You successfully changed your password.');
+        }
+    }
+    public function change_password($email,$type)
+    {
+        return view('pages.change_password',compact('email','type'));
+    }
+    public function send_forgot_password(Request $request)
+    {
+        if(!!Buyer::where('email',$request->email)->first())
+        {
+            $data = [
+                'url'=>'http://127.0.0.1:8000/auth/change_password/'. $request->email.'/buyer'
+            ];
+        }elseif(!!Agent::where('email',$request->email)->first())
+        {
+            $data = [
+                'url'=>'http://127.0.0.1:8000/auth/change_password/'. $request->email.'/agent'
+            ];
+        }elseif(!!Seller::where('email',$request->email)->first())
+        {
+            $data = [
+                'url'=>'http://127.0.0.1:8000/auth/change_password/'. $request->email.'/seller'
+            ];
+        }else{
+            return back()->with("error","This email does not exist");
+        }
+
+        Mail::to($request->email)->send(new ForgetMail($data));
+
+        return back()->with("success","Please check your email for instructions on changing your password.");
+    }
+    public function forgot_password()
+    {
+        return view('pages.forget');
+    }
     public function verify_email(Request $request, $email, $type)
     {
         if ($type == "buyer") {

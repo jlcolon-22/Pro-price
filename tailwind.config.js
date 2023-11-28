@@ -16,8 +16,11 @@ module.exports = {
             secondary: '#e3f6f5',
             tertiary: '#bae8e8'
         }
+
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animate"),
+  ],
 }
 

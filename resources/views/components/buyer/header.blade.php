@@ -1,7 +1,7 @@
 <div class="border-b relative bg-body z-50">
     <header class="flex justify-between items-center container mx-auto h-20  z-50  px-2  md:px-0">
         {{-- logo --}}
-        <h1 class="text-text text-2xl font-semibold tracking-wider">Pro price</h1>
+        <a href="/" class="text-text text-2xl font-semibold tracking-wider">Pro price</a>
 
         {{-- navlist --}}
         <nav class="flex items-center space-x-3 md:space-x-12  z-50">
@@ -34,7 +34,7 @@
                                 alt="user photo">
                         @endif
                     </button>
-                {{-- check if user type is buyer --}}
+                    {{-- check if user type is buyer --}}
                 @elseif (Auth::guard('buyer')->check())
                     <button onclick="dropdownProfile()"
                         class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 "
@@ -49,7 +49,7 @@
                                 alt="user photo">
                         @endif
                     </button>
-                 {{-- check if user type is agent --}}
+                    {{-- check if user type is agent --}}
                 @elseif (Auth::guard('agent')->check())
                     <button onclick="dropdownProfile()"
                         class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 "
@@ -74,7 +74,7 @@
                 <!-- Dropdown menu -->
                 <div id="profileDropdown"
                     class="z-10 absolute hidden left-auto right-0 top-9 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
-                     {{-- check if user type is seller --}}
+                    {{-- check if user type is seller --}}
                     @if (Auth::guard('seller')->check())
                         <div class="px-4 py-3 text-sm text-gray-900 ">
                             <div>{{ Auth::guard('seller')->user()->email }}</div>
@@ -93,7 +93,7 @@
                                     class="block px-4 py-2 hover:bg-gray-100 ">Feedback</a>
                             </li>
                         </ul>
-                     {{-- check if user type is buyer --}}
+                        {{-- check if user type is buyer --}}
                     @elseif (Auth::guard('buyer')->check())
                         <div class="px-4 py-3 text-sm text-gray-900 ">
                             <div>{{ Auth::guard('buyer')->user()->email }}</div>
@@ -117,7 +117,7 @@
                             </li>
 
                         </ul>
-                     {{-- check if user type is agent --}}
+                        {{-- check if user type is agent --}}
                     @elseif (Auth::guard('agent')->check())
                         <div class="px-4 py-3 text-sm text-gray-900 ">
                             <div>{{ Auth::guard('agent')->user()->email }}</div>
@@ -160,7 +160,7 @@
 
     {{-- login modal --}}
     <div id="modalLogin"
-        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full bg-black/60 h-screen top-0  justify-center pt-[5rem]  px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full animate-in fade-in  duration-500   bg-black/60 h-screen top-0  justify-center pt-[5rem]  px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -182,8 +182,8 @@
                     {{-- email input --}}
                     <div class="relative">
                         <input type="text" name="email"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2" placeholder=" "
-                            value="{{ old('email') }}">
+                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
+                            placeholder=" " value="{{ old('email') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
@@ -200,6 +200,12 @@
                             placeholder=" " value="{{ old('password') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
+                        <button onclick="togglePassword(this)" type="button" class="absolute top-3 right-3"><img
+                                src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
+                        <div class="flex justify-end pt-2">
+                            <a href="{{ route('forgot_password') }}"
+                                class="text-blue-600 hover:underline font-medium text-sm">Forgot password?</a>
+                        </div>
                     </div>
                     {{-- error message --}}
                     @if (Session::has('error_login'))
@@ -207,9 +213,13 @@
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
                     @endif
-                     {{-- login button --}}
+                    {{-- login button --}}
                     <div class="relative mt-7">
-                        <button type="submit" class="text-text bg-button px-2 w-full py-2">Login</button>
+
+                        <button type="submit" onclick="changeText(this)"
+                            class="text-text  bg-button px-2 w-full py-2">
+                            Login
+                        </button>
                     </div>
 
                     {{-- sign up link --}}
@@ -226,7 +236,7 @@
 
     {{-- account type modal --}}
     <div id="modalType"
-        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center  pt-[5rem] px-2 md:px-0">
+        class="fixed z-50 hidden overflow-hidden w-full bg-black/60 h-screen top-0  justify-center animate-in fade-in  duration-500 pt-[5rem] px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -243,10 +253,10 @@
                         {{-- buyer button. pag clinic mo yung buyer button magoopen yung signup modal para sa buyer --}}
                         <button type="button" onclick="modalBuyerToggle()"
                             class="text-text bg-button px-2 w-full py-2 hover:bg-yellow-500">Buyer</button>
-                         {{-- seller button. pag clinic mo yung seller button magoopen yung signup modal para sa seller --}}
+                        {{-- seller button. pag clinic mo yung seller button magoopen yung signup modal para sa seller --}}
                         <button type="button" onclick="modalSellerToggle()"
                             class="text-text bg-button px-2 w-full py-2 hover:bg-yellow-500"">Seller</button>
-                             {{-- agent button. pag clinic mo yung agent button magoopen yung signup modal para sa agent --}}
+                        {{-- agent button. pag clinic mo yung agent button magoopen yung signup modal para sa agent --}}
                         <button type="button" onclick="modalAgentToggle()"
                             class="text-text bg-button px-2 w-full py-2 hover:bg-yellow-500"">Agent</button>
                     </div>
@@ -262,7 +272,7 @@
 
     {{-- buyer customer --}}
     <div id="modalBuyer"
-        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden w-full bg-black/60 h-screen top-0  justify-center   pt-[5rem] px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden animate-in fade-in  duration-500 w-full bg-black/60 h-screen top-0  justify-center   pt-[5rem] px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -273,7 +283,7 @@
             </div>
             {{-- modal body --}}
             <div>
-                  {{-- alert container makikita to sa /resources/views/components --}}
+                {{-- alert container makikita to sa /resources/views/components --}}
                 @if (Session::has('error_buyer'))
                     <x-alert />
                 @endif
@@ -288,7 +298,7 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm  text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Name</label>
                     </div>
-                     {{-- email input --}}
+                    {{-- email input --}}
                     <div class="relative mt-10">
                         <input type="email" name="email"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
@@ -296,13 +306,13 @@
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
-                     {{-- email error message--}}
+                    {{-- email error message --}}
                     @if (Session::has('error_buyer'))
                         @error('email')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
                     @endif
-                     {{-- phone number input --}}
+                    {{-- phone number input --}}
                     <div class="relative mt-10">
                         <input type="text" name="phone_number"
                             class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
@@ -318,8 +328,10 @@
                             placeholder=" " required value="{{ old('password') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
+                        <button onclick="togglePassword(this)" type="button" class="absolute top-3 right-3"><img
+                                src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
                     </div>
-                     {{-- password error message --}}
+                    {{-- password error message --}}
                     @if (Session::has('error_buyer'))
                         @error('password')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
@@ -344,7 +356,7 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 {{ Session::has('error_seller') || Session::has('error_seller_success') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center  py-[5rem] max-h-screen px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_seller') || Session::has('error_seller_success') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center animate-in fade-in  duration-500 py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -355,115 +367,115 @@
             </div>
             {{-- modal body --}}
             <div>
-                  {{-- alert container makikita to sa /resources/views/components --}}
+                {{-- alert container makikita to sa /resources/views/components --}}
                 @if (Session::has('error_seller_success'))
                     <x-alert />
                 @else
+                    {{-- seller signup form --}}
+                    <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST"
+                        class="px-4 py-7" enctype="multipart/form-data">
 
+                        @csrf
+                        {{-- name input --}}
+                        <div class="relative">
+                            <input type="text" name="name"
+                                class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
+                                placeholder=" " required value="{{ old('name') }}">
+                            <label for=""
+                                class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Name</label>
+                        </div>
+                        {{-- email input --}}
+                        <div class="relative mt-10">
+                            <input type="email" name="email"
+                                class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
+                                placeholder=" " required value="{{ old('email') }}"">
+                            <label for=""
+                                class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
+                        </div>
+                        {{-- email error message --}}
+                        @if (Session::has('error_seller'))
+                            @error('email')
+                                <small class="text-red-500 font-semibold">{{ $message }}</small>
+                            @enderror
+                        @endif
+                        {{--  phone number input --}}
+                        <div class="relative mt-10">
+                            <input type="text" name="phone_number"
+                                class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
+                                placeholder=" " required value="{{ old('phone_number') }}">
+                            <label for=""
+                                class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Phone
+                                Number</label>
+                        </div>
+                        {{-- phone number error message --}}
+                        @if (Session::has('error_seller'))
+                            @error('phone_number')
+                                <small class="text-red-500 font-semibold">{{ $message }}</small>
+                            @enderror
+                        @endif
+                        {{-- password input --}}
+                        <div class="relative mt-10">
+                            <input type="password" name="password"
+                                class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
+                                placeholder=" " required value="{{ old('password') }}">
+                            <label for=""
+                                class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
+                            <button onclick="togglePassword(this)" type="button" class="absolute top-3 right-3"><img
+                                    src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
+                        </div>
+                        {{-- password error message --}}
+                        @if (Session::has('error_seller'))
+                            @error('password')
+                                <small class="text-red-500 font-semibold">{{ $message }}</small>
+                            @enderror
+                        @endif
+                        {{-- upload license --}}
+                        <h1 class=" mt-10 text-center font-medium text-text">Upload License for validation</h1>
+                        <div class="flex items-center justify-center w-full">
 
+                            <label for="dropzone-file"
+                                class="flex relative overflow-hidden flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to
+                                            upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX.
+                                        800x400px)</p>
 
-                {{-- seller signup form --}}
-                <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST"
-                    class="px-4 py-7" enctype="multipart/form-data">
+                                </div>
+                                <img id="preview" src="" class="absolute" alt="...">
+                                <input id="dropzone-file" onchange="uploadFile(this)" type="file" name="license"
+                                    class="hidden" />
+                            </label>
 
-                    @csrf
-                    {{-- name input --}}
-                    <div class="relative">
-                        <input type="text" name="name"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" " required value="{{ old('name') }}">
-                        <label for=""
-                            class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Name</label>
-                    </div>
-                    {{-- email input --}}
-                    <div class="relative mt-10">
-                        <input type="email" name="email"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" " required value="{{ old('email') }}"">
-                        <label for=""
-                            class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
-                    </div>
-                    {{-- email error message --}}
-                    @if (Session::has('error_seller'))
-                        @error('email')
-                            <small class="text-red-500 font-semibold">{{ $message }}</small>
-                        @enderror
-                    @endif
-                    {{--  phone number input --}}
-                    <div class="relative mt-10">
-                        <input type="text" name="phone_number"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" " required value="{{ old('phone_number') }}">
-                        <label for=""
-                            class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Phone
-                            Number</label>
-                    </div>
-                    {{-- phone number error message --}}
-                    @if (Session::has('error_seller'))
-                        @error('phone_number')
-                            <small class="text-red-500 font-semibold">{{ $message }}</small>
-                        @enderror
-                    @endif
-                    {{-- password input --}}
-                    <div class="relative mt-10">
-                        <input type="password" name="password"
-                            class="border-b outline-none border-text w-full pt-3 peer focus:border-b-2"
-                            placeholder=" " required value="{{ old('password') }}">
-                        <label for=""
-                            class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
-                    </div>
-                     {{-- password error message --}}
-                    @if (Session::has('error_seller'))
-                        @error('password')
-                            <small class="text-red-500 font-semibold">{{ $message }}</small>
-                        @enderror
-                    @endif
-                    {{-- upload license --}}
-                    <h1 class=" mt-10 text-center font-medium text-text">Upload License for validation</h1>
-                    <div class="flex items-center justify-center w-full">
+                        </div>
+                        {{-- lincense validation --}}
+                        @if (Session::has('error_seller'))
+                            @error('license')
+                                <small class="text-red-500 font-semibold">{{ $message }}</small>
+                            @enderror
+                        @endif
+                        {{-- privacy and terms and condition input --}}
+                        <div class="relative mt-10">
+                            <input type="checkbox" required value="example">
+                            <label class="text-sm">
+                                I have read and agree to the <a href="/privacy-policy"
+                                    class="text-blue-500 underline">Privacy Policy</a> and <a
+                                    href="/terms_and_conditions" class="text-blue-500 underline">Terms and
+                                    Conditions</a>
+                            </label>
+                        </div>
+                        {{-- create button --}}
+                        <div class="relative mt-7">
+                            <button class="text-text bg-button px-2 w-full py-2 font-medium">Create Account</button>
 
-                        <label for="dropzone-file"
-                            class="flex relative overflow-hidden flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to
-                                        upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX.
-                                    800x400px)</p>
-
-                            </div>
-                            <img id="preview" src="" class="absolute" alt="...">
-                            <input id="dropzone-file" onchange="uploadFile(this)" type="file" name="license"
-                                class="hidden" />
-                        </label>
-
-                    </div>
-                    {{-- lincense validation --}}
-                    @if (Session::has('error_seller'))
-                        @error('license')
-                            <small class="text-red-500 font-semibold">{{ $message }}</small>
-                        @enderror
-                    @endif
-                    {{-- privacy and terms and condition input --}}
-                    <div class="relative mt-10">
-                        <input type="checkbox" required value="example">
-                        <label class="text-sm">
-                            I have read and agree to the <a href="/privacy-policy"
-                                class="text-blue-500 underline">Privacy Policy</a> and <a href="/terms_and_conditions"
-                                class="text-blue-500 underline">Terms and Conditions</a>
-                        </label>
-                    </div>
-                    {{-- create button --}}
-                    <div class="relative mt-7">
-                        <button class="text-text bg-button px-2 w-full py-2 font-medium">Create Account</button>
-
-                    </div>
-                </form>
+                        </div>
+                    </form>
                 @endif
             </div>
         </div>
@@ -471,7 +483,7 @@
 
     {{-- agent customer --}}
     <div id="modalAgent"
-        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center py-[5rem] max-h-screen px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center animate-in fade-in  duration-500 py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -482,7 +494,7 @@
             </div>
             {{-- modal body --}}
             <div>
-                 {{-- alert container makikita to sa /resources/views/components --}}
+                {{-- alert container makikita to sa /resources/views/components --}}
                 @if (Session::has('error_agent'))
                     <x-alert />
                 @endif
@@ -551,6 +563,8 @@
                             placeholder=" " required value="{{ old('password') }}">
                         <label for=""
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Password</label>
+                        <button onclick="togglePassword(this)" type="button" class="absolute top-3 right-3"><img
+                                src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
                     </div>
                     {{-- password error message --}}
                     @if (Session::has('error_agent'))
@@ -559,7 +573,7 @@
                         @enderror
                     @endif
 
-                     {{-- upload license --}}
+                    {{-- upload license --}}
                     <h1 class=" mt-10 text-center font-medium text-text">Upload License for validation</h1>
                     <div class="flex items-center justify-center w-full">
 
@@ -591,7 +605,7 @@
                         @enderror
                     @endif
 
-                     {{-- privacy and terms and condition input --}}
+                    {{-- privacy and terms and condition input --}}
                     <div class="relative mt-10">
                         <input type="checkbox" required value="example">
                         <label class="text-sm">

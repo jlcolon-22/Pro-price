@@ -81,7 +81,7 @@ class FrontendController extends Controller
             'name' => $request->name,
             'message' => $request->message,
         ];
-        Mail::to('xxdekuxxweak@gmail.com')->send(new ContactMail($data));
+        Mail::to('proprice38@gmail.com')->send(new ContactMail($data));
         Session::flash('success_contact', 'info');
         return back()->with('success', 'Submited Successfully!');
     }
@@ -155,9 +155,12 @@ class FrontendController extends Controller
     {
 
 
-        $property = Property::with('photos', 'agentInfo','amenities')->find($id->id);
+        $property = Property::with('photos', 'agentInfo','amenities','sellerInfo')->find($id->id);
         $type = 'seller';
-
+        if(Auth::guard('agent')->check())
+        {
+            $type = 'agent';
+        }
 
         $bookmark = false;
         $appointment = [

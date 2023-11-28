@@ -8,7 +8,7 @@
     {{-- header --}}
     <x-buyer.header />
 
-    <section class="container mx-auto py-10">
+    <section class="container mx-auto py-10 px-3 md:px-0">
         <div class="sm:flex items-start max-w-screen-xl">
             {{-- image --}}
             <div class="sm:w-1/2 ">

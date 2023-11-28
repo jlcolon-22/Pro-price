@@ -75,11 +75,11 @@
             </form>
         </div>
         {{-- property item --}}
-        <div class="grid  md:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
+        <div class="grid  md:grid-cols-2 lg:grid-cols-3 gap-10 py-10" id="projectContainer">
 
             {{-- fetch all approved property with pagination --}}
             @forelse ($properties as $property)
-                <div class="bg-body border  h-fit rounded ">
+                <div class="bg-body border  h-fit rounded opacity-0">
                     <div class="p-3">
                         <img src="{{ asset($property->photo?->photo) }}" loading="lazy" class="h-64 w-full object-cover"
                             alt="">
@@ -132,5 +132,25 @@
             document.querySelector('#currentPrice').innerHTML = '₱'+price.toLocaleString('en-US')
 
         }
+        const projectContainer = document.querySelector('#projectContainer');
+
+const observerProject = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            console.log(entry.target)
+            // ,' fade-in',' zoom-in ','duration-1000'
+            entry.target.classList.remove('opacity-0')
+            entry.target.classList.add('animate-in')
+            entry.target.classList.add('fade-in')
+            entry.target.classList.add('zoom-in')
+            entry.target.classList.add('delay-500')
+            entry.target.classList.add('duration-1000')
+
+        }
+    });
+})
+for (const child of projectContainer.children) {
+    observerProject.observe(child);
+}
     </script>
 @endsection

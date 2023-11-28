@@ -79,9 +79,13 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/admin/login', 'admin_login_post')->name('admin_login_post');
     Route::get('/admin/logout', 'admin_logout')->name('admin_logout');
     Route::get('/auth/verify/{email}/{type}', 'verify_email')->name('verify_email');
+    Route::get('/auth/forgot_password', 'forgot_password')->name('forgot_password');
+    Route::post('/auth/forgot_password', 'send_forgot_password')->name('send_forgot_password');
+    Route::get('/auth/change_password/{email}/{type}', 'change_password')->name('change_password');
+    Route::post('/auth/change_password/{email}/{type}', 'update_change_password')->name('update_change_password');
 });
 
-Route::controller(SellerController::class)->group(function () {
+Route::middleware(['seller.only'])->controller(SellerController::class)->group(function () {
 
     Route::get('/seller/manage_properties', 'manage_properties')->name('seller_manage_properties');
     Route::get('/seller/property/add', 'add_property')->name('seller_add_property');
@@ -99,7 +103,7 @@ Route::controller(SellerController::class)->group(function () {
     Route::get('/seller/feedback/{id}/delete', 'seller_delete_feedback')->name('seller_delete_feedback');
 });
 
-Route::controller(BuyerController::class)->group(function () {
+Route::middleware(['buyer.only'])->controller(BuyerController::class)->group(function () {
 
     Route::get('/buyer/bookmark/{id}', 'buyer_add_bookmark')->name('buyer_add_bookmark');
     Route::get('/buyer/bookmarks', 'buyer_bookmarks')->name('buyer_bookmarks');
@@ -114,7 +118,7 @@ Route::controller(BuyerController::class)->group(function () {
     Route::get('/buyer/feedback/{id}/delete', 'buyer_delete_feedback')->name('buyer_delete_feedback');
 });
 
-Route::controller(AgentController::class)->group(function () {
+Route::middleware(['agent.only'])->controller(AgentController::class)->group(function () {
     Route::get('/agent/account', 'agent_account')->name('agent_account');
     Route::get('/agent/appointment', 'agent_appointment')->name('agent_appointment');
     Route::get('/agent/assign_propery', 'agent_assign_propery')->name('agent_assign_propery');
@@ -127,7 +131,7 @@ Route::controller(AgentController::class)->group(function () {
     Route::post('/agent/feedback', 'agent_add_feedback')->name('agent_add_feedback');
     Route::get('/agent/feedback/{id}/delete', 'agent_delete_feedback')->name('agent_delete_feedback');
 });
-Route::controller(AdminController::class)->group(function () {
+Route::middleware(['admin.only'])->controller(AdminController::class)->group(function () {
     Route::get('/admin/homepage', 'homepage')->name('admin_homepage');
 
     Route::get('/admin/buyer_account', 'buyer_account')->name('admin_buyer_account');
@@ -151,4 +155,5 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/property/assign/{agent}/{property}', 'property_assign')->name('admin_property_assign');
 
     Route::get('/admin/feedback','admin_feedback')->name('admin_feedback');
+    Route::get('/admin/feedback/{id}/delete','admin_feedback_delete')->name('admin_feedback_delete');
 });

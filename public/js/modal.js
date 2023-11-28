@@ -104,3 +104,26 @@ function toggleNavbar()
     navbar.classList.toggle('hidden');
     navbar.classList.toggle('grid');
 }
+
+// toggle password
+function togglePassword(e)
+{
+
+    if(e.closest('div').children[0].type == 'password')
+    {
+        e.closest('div').children[0].type = 'text';
+        e.children[0].src = '/icons/eye.svg'
+    }else{
+        e.closest('div').children[0].type = 'password';
+
+        e.children[0].src = '/icons/eye-off.svg'
+    }
+}
+
+// loading
+function changeText(e)
+{
+    e.classList.add('cursor-wait')
+    e.classList.add('opacity-70')
+    e.innerText = 'Loading...'
+}

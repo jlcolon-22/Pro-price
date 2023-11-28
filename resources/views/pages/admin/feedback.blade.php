@@ -37,6 +37,9 @@
                             <th scope="col" class="px-6 py-3">
                                 User
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Action
+                            </th>
 
 
                         </tr>
@@ -62,7 +65,9 @@
                                     {{ $feedback->buyer->name }}
                                     @endif
                                 </td>
-
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('admin_feedback_delete',['id' =>$feedback->id]) }}" class="text-red-500 hover:underline font-semibold">Delete</a>
+                                </td>
 
 
                             </tr>

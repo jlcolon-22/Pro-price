@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function admin_feedback_delete($id)
+    {
+        Feedback::where("id", $id)->delete();
+        return back()->with("success","Deteled Successfully!");
+    }
     public function admin_feedback()
     {
         $feedbacks = Feedback::with('agent','seller','buyer')->latest()->paginate(10);
