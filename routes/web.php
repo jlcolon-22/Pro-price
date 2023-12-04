@@ -131,6 +131,7 @@ Route::middleware(['agent.only'])->controller(AgentController::class)->group(fun
     Route::post('/agent/appointment/decline/{id}', 'agent_update_appointment_decline')->name('agent_update_appointment_decline');
     Route::post('/agent/feedback', 'agent_add_feedback')->name('agent_add_feedback');
     Route::get('/agent/feedback/{id}/delete', 'agent_delete_feedback')->name('agent_delete_feedback');
+    Route::get('/agent/buyer_info/{id}','get_buyer_info')->name('get_buyer_info');
 });
 Route::middleware(['admin.only'])->controller(AdminController::class)->group(function () {
     Route::get('/admin/homepage', 'homepage')->name('admin_homepage');
@@ -151,6 +152,7 @@ Route::middleware(['admin.only'])->controller(AdminController::class)->group(fun
     Route::get('/admin/properties', 'properties')->name('admin_properties');
     Route::get('/admin/property/approve/{id}', 'property_approve')->name('admin_property_approve');
     Route::get('/admin/property/decline/{id}', 'property_decline')->name('admin_property_decline');
+    Route::get('/admin/property/delete/{id}', 'property_delete')->name('admin_property_delete');
     Route::get('/admin/property/view/{id}', 'property_view')->name('admin_property_view');
     Route::get('/admin/property/agents', 'property_agents')->name('admin_property_agents');
     Route::get('/admin/property/assign/{agent}/{property}', 'property_assign')->name('admin_property_assign');

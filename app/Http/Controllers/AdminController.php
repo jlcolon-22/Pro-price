@@ -3,15 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Amenity;
+use App\Models\Appointment;
+use App\Models\Bookmark;
 use App\Models\Buyer;
 use App\Models\Seller;
 use App\Models\Feedback;
 use App\Models\Property;
+use App\Models\PropertyPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function property_delete(Property $id)
+    {
+
+        $propertyPhoto = PropertyPhoto::where('property_id',$id->id)->get();
+        foreach($propertyPhoto as $photo)
+        {
+            $path = explode('seller/',$photo->photo);
+            unlink('storage/seller/'.$path[1]);
+            $photo->delete();
+        }
+        Appointment::where('property_id',$id->id)->delete();
+        Bookmark::where('property_id',$id->id)->delete();
+        Amenity::where('property_id',$id->id)->delete();
+        $path = explode('seller/',$id->title_copy);
+        unlink('storage/seller/'.$path[1]);
+        $id->delete();
+
+
+        return back()->with('success', 'Deleted Successfully!');
+
+    }
     public function admin_feedback_delete($id)
     {
         Feedback::where("id", $id)->delete();

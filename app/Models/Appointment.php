@@ -28,4 +28,8 @@ class Appointment extends Model
     {
         return $this->belongsTo(Agent::class,'agent_id');
     }
+    public function buyerInfo()
+    {
+        return $this->belongsTo(Buyer::class,'buyer_id');
+    }
 }

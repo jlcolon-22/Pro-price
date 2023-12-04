@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Buyer;
 use App\Models\Feedback;
 use App\Models\Property;
 use App\Models\Appointment;
@@ -16,6 +17,11 @@ use Illuminate\Validation\Rules\Password;
 
 class AgentController extends Controller
 {
+    public function get_buyer_info($id)
+    {
+        $buyer = Buyer::where('id',$id)->first();
+        return response()->json($buyer);
+    }
     public function agent_feedback()
     {
         $feedbacks = Feedback::where('user_id',Auth::guard('agent')->id())->where('user_type','agent')->latest()->paginate(7);
@@ -53,7 +59,7 @@ class AgentController extends Controller
     }
     public function agent_appointment(Request $request)
     {
-        $appointments = Appointment::query()->with('propertyDetails','agentInfo')->where('agent_id',Auth::guard('agent')->id())->latest()->paginate(10);
+        $appointments = Appointment::query()->with('propertyDetails','agentInfo','buyerInfo')->where('agent_id',Auth::guard('agent')->id())->latest()->paginate(10);
 
         return view('pages.agent.appointment',compact('appointments'));
     }

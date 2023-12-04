@@ -111,6 +111,9 @@
                                         <a href="{{ route('admin_property_decline', ['id' => $property->id]) }}"
                                             class="font-medium text-red-600 0 hover:underline">Decline</a>
                                     @endif
+                                    <a href="{{ route('admin_property_delete', ['id' => $property->id]) }}"
+                                        class="font-medium text-red-600 0 hover:underline">Delete</a>
+
                                 </td>
                             </tr>
 

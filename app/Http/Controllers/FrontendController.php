@@ -103,7 +103,7 @@ class FrontendController extends Controller
     }
     public function homepage()
     {
-        $properties = Property::with('photo')->latest()->paginate(6);
+        $properties = Property::with('photo')->latest()->paginate(3);
 
         return view("homepage", compact('properties'));
     }
@@ -128,27 +128,32 @@ class FrontendController extends Controller
     }
     public function properties(Request $request)
     {
+        $page = 15;
+        if(Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
+        {
+            $page = 3;
+        }
         if ($request->type && $request->location && $request->price) {
-            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('type', $request->type)->where('price', '>', $request->price)->latest()->paginate(15);
+            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('type', $request->type)->where('price', '>', $request->price)->latest()->paginate($page);
             return view("pages.properties", compact('properties'));
         }
 
         if ($request->type && $request->price) {
-            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->latest()->paginate(15);
+            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->latest()->paginate($page);
             return view("pages.properties", compact('properties'));
         }
         if ($request->location && $request->price) {
 
-            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('price', '>=', $request->price)->latest()->paginate(15);
+            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('price', '>=', $request->price)->latest()->paginate($page);
             return view("pages.properties", compact('properties'));
         }
         if ($request->price) {
-            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->paginate(15);
+            $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->paginate($page);
 
             return view("pages.properties", compact('properties'));
         }
 
-        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->paginate(15);
+        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->paginate($page);
         return view("pages.properties", compact('properties'));
     }
     public function view_property(Property $id)

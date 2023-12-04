@@ -157,7 +157,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Session::flash('error_buyer', 'info');
+            Session::flash('error_buyer_message', 'info');
             return back()
                 ->withErrors($validator)
                 ->withInput();
@@ -195,7 +195,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Session::flash('error_seller', 'info');
+            Session::flash('error_seller_message', 'info');
             return back()
                 ->withErrors($validator)
                 ->withInput();
@@ -241,7 +241,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Session::flash('error_agent', 'info');
+            Session::flash('error_agent_message', 'info');
             return back()
                 ->withErrors($validator)
                 ->withInput();

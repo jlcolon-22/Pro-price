@@ -39,7 +39,7 @@
                                 {{ app('request')->input('type') == 'Single Attached' ? 'checked' : '' }}>Single Attached
                         </div>
                     </div>
-                    <div class="mt-2">
+                    {{-- <div class="mt-2">
                         <h3 class="text-text">Location</h3>
 
                         <div class="flex gap-x-2">
@@ -54,11 +54,11 @@
                             <input type="radio" name="location" value="Binangonan"
                                 {{ app('request')->input('location') == 'Binangonan' ? 'checked' : '' }}>Binangonan
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="relative my-6">
-                    <label for="labels-range-input" class="">Labels range(<span id="currentPrice">₱{{ app('request')->input('price') ? number_format(app('request')->input('price')) : '50000' }}</span>  )</label>
+                    <label for="labels-range-input" class="">Price Range (<span id="currentPrice">₱{{ app('request')->input('price') ? number_format(app('request')->input('price')) : '50000' }}</span>  )</label>
                     <input id="labels-range-input" name="price" onchange="searchPrice(this)" type="range" value="{{ app('request')->input('price') ? app('request')->input('price') : '50000' }}" min="50000" max="100000000"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
                     <span class="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">Min (₱ 50k)</span>
@@ -104,6 +104,16 @@
             @empty
             <h1>No Property found....</h1>
             @endforelse
+            @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
+
+
+           @else
+           <div class="bg-gray-100 border flex justify-center items-center rounded opacity-0 h-full">
+            <h1><button type="button" onclick="modalLoginToggle()" class="text-blue-500 font-semibold">Log in</button> to see more property.</h1>
+        </div>
+
+            @endif
+
 
 
 

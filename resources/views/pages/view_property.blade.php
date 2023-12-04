@@ -259,75 +259,74 @@
                         @if (Auth::guard('buyer')->check())
                             @if (!!$appointment['status'])
                                 @if ($appointment->status == 1)
-                                <button onclick="ratingContainerToggle()"
-                                class="underline text-blue-500 cursor-pointer">Rate
-                                Agent</button>
-
+                                    <button onclick="ratingContainerToggle()"
+                                        class="underline text-blue-500 cursor-pointer">Rate
+                                        Agent</button>
                                 @endif
                             @endif
 
-                            @endif
                         @endif
-                        <div class="flex items-center space-x-3 pt-3">
-                            {{-- @if ($type == 'seller') --}}
-                            {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
-                            @if (Auth::guard('buyer')->check())
-                                @if (!!$appointment['status'])
-                                    @if ($appointment->status == 1)
-                                        <a href="sms:{{ $property->agentInfo->phone_number }}"
-                                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
-                                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                            Message
-                                        </a>
-
-                                        <a href="tel:{{ $property->agentInfo->phone_number }}"
-                                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
-                                            <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
-                                            Call
-                                        </a>
-                                    @else
-                                        <a type="button"
-                                            onclick="alert('You have already submitted an appointment for this. Just check your appointment page for the status of your appointment request.')"
-                                            class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 {{ $appointment ? 'select-none cursor-not-allowed opacity-50' : '' }}">
-                                            <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                            Appointment
-                                        </a>
-                                    @endif
-                                @else
-                                    <a type="button" onclick="toggleAppointment()"
-                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
-                                        <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                        Appointment
-                                    </a>
-                                @endif
-                            @else
-                                @if (Auth::guard('seller')->check())
-                                    {{-- <a type="button" onclick="modalLoginToggle()"
-                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
-                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                           Appointment
-                       </a> --}}
-                                @elseif(Auth::guard('agent')->check())
-                                    <a href="mailto:{{ $property->sellerInfo->email }}" target="_blank"
+                    @endif
+                    <div class="flex items-center space-x-3 pt-3">
+                        {{-- @if ($type == 'seller') --}}
+                        {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
+                        @if (Auth::guard('buyer')->check())
+                            @if (!!$appointment['status'])
+                                @if ($appointment->status == 1)
+                                    <a href="sms:{{ $property->agentInfo->phone_number }}"
                                         class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
                                         <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
-                                        Email
+                                        Message
                                     </a>
 
-                                    <a href="tel:{{ $property->sellerInfo->phone_number }}" target="_blank"
+                                    <a href="tel:{{ $property->agentInfo->phone_number }}"
                                         class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
                                         <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
                                         Call
                                     </a>
                                 @else
-                                    <a type="button" onclick="modalLoginToggle()"
-                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                                    <a type="button"
+                                        onclick="alert('You have already submitted an appointment for this. Just check your appointment page for the status of your appointment request.')"
+                                        class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 {{ $appointment ? 'select-none cursor-not-allowed opacity-50' : '' }}">
                                         <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
                                         Appointment
                                     </a>
                                 @endif
+                            @else
+                                <a type="button" onclick="toggleAppointment()"
+                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                                    <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                    Appointment
+                                </a>
                             @endif
-                            {{-- @else
+                        @else
+                            @if (Auth::guard('seller')->check())
+                                {{-- <a type="button" onclick="modalLoginToggle()"
+                           class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                           <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                           Appointment
+                       </a> --}}
+                            @elseif(Auth::guard('agent')->check())
+                                <a href="mailto:{{ $property->sellerInfo->email }}" target="_blank"
+                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
+                                    <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                    Email
+                                </a>
+
+                                <a href="tel:{{ $property->sellerInfo->phone_number }}" target="_blank"
+                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button  hover:bg-yellow-500">
+                                    <img src="{{ asset('icons/phone.svg') }}" class="w-[1rem]" alt="">
+                                    Call
+                                </a>
+                            @else
+                                <a type="button" onclick="modalLoginToggle()"
+                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                                    <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
+                                    Appointment
+                                </a>
+                            @endif
+                        @endif
+                        {{-- @else
                             <a href=""
                                 class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
                                 <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
@@ -340,7 +339,7 @@
                                 Call
                             </a>
                         @endif --}}
-                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -399,6 +398,7 @@
 
                 <a href="/property/predict/{{ $property->id }}/1"
                     class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">1 year</a>
+                @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
                 <a href="/property/predict/{{ $property->id }}/2"
                     class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">2 years</a>
                 <a href="/property/predict/{{ $property->id }}/3"
@@ -417,6 +417,27 @@
                     class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">9 years</a>
                 <a href="/property/predict/{{ $property->id }}/10"
                     class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">10 years</a>
+                @else
+
+                        <a  class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed"
+                        disabled>2 years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">3
+                        years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">4
+                        years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">5
+                        years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">6
+                        years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">7
+                        years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">8
+                        year</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">9
+                        years</a>
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">10
+                        years</a>
+                @endif
 
 
 

@@ -160,7 +160,7 @@
 
     {{-- login modal --}}
     <div id="modalLogin"
-        class="fixed z-50 {{ Session::has('error_login') ? 'flex' : 'hidden' }} overflow-hidden w-full animate-in fade-in  duration-500   bg-black/60 h-screen top-0  justify-center pt-[5rem]  px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_login') || Session::has('error_buyer') || Session::has('error_seller_success') || Session::has('error_agent') ? 'flex' : 'hidden' }} overflow-hidden w-full animate-in fade-in  duration-500   bg-black/60 h-screen top-0  justify-center pt-[5rem]  px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -174,6 +174,15 @@
             <div>
                 {{-- alert container makikita to sa /resources/views/components --}}
                 @if (Session::has('error_login'))
+                    <x-alert />
+                @endif
+                @if (Session::has('error_buyer'))
+                    <x-alert />
+                @endif
+                @if (Session::has('error_seller_success'))
+                    <x-alert />
+                @endif
+                @if (Session::has('error_agent'))
                     <x-alert />
                 @endif
                 {{-- login form --}}
@@ -272,7 +281,7 @@
 
     {{-- buyer customer --}}
     <div id="modalBuyer"
-        class="fixed z-50 {{ Session::has('error_buyer') ? 'flex' : 'hidden' }}  overflow-hidden animate-in fade-in  duration-500 w-full bg-black/60 h-screen top-0  justify-center   pt-[5rem] px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_buyer_message') ? 'flex' : 'hidden' }}  overflow-hidden animate-in fade-in  duration-500 w-full bg-black/60 h-screen top-0  justify-center   pt-[5rem] px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -284,9 +293,9 @@
             {{-- modal body --}}
             <div>
                 {{-- alert container makikita to sa /resources/views/components --}}
-                @if (Session::has('error_buyer'))
+                {{-- @if (Session::has('error_buyer_message'))
                     <x-alert />
-                @endif
+                @endif --}}
                 {{-- buyer signup form --}}
                 <form action="{{ route('auth_buyer_signup') }}" method="POST" class="px-4 py-7 z-0">
                     @csrf
@@ -307,7 +316,7 @@
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
                     {{-- email error message --}}
-                    @if (Session::has('error_buyer'))
+                    @if (Session::has('error_buyer_message'))
                         @error('email')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
@@ -332,7 +341,7 @@
                                 src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
                     </div>
                     {{-- password error message --}}
-                    @if (Session::has('error_buyer'))
+                    @if (Session::has('error_buyer_message'))
                         @error('password')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
@@ -356,7 +365,7 @@
     </div>
     {{-- seller customer --}}
     <div id="modalSeller"
-        class="fixed z-50 {{ Session::has('error_seller') || Session::has('error_seller_success') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center animate-in fade-in  duration-500 py-[5rem] max-h-screen px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_seller_message') ? 'flex' : 'hidden' }} overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center animate-in fade-in  duration-500 py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -367,12 +376,10 @@
             </div>
             {{-- modal body --}}
             <div>
-                {{-- alert container makikita to sa /resources/views/components --}}
-                @if (Session::has('error_seller_success'))
-                    <x-alert />
-                @else
+
                     {{-- seller signup form --}}
-                    <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST"
+
+                <form action="{{ route('auth_seller_signup') }}" autocomplete="off" method="POST"
                         class="px-4 py-7" enctype="multipart/form-data">
 
                         @csrf
@@ -393,7 +400,7 @@
                                 class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                         </div>
                         {{-- email error message --}}
-                        @if (Session::has('error_seller'))
+                        @if (Session::has('error_seller_message'))
                             @error('email')
                                 <small class="text-red-500 font-semibold">{{ $message }}</small>
                             @enderror
@@ -408,7 +415,7 @@
                                 Number</label>
                         </div>
                         {{-- phone number error message --}}
-                        @if (Session::has('error_seller'))
+                        @if (Session::has('error_seller_message'))
                             @error('phone_number')
                                 <small class="text-red-500 font-semibold">{{ $message }}</small>
                             @enderror
@@ -424,7 +431,7 @@
                                     src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
                         </div>
                         {{-- password error message --}}
-                        @if (Session::has('error_seller'))
+                        @if (Session::has('error_seller_message'))
                             @error('password')
                                 <small class="text-red-500 font-semibold">{{ $message }}</small>
                             @enderror
@@ -455,7 +462,7 @@
 
                         </div>
                         {{-- lincense validation --}}
-                        @if (Session::has('error_seller'))
+                        @if (Session::has('error_seller_message'))
                             @error('license')
                                 <small class="text-red-500 font-semibold">{{ $message }}</small>
                             @enderror
@@ -476,14 +483,13 @@
 
                         </div>
                     </form>
-                @endif
             </div>
         </div>
     </div>
 
     {{-- agent customer --}}
     <div id="modalAgent"
-        class="fixed z-50 {{ Session::has('error_agent') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center animate-in fade-in  duration-500 py-[5rem] max-h-screen px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_agent_message') ? 'flex' : 'hidden' }}  overflow-y-auto w-full bg-black/60 h-screen top-0 left-0 justify-center animate-in fade-in  duration-500 py-[5rem] max-h-screen px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -494,10 +500,7 @@
             </div>
             {{-- modal body --}}
             <div>
-                {{-- alert container makikita to sa /resources/views/components --}}
-                @if (Session::has('error_agent'))
-                    <x-alert />
-                @endif
+
 
                 {{-- agent signup form --}}
                 <form action="{{ route('auth_agent_signup') }}" autocomplete="off" method="POST" class="px-4 py-7"
@@ -521,7 +524,7 @@
                             class="absolute -top-4 left-0 text-sm text-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-text/60 peer-focus:-top-4 peer-focus:text-text transition-all ease-in-out">Email</label>
                     </div>
                     {{-- email error message --}}
-                    @if (Session::has('error_agent'))
+                    @if (Session::has('error_agent_message'))
                         @error('email')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
@@ -536,7 +539,7 @@
                             Number</label>
                     </div>
                     {{-- phone number error message --}}
-                    @if (Session::has('error_agent'))
+                    @if (Session::has('error_agent_message'))
                         @error('phone_number')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
@@ -551,7 +554,7 @@
                             Name</label>
                     </div>
                     {{-- company name error message --}}
-                    @if (Session::has('error_agent'))
+                    @if (Session::has('error_agent_message'))
                         @error('company_name')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
@@ -567,7 +570,7 @@
                                 src="{{ asset('icons/eye-off.svg') }}" class="w-[1rem]" alt=""></button>
                     </div>
                     {{-- password error message --}}
-                    @if (Session::has('error_agent'))
+                    @if (Session::has('error_agent_message'))
                         @error('password')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
@@ -599,7 +602,7 @@
 
                     </div>
                     {{-- license error message --}}
-                    @if (Session::has('error_agent'))
+                    @if (Session::has('error_agent_message'))
                         @error('license')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror

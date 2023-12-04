@@ -106,7 +106,13 @@
         {{-- label and view all button --}}
         <div class=" flex justify-between items-center">
             <h2 class="tracking-wider text-text font-semibold text-2xl">PROPERTIES</h2>
+            @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
             <a href="/properties" class="text-blue-500 font-semibold underline">view all</a>
+            @else
+            <a onclick="modalTypeToggle()" type="button" class="text-blue-500 font-semibold underline">view all</a>
+
+            @endif
+
         </div>
         {{-- property item --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 py-10" id="projectContainer">
