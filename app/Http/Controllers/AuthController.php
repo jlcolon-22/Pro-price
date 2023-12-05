@@ -145,9 +145,9 @@ class AuthController extends Controller
     public function store_buyer(Request $request)
     {
 
-
         $validator = Validator::make($request->all(), [
             "email" => ['required', 'unique:buyers', 'unique:sellers'],
+            'goverment_id' => ['required'],
             'password' =>  ['required', Password::min(8)
                 ->mixedCase()
                 ->letters()
@@ -166,6 +166,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'url' => 'http://127.0.0.1:8000/auth/verify/' . $request->email . '/buyer'
         ];
+
         Mail::to($request->email)->send(new VerificationEmail($data));
         $sellerAccount = Buyer::create([
             "email" => $request->email,
@@ -174,7 +175,13 @@ class AuthController extends Controller
             "password" => Hash::make($request->password),
 
         ]);
-
+        if (!!$request->goverment_id) {
+            $filename = Str::uuid() . '.' . $request->goverment_id->extension();
+            $sellerAccount->update([
+                'goverment_id' => '/storage/buyer/govermentId/' . $filename
+            ]);
+            $request->goverment_id->storeAs('public/buyer/govermentId', $filename);
+        }
         Session::flash('error_buyer', 'info');
 
         return back()->with('success', ' A verification link has been sent to your email address.');

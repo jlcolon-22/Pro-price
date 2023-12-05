@@ -7,6 +7,7 @@ use App\Models\Buyer;
 use App\Models\Feedback;
 use App\Models\Property;
 use App\Models\Appointment;
+use App\Models\Report;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,8 @@ class AgentController extends Controller
             'status'=>1,
             'details'=>$request->details
         ]);
+        $report = Report::where('appointment_id',$id)->skip(1)->first();
+        $report->update(['status'=>true]);
         return back()->with("success","Updated Successfully!");
     }
     public function agent_update_appointment_decline(Request $request,$id)

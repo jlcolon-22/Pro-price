@@ -18,6 +18,7 @@ class CreateBuyersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone_number');
+            $table->string('goverment_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profile')->nullable();
             $table->string('password');

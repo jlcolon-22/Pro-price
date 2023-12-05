@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
+use Carbon\Carbon;
+use App\Models\Agent;
 use App\Models\Buyer;
+use App\Models\Rating;
+use App\Models\Report;
 use App\Models\Bookmark;
 use App\Models\Feedback;
-use App\Models\Rating;
+use App\Models\Appointment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +20,10 @@ use Illuminate\Validation\Rules\Password;
 
 class BuyerController extends Controller
 {
+    public function buyer_appointment_report($id)
+    {
+        return response()->json(Report::where('appointment_id',$id)->get());
+    }
 
     public function buyer_agent_rate($value, $agent, $property)
     {
@@ -58,12 +65,12 @@ class BuyerController extends Controller
     }
     public function buyer_appointment()
     {
-        $appointments = Appointment::query()->with('propertyDetails','agentInfo')->where('buyer_id',Auth::guard('buyer')->id())->latest()->paginate(10);
+        $appointments = Appointment::query()->with('propertyDetails','agentInfo','reports')->where('buyer_id',Auth::guard('buyer')->id())->latest()->paginate(10);
         return view('pages.buyer.appointment',compact('appointments'));
     }
     public function buyer_add_ppointment(Request $request,$property, $agent)
     {
-        Appointment::query()->create([
+        $appointment = Appointment::query()->create([
             'date'=>$request->date,
             'time'=>$request->time,
             'purpose'=>$request->purpose,
@@ -71,7 +78,45 @@ class BuyerController extends Controller
             'property_id'=>$property,
             'buyer_id'=>Auth::guard('buyer')->user()->id
         ]);
+        $agentInfo = Agent::where('id',$agent)->first();
+        Report::create([
+            'report'=>'Buyer '.Auth::guard('buyer')->user()->name.' book an appointment for this property this '.Carbon::now()->format('d-m-y'),
+            'appointment_id'=>$appointment->id,
+            'status'=>true
+        ]);
+        Report::create([
+            'report'=>'Agent '. $agentInfo->name .' confirms the appointment',
+            'appointment_id'=>$appointment->id
+        ]);
+        Report::create([
+            'report'=>'Negotiation',
+            'appointment_id'=>$appointment->id,
 
+        ]);
+        Report::create([
+            'report'=>'Gather required documents',
+            'appointment_id'=>$appointment->id
+        ]);
+        Report::create([
+            'report'=>'Confirm closing date (Contact the title company or attorney to confirm the closing date)',
+            'appointment_id'=>$appointment->id
+        ]);
+        Report::create([
+            'report'=>'Inspections and repairs',
+            'appointment_id'=>$appointment->id
+        ]);
+        Report::create([
+            'report'=>'Review and sign documents',
+            'appointment_id'=>$appointment->id
+        ]);
+        Report::create([
+            'report'=>'Final walk-through',
+            'appointment_id'=>$appointment->id
+        ]);
+        Report::create([
+            'report'=>'Finalize the deal (Exchange of keys and funds)',
+            'appointment_id'=>$appointment->id
+        ]);
         return back()->with('success','Submited Successully!');
     }
     public function buyer_update_account_password(Request $request)

@@ -32,4 +32,8 @@ class Appointment extends Model
     {
         return $this->belongsTo(Buyer::class,'buyer_id');
     }
+    public function reports()
+    {
+        return $this->hasMany(Report::class , 'appointment_id','id');
+    }
 }

@@ -28,7 +28,8 @@ class Property extends Model
         'title_copy',
         'longitude',
         'latitude',
-        'area_situation'
+        'area_situation',
+        'views'
     ];
 
     public function photo()

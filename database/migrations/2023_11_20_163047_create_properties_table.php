@@ -26,6 +26,7 @@ class CreatePropertiesTable extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->text('description');
+            $table->bigInteger('views')->nullable();
             $table->boolean('status')->default(0)->nullable();
             $table->string('type');
             $table->unsignedBigInteger('seller_id');

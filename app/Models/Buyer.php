@@ -13,6 +13,6 @@ class Buyer extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     protected $fillable = [
 
-        "name","email","phone_number","password",'profile'
+        "name","email","phone_number","password",'profile','goverment_id'
     ];
 }

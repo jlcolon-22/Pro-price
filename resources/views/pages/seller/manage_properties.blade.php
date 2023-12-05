@@ -81,7 +81,7 @@
 
             </div>
             <div class="py-2">
-                {{ $properties->links() }}
+                {{ $properties->links('pagination::tailwind') }}
             </div>
         </section>
     @endif

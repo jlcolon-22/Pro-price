@@ -9,7 +9,7 @@
     <section class="container mx-auto py-10 px-3 md:px-0">
         {{-- filter button --}}
         <div class="relative">
-            <x-alert/>
+            <x-alert />
             <button id="filterButton" onclick="showFIlter()"
                 class="border w-full md:w-[20rem] flex items-center justify-between gap-x-4 space-x-5 px-5 py-2 bg-body rounded text-gray-400">
                 Search
@@ -32,7 +32,7 @@
                         </div>
                         <div class="flex gap-x-2">
                             <input type="radio" name="type" value="Duplex"
-                                {{ app('request')->input('type') == 'Duplex'  ? 'checked' : '' }}>Duplex
+                                {{ app('request')->input('type') == 'Duplex' ? 'checked' : '' }}>Duplex
                         </div>
                         <div class="flex gap-x-2">
                             <input type="radio" name="type" value="Single Attached"
@@ -58,8 +58,12 @@
                 </div>
 
                 <div class="relative my-6">
-                    <label for="labels-range-input" class="">Price Range (<span id="currentPrice">₱{{ app('request')->input('price') ? number_format(app('request')->input('price')) : '50000' }}</span>  )</label>
-                    <input id="labels-range-input" name="price" onchange="searchPrice(this)" type="range" value="{{ app('request')->input('price') ? app('request')->input('price') : '50000' }}" min="50000" max="100000000"
+                    <label for="labels-range-input" class="">Price Range (<span
+                            id="currentPrice">₱{{ app('request')->input('price') ? number_format(app('request')->input('price')) : '50000' }}</span>
+                        )</label>
+                    <input id="labels-range-input" name="price" onchange="searchPrice(this)" type="range"
+                        value="{{ app('request')->input('price') ? app('request')->input('price') : '50000' }}"
+                        min="50000" max="100000000"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
                     <span class="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">Min (₱ 50k)</span>
 
@@ -70,7 +74,8 @@
 
                 <div class="mt-4 grid space-y-1">
                     <button type="submit" class="bg-button px-5 py-2 w-full text-text">Submit</button>
-                    <a href="/properties" type="button" class="bg-gray-300 px-5 py-2 w-full text-center text-text">Clear</a>
+                    <a href="/properties" type="button"
+                        class="bg-gray-300 px-5 py-2 w-full text-center text-text">Clear</a>
                 </div>
             </form>
         </div>
@@ -101,18 +106,17 @@
                         </a>
                     </div>
                 </div>
+                @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
+                @else
+                    <div class="bg-gray-100 border flex justify-center items-center rounded opacity-0 h-full">
+                        <h1><button type="button" onclick="modalLoginToggle()" class="text-blue-500 font-semibold">Log
+                                in</button> to see more property.</h1>
+                    </div>
+                @endif
             @empty
-            <h1>No Property found....</h1>
+                <h1>No Property found....</h1>
             @endforelse
-            @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
 
-
-           @else
-           <div class="bg-gray-100 border flex justify-center items-center rounded opacity-0 h-full">
-            <h1><button type="button" onclick="modalLoginToggle()" class="text-blue-500 font-semibold">Log in</button> to see more property.</h1>
-        </div>
-
-            @endif
 
 
 
@@ -135,32 +139,32 @@
         function showFIlter() {
             filterForm.classList.toggle('hidden');
         }
-        function searchPrice(e)
-        {
+
+        function searchPrice(e) {
 
             const price = parseFloat(e.value)
-            document.querySelector('#currentPrice').innerHTML = '₱'+price.toLocaleString('en-US')
+            document.querySelector('#currentPrice').innerHTML = '₱' + price.toLocaleString('en-US')
 
         }
         const projectContainer = document.querySelector('#projectContainer');
 
-const observerProject = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            console.log(entry.target)
-            // ,' fade-in',' zoom-in ','duration-1000'
-            entry.target.classList.remove('opacity-0')
-            entry.target.classList.add('animate-in')
-            entry.target.classList.add('fade-in')
-            entry.target.classList.add('zoom-in')
-            entry.target.classList.add('delay-500')
-            entry.target.classList.add('duration-1000')
+        const observerProject = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    console.log(entry.target)
+                    // ,' fade-in',' zoom-in ','duration-1000'
+                    entry.target.classList.remove('opacity-0')
+                    entry.target.classList.add('animate-in')
+                    entry.target.classList.add('fade-in')
+                    entry.target.classList.add('zoom-in')
+                    entry.target.classList.add('delay-500')
+                    entry.target.classList.add('duration-1000')
 
+                }
+            });
+        })
+        for (const child of projectContainer.children) {
+            observerProject.observe(child);
         }
-    });
-})
-for (const child of projectContainer.children) {
-    observerProject.observe(child);
-}
     </script>
 @endsection

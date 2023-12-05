@@ -60,6 +60,12 @@
        previewImage.src = URL.createObjectURL(e.files[0]);
 
    }
+   const previewGovId = document.querySelector('#previewGovId')
+   function uploadFileGov(e)
+   {
+    previewGovId.src = URL.createObjectURL(e.files[0]);
+
+   }
 
    function previewImageProperty(e)
    {

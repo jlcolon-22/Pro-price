@@ -281,7 +281,7 @@
 
     {{-- buyer customer --}}
     <div id="modalBuyer"
-        class="fixed z-50 {{ Session::has('error_buyer_message') ? 'flex' : 'hidden' }}  overflow-hidden animate-in fade-in  duration-500 w-full bg-black/60 h-screen top-0  justify-center   pt-[5rem] px-2 md:px-0">
+        class="fixed z-50 {{ Session::has('error_buyer_message') ? 'flex' : 'hidden' }}  overflow-y-auto animate-in fade-in  duration-500 w-full bg-black/60 h-screen top-0  justify-center   py-[5rem] px-2 md:px-0">
         <div class="bg-body h-fit w-[30rem]">
             {{-- modal header --}}
             <div class="flex justify-between items-center border-b  px-2 h-[4rem]">
@@ -297,7 +297,7 @@
                     <x-alert />
                 @endif --}}
                 {{-- buyer signup form --}}
-                <form action="{{ route('auth_buyer_signup') }}" method="POST" class="px-4 py-7 z-0">
+                <form action="{{ route('auth_buyer_signup') }}" method="POST" class="px-4 py-7 z-0" enctype="multipart/form-data">
                     @csrf
                     {{-- name input --}}
                     <div class="relative">
@@ -343,6 +343,37 @@
                     {{-- password error message --}}
                     @if (Session::has('error_buyer_message'))
                         @error('password')
+                            <small class="text-red-500 font-semibold">{{ $message }}</small>
+                        @enderror
+                    @endif
+                    {{-- upload license --}}
+                    <h1 class=" mt-10 text-center font-medium text-text">Upload Government ID</h1>
+                    <div class="flex items-center justify-center w-full">
+
+                        <label for="dropzone-govId"
+                            class="flex relative overflow-hidden flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to
+                                        upload</span> or drag and drop</p>
+                                <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX.
+                                    800x400px)</p>
+
+                            </div>
+                            <img id="previewGovId" src="" class="absolute" alt="...">
+                            <input id="dropzone-govId" onchange="uploadFileGov(this)" type="file" name="goverment_id"
+                                class="hidden" />
+                        </label>
+
+                    </div>
+                    {{-- lincense validation --}}
+                    @if (Session::has('error_buyer_message'))
+                        @error('goverment_id')
                             <small class="text-red-500 font-semibold">{{ $message }}</small>
                         @enderror
                     @endif

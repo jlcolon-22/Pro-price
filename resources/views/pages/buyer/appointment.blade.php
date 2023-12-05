@@ -33,6 +33,9 @@
                             Property
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Reports
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             Details of appointment
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -58,7 +61,8 @@
                             </td>
                             <td class="px-6 py-4">
                                 @if ($appointment->status == 0)
-                                    <span class="px-2 py-2 bg-yellow-300 text-yellow-700 rounded-md text-xs">Processing</span>
+                                    <span
+                                        class="px-2 py-2 bg-yellow-300 text-yellow-700 rounded-md text-xs">Processing</span>
                                 @elseif ($appointment->status == 1)
                                     <span class="px-2 py-2 bg-green-300 text-green-700 rounded-md text-xs">Approved</span>
                                 @elseif ($appointment->status == 2)
@@ -72,6 +76,20 @@
                                 <a href="/property/view/{{ $appointment->propertyDetails->id }}"
                                     class="underline text-blue-600"> {{ $appointment->propertyDetails?->title }}</a>
                             </td>
+                            <td class="px-6 py-4 space-y-3">
+                                {{-- @foreach ($appointment->reports as $report)
+                                    @if ($loop->first)
+                                        <h1 class="whitespace-nowrap"><span
+                                                class="bg-green-500 text-white px-2 py-1 rounded-full ">{{ $loop->iteration }}</span>.
+                                            {{ $report->report }}</h1>
+                                    @else
+                                        <h1 class="whitespace-nowrap"><span
+                                                class="bg-gray-300 px-2 py-1 rounded-full ">{{ $loop->iteration }}</span>.
+                                            {{ $report->report }}</h1>
+                                    @endif
+                                @endforeach --}}
+                                <button class="text-blue-500 underline font-semibold" onclick="$.fn.showReport({{ $appointment->id }})">reports</button>
+                            </td>
                             <td class="px-6 py-4 ">
                                 @if (!!$appointment->details)
                                     <pre class="block text-left">{!! $appointment->details !!}</pre>
@@ -83,11 +101,13 @@
                             </td>
                             <td class="px-6 py-4 space-x-3 whitespace-nowrap">
                                 @if ($appointment->status == 1)
-                                    <a href="sms:{{  $appointment->agentInfo?->phone_number }}" class="text-button font-medium hover:underline ">
+                                    <a href="sms:{{ $appointment->agentInfo?->phone_number }}"
+                                        class="text-button font-medium hover:underline ">
                                         Message Agent
                                     </a>
                                     <span>|</span>
-                                    <a href="tel:{{  $appointment->agentInfo?->phone_number }}" class="text-button font-medium hover:underline">
+                                    <a href="tel:{{ $appointment->agentInfo?->phone_number }}"
+                                        class="text-button font-medium hover:underline">
 
                                         Call Agent
                                     </a>
@@ -111,6 +131,22 @@
         <div class="py-2">
             {{ $appointments->links() }}
         </div>
+
+        {{-- popup reports --}}
+        <div id="reportContainer"
+            class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center  bg-black/40">
+            <div class=" bg-white w-[40rem] relative">
+                <h1 class="px-2 py-3 shadow text-lg">Reports</h1>
+                <div class="py-5 px-3 space-y-3" id="reports">
+
+                </div>
+
+                <img onclick="closeReport()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3 cursor-pointer"
+                    alt="">
+            </div>
+
+
+        </div>
     </section>
 
     {{-- footer --}}
@@ -125,5 +161,43 @@
         function showFIlter() {
             filterForm.classList.toggle('hidden');
         }
+        const reportContainer = document.querySelector('#reportContainer');
+        const reports = document.querySelector('#reports');
+
+        function closeReport() {
+            reports.innerHTML = ''
+            reportContainer.classList.remove('flex');
+            reportContainer.classList.add('hidden');
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $.fn.showReport = function(id) {
+                $.ajax({
+                    type: "get",
+                    url: "/buyer/appointment/report/" + id,
+                    success: function(response) {
+                        var x = $('#reports');
+
+                        response.forEach((element, index) => {
+                            if (element.status) {
+                                x.append(`
+                            <h1 class="space-x-2"><span class="bg-green-500 text-white px-2 py-1 rounded-full ">${index+1}</span> <span>${element.report}</span></h1>
+                            `)
+                            } else {
+                                x.append(`
+                            <h1 class="space-x-2"><span
+                                class="bg-gray-300 px-2 py-1 rounded-full ">${index+1}</span> <span>${element.report}</span></h1>
+                            `)
+                            }
+                        });
+
+                    }
+                });
+                $('#reportContainer').removeClass('hidden');
+                $('#reportContainer').addClass('flex');
+            }
+        });
     </script>
 @endsection

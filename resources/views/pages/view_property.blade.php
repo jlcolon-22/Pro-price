@@ -271,7 +271,9 @@
                         {{-- @if ($type == 'seller') --}}
                         {{-- href="{{ route('contact_seller_property', ['id' => $property->id]) }}" --}}
                         @if (Auth::guard('buyer')->check())
-                            @if (!!$appointment['status'])
+
+                            @if ($appointment['status'] != '')
+
                                 @if ($appointment->status == 1)
                                     <a href="sms:{{ $property->agentInfo->phone_number }}"
                                         class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500">
@@ -294,7 +296,7 @@
                                 @endif
                             @else
                                 <a type="button" onclick="toggleAppointment()"
-                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500 ">
+                                    class="text-text flex gap-x-2 text-sm px-3 py-2 bg-button hover:bg-yellow-500  ">
                                     <img src="{{ asset('icons/send.svg') }}" class="w-[1rem]" alt="">
                                     Appointment
                                 </a>
@@ -399,27 +401,26 @@
                 <a href="/property/predict/{{ $property->id }}/1"
                     class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">1 year</a>
                 @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
-                <a href="/property/predict/{{ $property->id }}/2"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">2 years</a>
-                <a href="/property/predict/{{ $property->id }}/3"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">3 years</a>
-                <a href="/property/predict/{{ $property->id }}/4"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">4 years</a>
-                <a href="/property/predict/{{ $property->id }}/5"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">5 years</a>
-                <a href="/property/predict/{{ $property->id }}/6"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">6 years</a>
-                <a href="/property/predict/{{ $property->id }}/7"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">7 years</a>
-                <a href="/property/predict/{{ $property->id }}/8"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">8 year</a>
-                <a href="/property/predict/{{ $property->id }}/9"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">9 years</a>
-                <a href="/property/predict/{{ $property->id }}/10"
-                    class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">10 years</a>
+                    <a href="/property/predict/{{ $property->id }}/2"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">2 years</a>
+                    <a href="/property/predict/{{ $property->id }}/3"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">3 years</a>
+                    <a href="/property/predict/{{ $property->id }}/4"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">4 years</a>
+                    <a href="/property/predict/{{ $property->id }}/5"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">5 years</a>
+                    <a href="/property/predict/{{ $property->id }}/6"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">6 years</a>
+                    <a href="/property/predict/{{ $property->id }}/7"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">7 years</a>
+                    <a href="/property/predict/{{ $property->id }}/8"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">8 year</a>
+                    <a href="/property/predict/{{ $property->id }}/9"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">9 years</a>
+                    <a href="/property/predict/{{ $property->id }}/10"
+                        class="p-2 bg-button text-center text-paragraph rounded hover:opacity-70">10 years</a>
                 @else
-
-                        <a  class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed"
+                    <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed"
                         disabled>2 years</a>
                     <a class="p-2 bg-button text-center text-paragraph rounded  opacity-50 select-none cursor-not-allowed">3
                         years</a>
