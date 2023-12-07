@@ -77,17 +77,7 @@
                                     class="underline text-blue-600"> {{ $appointment->propertyDetails?->title }}</a>
                             </td>
                             <td class="px-6 py-4 space-y-3">
-                                {{-- @foreach ($appointment->reports as $report)
-                                    @if ($loop->first)
-                                        <h1 class="whitespace-nowrap"><span
-                                                class="bg-green-500 text-white px-2 py-1 rounded-full ">{{ $loop->iteration }}</span>.
-                                            {{ $report->report }}</h1>
-                                    @else
-                                        <h1 class="whitespace-nowrap"><span
-                                                class="bg-gray-300 px-2 py-1 rounded-full ">{{ $loop->iteration }}</span>.
-                                            {{ $report->report }}</h1>
-                                    @endif
-                                @endforeach --}}
+
                                 <button class="text-blue-500 underline font-semibold" onclick="$.fn.showReport({{ $appointment->id }})">reports</button>
                             </td>
                             <td class="px-6 py-4 ">

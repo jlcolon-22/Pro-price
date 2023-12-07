@@ -18,6 +18,15 @@ use Illuminate\Validation\Rules\Password;
 
 class AgentController extends Controller
 {
+    public function agent_appointment_report_check(Report $id)
+    {
+        $id->update(['status' => true]);
+        return response()->json(null,200);
+    }
+    public function agent_appointment_report($id)
+    {
+        return response()->json(Report::where('appointment_id',$id)->get());
+    }
     public function get_buyer_info($id)
     {
         $buyer = Buyer::where('id',$id)->first();

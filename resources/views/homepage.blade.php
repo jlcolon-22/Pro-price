@@ -50,8 +50,8 @@
                 empowerment, shaping a seamless journey towards your dream property.
             </p>
             <div class="mt-4">
-                <a href="/properties"
-                    class="px-5 py-3 text-lg tracking-wider text-white bg-button rounded-lg md:px-8 hover:bg-button group"><span>Get
+                <a type="button" onclick="modalLoginToggle()"
+                    class="px-5 py-3 text-lg tracking-wider cursor-pointer text-white bg-button rounded-lg md:px-8 hover:bg-button group"><span>Get
                         Started</span> </a>
             </div>
         </div>

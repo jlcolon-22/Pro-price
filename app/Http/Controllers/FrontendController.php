@@ -18,19 +18,17 @@ use Illuminate\Support\Facades\Session;
 
 class FrontendController extends Controller
 {
-    public function predict_property($id , $number)
+    public function predict_property($id, $number)
     {
 
         $percent = 3.4;
 
         // get propery value
         $property = Property::with('photo')->find($id);
-        if($property->area_situation == 'flood_prone_area')
-        {
+        if ($property->area_situation == 'flood_prone_area') {
             $percent = 2.4;
         }
-        if($property->area_situation == 'landslide')
-        {
+        if ($property->area_situation == 'landslide') {
             $percent = 1.4;
         }
         $csv = Reader::createFromPath(public_path('antipolo.csv'));
@@ -39,7 +37,7 @@ class FrontendController extends Controller
         $samples = [];
         $targets = [];
         foreach ($data as $row) {
-            $samples[] = [(float) $row['Price (PHP)'], (int) $row['Lot Area (sqm)'] , (int) $row['Floor Area (sqm)'] ,  (int) $row['Number of Floors']];
+            $samples[] = [(float) $row['Price (PHP)'], (int) $row['Lot Area (sqm)'], (int) $row['Floor Area (sqm)'],  (int) $row['Number of Floors']];
             $targets[] = (float) $row['Price (PHP)'];
         }
         // dd((int)$property->price);
@@ -53,7 +51,7 @@ class FrontendController extends Controller
         $yers = [];
         for ($i = 1; $i <= (int)$number; $i++) {
 
-            $prediction = $regression->predict([ [ (float)$curentPrice,(int)$property->land_size, (int)$property->floor_area, (int)$property->floor_number]]);
+            $prediction = $regression->predict([[(float)$curentPrice, (int)$property->land_size, (int)$property->floor_area, (int)$property->floor_number]]);
 
             $yers[] = $current_year + $i;
             $future_predictions[] = [
@@ -61,7 +59,6 @@ class FrontendController extends Controller
                 'prediction' => isset($prediction[0]) ? ($prediction[0] * ($percent / 100)) + $prediction[0] : null,
             ];
             $curentPrice = isset($prediction[0]) ? ($prediction[0] * ($percent  / 100)) + $prediction[0] : (float)$property->price;
-
         }
 
         // 222222
@@ -72,7 +69,7 @@ class FrontendController extends Controller
 
 
         $try = 'ss';
-        return view("pages.predict",compact('future_predictions','changePercent','property','try'));
+        return view("pages.predict", compact('future_predictions', 'changePercent', 'property', 'try'));
     }
     public function send_contact(Request $request)
     {
@@ -129,17 +126,43 @@ class FrontendController extends Controller
     public function properties(Request $request)
     {
         $page = 15;
-        if(Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
-        {
+        if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check()) {
             $page = 3;
         }
+
         if ($request->type && $request->location && $request->price) {
             $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('type', $request->type)->where('price', '>', $request->price)->latest()->paginate($page);
+            if ($request->sortby) {
+                if ($request->sortby == 'price_low_to_high') {
+
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('type', $request->type)->where('price', '>', $request->price)->orderBy('price', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                } elseif ($request->sortby == 'price_high_to_low') {
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'desc')->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                } else {
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                }
+            }
             return view("pages.properties", compact('properties'));
         }
 
         if ($request->type && $request->price) {
             $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->latest()->paginate($page);
+            if ($request->sortby) {
+                if ($request->sortby == 'price_low_to_high') {
+
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->orderBy('price', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                } elseif ($request->sortby == 'price_high_to_low') {
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->orderBy('price', 'desc')->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                } else {
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                }
+            }
             return view("pages.properties", compact('properties'));
         }
         if ($request->location && $request->price) {
@@ -149,10 +172,34 @@ class FrontendController extends Controller
         }
         if ($request->price) {
             $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->paginate($page);
+            if ($request->sortby) {
+                if ($request->sortby == 'price_low_to_high') {
 
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->orderBy('price','asc')->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                } elseif ($request->sortby == 'price_high_to_low') {
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->orderBy('price','desc')->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                } else {
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->paginate($page);
+                    return view("pages.properties", compact('properties'));
+                }
+            }
             return view("pages.properties", compact('properties'));
         }
+        if ($request->sortby) {
+            if ($request->sortby == 'price_low_to_high') {
 
+                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'asc')->paginate($page);
+                return view("pages.properties", compact('properties'));
+            } elseif ($request->sortby == 'price_high_to_low') {
+                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'desc')->paginate($page);
+                return view("pages.properties", compact('properties'));
+            } else {
+                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->paginate($page);
+                return view("pages.properties", compact('properties'));
+            }
+        }
         $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->paginate($page);
         return view("pages.properties", compact('properties'));
     }
@@ -160,13 +207,11 @@ class FrontendController extends Controller
     {
 
 
-        $property = Property::with('photos','amenities','sellerInfo')->with('agentInfo',function($q)
-        {
+        $property = Property::with('photos', 'amenities', 'sellerInfo')->with('agentInfo', function ($q) {
             $q->with('getRating');
         })->find($id->id);
         $type = 'seller';
-        if(Auth::guard('agent')->check())
-        {
+        if (Auth::guard('agent')->check()) {
             $type = 'agent';
         }
 

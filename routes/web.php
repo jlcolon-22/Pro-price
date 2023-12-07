@@ -133,6 +133,8 @@ Route::middleware(['agent.only'])->controller(AgentController::class)->group(fun
     Route::post('/agent/feedback', 'agent_add_feedback')->name('agent_add_feedback');
     Route::get('/agent/feedback/{id}/delete', 'agent_delete_feedback')->name('agent_delete_feedback');
     Route::get('/agent/buyer_info/{id}','get_buyer_info')->name('get_buyer_info');
+    Route::get('/agent/appointment/report/{id}', 'agent_appointment_report')->name('agent_appointment_report');
+    Route::get('/agent/appointment/report/check/{id}', 'agent_appointment_report_check')->name('agent_appointment_report_check');
 });
 Route::middleware(['admin.only'])->controller(AdminController::class)->group(function () {
     Route::get('/admin/homepage', 'homepage')->name('admin_homepage');
