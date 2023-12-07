@@ -29,7 +29,8 @@ class Property extends Model
         'longitude',
         'latitude',
         'area_situation',
-        'views'
+        'view',
+        'closed_date'
     ];
 
     public function photo()
@@ -53,4 +54,10 @@ class Property extends Model
     {
         return $this->hasMany(Amenity::class,'property_id');
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class,'property_id','id');
+    }
+
 }

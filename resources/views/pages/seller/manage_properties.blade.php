@@ -48,9 +48,9 @@
                             <img src="{{ asset('icons/local_offer_black_24dp.svg') }}" class="w-[1rem]" alt="">
                             ₱{{ number_format($property->price) }}
                         </p>
-                        <p class="px-3 flex gap-x-2 text-paragraph">
+                        <p class="px-3 flex items-start gap-x-2 text-paragraph line-clamp-2">
                             <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
-                            {{ $property->address }}
+                            <span class="line-clamp-2">{{ $property->address }}</span>
                         </p>
                         <div class="flex items-center justify-end px-3 gap-x-2 pb-3 relative">
                             <small class="absolute bottom-2 left-2">status:
@@ -60,9 +60,23 @@
                                     <span class="px-2 py-2  text-green-700 rounded-md text-xs">Approved</span>
                                 @elseif ($property->status == 2)
                                     <span class="px-2 py-2  text-red-700 rounded-md text-xs">Declined</span>
+                                @elseif ($property->status == 3)
+                                    <span class="px-2 py-2  text-green-700 rounded-md text-xs">Sold</span>
                                 @endif
                             </small>
                             {{-- href="{{ route('seller_delete_property', ['id' => $property->id]) }}" --}}
+                            @if ($property->appointments)
+                            @foreach ($property->appointments as $appointment)
+                                @if ($appointment?->reports[0]->status == true)
+
+                                <a id="sold" data-appointment="{{ $property }}"
+                                class="bg-green-500 text-white border border-green-400 rounded px-4 py-2 font-medium hover:bg-green-500 hover:text-white transition-all ease-in-out cursor-pointer">
+                                Sold
+                            </a>
+                                @endif
+                            @endforeach
+
+                            @endif
                             <a onclick="$.fn.deleteProperty({{ $property->id }})" data-ids="dsadad"
                                 class="bg-transparent border border-red-400 rounded px-4 py-2 text-red-600 font-medium hover:bg-red-500 hover:text-white transition-all ease-in-out">
                                 Delete
@@ -85,7 +99,51 @@
             </div>
         </section>
     @endif
+ {{-- popup Sold Property Report --}}
+ <div id="reportContainer"
+ class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center  bg-black/40">
+ <div class=" bg-white w-[40rem] relative">
+     <h1 class="px-2 py-3 shadow text-lg">Update Status</h1>
+     <form id="formSold" action="" method="post" class="py-5 px-3 " id="reports">
+        @csrf
+            <div class="grid grid-cols-2">
+                <h1 class="border p-2 opacity-60">Property Name</h1>
+                <h1 class="border p-2" id="propertyName">Property</h1>
+            </div>
+            <div class="grid grid-cols-2">
+                <h1 class="border p-2 opacity-60">Price</h1>
+                <h1 class="border p-2" id="price">Property</h1>
+            </div>
+            <div class="grid grid-cols-2">
+                <h1 class="border p-2 opacity-60">Buyer</h1>
+                <h1 class="border p-2" id="buyer">Property</h1>
+            </div>
+            <div class="grid grid-cols-2">
+                <h1 class="border p-2 opacity-60">Agent</h1>
+                <h1 class="border p-2" id="agent">Property</h1>
+            </div>
+            <div class="grid grid-cols-2">
+                <h1 class="border p-2 opacity-60">Closed Date<span class="text-red-600 opacity-100">*</span></h1>
+                <div class="p-2 border">
+                    <input type="date" name="date" class="border p-2 bg-gray-100 w-full" required>
+                </div>
+            </div>
+            <div class="flex justify-end gap-x-2 mt-3">
+                <button type="submit"
+                class="bg-green-500 text-white border border-green-400 rounded px-4 py-2 font-medium hover:bg-green-500 hover:text-white transition-all ease-in-out cursor-pointer">
+                Sold
+            </button>
+                <a onclick="$.fn.closeSoldModal()" type="button"
+                class="bg-red-500 text-white border border-red-400  rounded px-4 py-2 font-medium hover:bg-red-500 hover:text-white transition-all ease-in-out cursor-pointer">
+                Cancel
+            </a>
+            </div>
+     </form>
 
+     <img onclick="closeReport()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3 cursor-pointer"
+         alt="">
+ </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -131,7 +189,22 @@
                 });
             }
 
+            // show sold modal
+            $('#sold').on('click',function(){
+                var data = $(this).data('appointment');
 
+                $('#propertyName').text(data.title)
+                $('#buyer').text(data.appointments[0]?.buyer_info.name)
+                $('#agent').text(data.agent_info.name)
+                $('#price').text('₱ '+data.price)
+                $('#formSold').attr('action','/seller/property/sold/'+data.id);
+                $('#reportContainer').removeClass('hidden');
+                $('#reportContainer').addClass('flex');
+            })
+            $.fn.closeSoldModal = function () {
+                $('#reportContainer').removeClass('flex');
+                $('#reportContainer').addClass('hidden');
+              }
         });
     </script>
 @endsection

@@ -19,6 +19,15 @@ use Illuminate\Validation\Rules\Password;
 class SellerController extends Controller
 {
 
+    public function seller_sold_property(Request $request, Property $id)
+    {
+
+        $id->update([
+            'closed_date'=>$request->date,
+            'status'=>3
+        ]);
+        return back()->with('success','Updated Successfully');
+    }
     public function seller_delete_feedback($feedback)
     {
         Feedback::where('id',$feedback)->delete();
@@ -99,7 +108,12 @@ class SellerController extends Controller
 
     public function manage_properties(Request $request)
     {
-        $properties = Property::with('photo')->where('seller_id',Auth::guard('seller')->id())->latest()->paginate(9);
+        $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
+            $q->with('buyerInfo')->with('reports',function($r){
+                $r->orderBy('id','desc')->first();
+            });
+        })->where('seller_id',Auth::guard('seller')->id())->latest()->paginate(9);
+        // dd($properties);
 
         return view('pages.seller.manage_properties',compact('properties'));
     }

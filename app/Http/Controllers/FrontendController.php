@@ -206,7 +206,9 @@ class FrontendController extends Controller
     public function view_property(Property $id)
     {
 
-
+        $id->update([
+            'view'=>(int)$id->view+1
+        ]);
         $property = Property::with('photos', 'amenities', 'sellerInfo')->with('agentInfo', function ($q) {
             $q->with('getRating');
         })->find($id->id);

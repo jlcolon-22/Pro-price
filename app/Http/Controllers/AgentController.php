@@ -21,7 +21,7 @@ class AgentController extends Controller
     public function agent_appointment_report_check(Report $id)
     {
         $id->update(['status' => true]);
-        return response()->json(null,200);
+        return response()->json(['id'=>$id->appointment_id],200);
     }
     public function agent_appointment_report($id)
     {

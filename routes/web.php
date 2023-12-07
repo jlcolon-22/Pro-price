@@ -101,6 +101,7 @@ Route::middleware(['seller.only'])->controller(SellerController::class)->group(f
     Route::post('/seller/account/password', 'seller_update_account_password')->name('seller_update_account_password');
     Route::post('/seller/feedback', 'seller_add_feedback')->name('seller_add_feedback');
     Route::get('/seller/feedback/{id}/delete', 'seller_delete_feedback')->name('seller_delete_feedback');
+    Route::post('/seller/property/sold/{id}','seller_sold_property')->name('seller_sold_property');
 });
 
 Route::middleware(['buyer.only'])->controller(BuyerController::class)->group(function () {

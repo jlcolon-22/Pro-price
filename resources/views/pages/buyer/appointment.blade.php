@@ -173,12 +173,12 @@
                         response.forEach((element, index) => {
                             if (element.status) {
                                 x.append(`
-                            <h1 class="space-x-2"><span class="bg-green-500 text-white px-2 py-1 rounded-full ">${index+1}</span> <span>${element.report}</span></h1>
+                                <h1 class="space-x-2 flex items-center"><span class="flex min-w-[2rem] min-h-[2rem] mx-1 justify-center items-center rounded-full border border-gray-200 bg-green-400  text-white  hover:border-gray-300 ">${index+1}</span> <span>${element.report}</span></h1>
                             `)
                             } else {
                                 x.append(`
-                            <h1 class="space-x-2"><span
-                                class="bg-gray-300 px-2 py-1 rounded-full ">${index+1}</span> <span>${element.report}</span></h1>
+                                <h1 class="space-x-2 flex items-center"><span
+                                class="flex min-w-[2rem] min-h-[2rem] mx-1 justify-center items-center rounded-full border border-gray-200 bg-white  text-black  hover:border-gray-300 ">${index+1}</span> <span>${element.report}</span> </h1>
                             `)
                             }
                         });

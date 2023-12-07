@@ -122,8 +122,10 @@
                         <img src="{{ asset('icons/location_pin_black_24dp.svg') }}" class="w-[1rem]" alt="">
                         {{ $property->address }}
                     </p>
-                    <div class="flex items-center justify-end px-3 pb-3">
-
+                    <div class="flex items-center justify-between px-3 pb-3">
+                        <div class="flex items-center gap-x-2 text-xs">
+                            <img src="{{ asset('icons/eye.svg') }}" class="w-[1rem]" alt="">{{ $property->view }}
+                        </div>
                         <a href="{{ route('view_property', ['id' => $property->id]) }}"
                             class="bg-transparent border rounded px-4 py-2 text-text hover:bg-button transition-all ease-in-out">
                             view
