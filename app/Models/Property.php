@@ -30,7 +30,8 @@ class Property extends Model
         'latitude',
         'area_situation',
         'view',
-        'closed_date'
+        'closed_date',
+        'boosted'
     ];
 
     public function photo()

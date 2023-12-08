@@ -2,30 +2,104 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Amenity;
+use App\Models\Report;
 use App\Models\Seller;
+use App\Models\Amenity;
+use App\Models\Payment;
 use App\Models\Bookmark;
 use App\Models\Feedback;
 use App\Models\Property;
+use App\Models\Appointment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PropertyPhoto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Luigel\Paymongo\Facades\Paymongo;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class SellerController extends Controller
 {
+    public function boost_property($id)
+    {
+        // $paymentIntent = Paymongo::paymentIntent()->find('pi_enrx9Tm2EoEi69WRoc7iVFrR');
+        // dd($paymentIntent);
+        $checkout = Paymongo::checkout()->create([
+            'cancel_url' => 'http://127.0.0.1:8000/seller/manage_properties',
+            'billing' => [
+                'name' => Auth::guard('seller')->user()->name,
+                'email' => Auth::guard('seller')->user()->email,
+                'phone' => Auth::guard('seller')->user()->phone_number,
+            ],
+            // 'description' => 'My checkout session description',
+            'line_items' => [
+                [
+                    'amount' => 69900,
+                    'currency' => 'PHP',
+                    // 'description' => 'Something of a product.',
+                    // 'images' => [
+                    //     'https://images.unsplash.com/photo-1613243555988-441166d4d6fd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+                    // ],
+                    'name' => 'Property Boosting',
+                    'quantity' => 1
+                ]
+            ],
+            'payment_method_types' => [
+                'gcash',
+                'paymaya'
+            ],
+            'success_url' => 'http://127.0.0.1:8000/seller/manage_properties',
+            'statement_descriptor' => 'Pro Price',
+            'metadata' => [
+                'Key' => 'Value'
+            ]
+        ]);
+        // dd($checkout);
+        $payment_id =$checkout->payment_intent['id'];
+        $checkPayment = $checkout->payment_intent['attributes']['payments'];
+        Payment::create([
+            'status'=>'unpaid',
+            'property_id'=>$id,
+            'seller_id'=>Auth::guard('seller')->id(),
+            'payment_id'=>$payment_id,
+            'amount'=>69900
+        ]);
 
+        return redirect($checkout->checkout_url);
+    }
     public function seller_sold_property(Request $request, Property $id)
     {
+        $report = Report::where('property_id',$id->id)->where('status',1)->orderBy('id','desc')->first();
+        $appointment = Appointment::with('buyerInfo')->where('id',$report->appointment_id)->first();
+        $check = Report::where('report','Seller changes the status of the property to SOLD')->where('appointment_id',$appointment->id)->first();
+        if($check)
+        {
+            $id->update([
+                'closed_date'=>$request->date,
+                'status'=>3
+            ]);
 
+            return back()->with('success','Updated Successfully');
+        }
+        Report::create([
+            'report'=>'Seller changes the status of the property to SOLD',
+            'appointment_id'=>$report->appointment_id,
+            'property_id'=>$report->property_id,
+            'status'=>true
+        ]);
+        Report::create([
+            'report'=>"Buyer ".$appointment->buyerInfo->name." confirms that property is sold",
+            'appointment_id'=>$report->appointment_id,
+            'property_id'=>$report->property_id,
+            'status'=>false
+        ]);
         $id->update([
             'closed_date'=>$request->date,
             'status'=>3
         ]);
+
         return back()->with('success','Updated Successfully');
     }
     public function seller_delete_feedback($feedback)
@@ -108,9 +182,36 @@ class SellerController extends Controller
 
     public function manage_properties(Request $request)
     {
+        if($request->sortby == 'pending')
+        {
+            $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
+                $q->with('buyerInfo')->with('reports',function($r){
+                    $r->orderBy('id','desc')->first();
+                });
+            })->where('seller_id',Auth::guard('seller')->id())->where('status',0)->latest()->paginate(9);
+            return view('pages.seller.manage_properties',compact('properties'));
+        }
+        if($request->sortby == 'approved')
+        {
+            $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
+                $q->with('buyerInfo')->with('reports',function($r){
+                    $r->orderBy('id','desc')->first();
+                });
+            })->where('seller_id',Auth::guard('seller')->id())->where('status',1)->latest()->paginate(9);
+            return view('pages.seller.manage_properties',compact('properties'));
+        }
+        if($request->sortby == 'sold')
+        {
+            $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
+                $q->with('buyerInfo')->with('reports',function($r){
+                    $r->orderBy('id','desc')->first();
+                });
+            })->where('seller_id',Auth::guard('seller')->id())->where('status',3)->latest()->paginate(9);
+            return view('pages.seller.manage_properties',compact('properties'));
+        }
         $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
             $q->with('buyerInfo')->with('reports',function($r){
-                $r->orderBy('id','desc')->first();
+                $r->where('report','Finalize the deal (Exchange of keys and funds)')->first();
             });
         })->where('seller_id',Auth::guard('seller')->id())->latest()->paginate(9);
         // dd($properties);

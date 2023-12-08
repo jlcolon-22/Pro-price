@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "league/csv": "^9.11",
+        "luigel/laravel-paymongo": "^2.4",
         "php-ai/php-ml": "^0.10.0"
     },
     "require-dev": {

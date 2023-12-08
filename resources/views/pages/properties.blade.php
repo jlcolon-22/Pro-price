@@ -17,7 +17,7 @@
                         Sort By:
 
                     </h1>
-                    <select id="sortSelect" name="sortby" class="px-2 py-2 bg-gray-100 w-full md:w-fit">
+                    <select id="sortSelect" name="sortby" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2">
                         <option value="" >Choose...</option>
                         <option value="date_added" {{ app('request')->input('sortby') == 'date_added' ? 'selected' : '' }}>Date Added</option>
                         <optgroup label="Price">
