@@ -92,40 +92,48 @@ class BuyerController extends Controller
         Report::create([
             'report'=>'Buyer '.Auth::guard('buyer')->user()->name.' book an appointment for this property this '.Carbon::now()->format('d-m-y'),
             'appointment_id'=>$appointment->id,
-            'status'=>true
+            'status'=>true,
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Agent '. $agentInfo->name .' confirms the appointment',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+              'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Negotiation',
             'appointment_id'=>$appointment->id,
-
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Gather required documents',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Confirm closing date (Contact the title company or attorney to confirm the closing date)',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Inspections and repairs',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Review and sign documents',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Final walk-through',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+            'property_id'=>$property,
         ]);
         Report::create([
             'report'=>'Finalize the deal (Exchange of keys and funds)',
-            'appointment_id'=>$appointment->id
+            'appointment_id'=>$appointment->id,
+            'property_id'=>$property,
         ]);
         return back()->with('success','Submited Successully!');
     }

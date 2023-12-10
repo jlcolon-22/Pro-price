@@ -100,7 +100,7 @@ class FrontendController extends Controller
     }
     public function homepage()
     {
-        $properties = Property::with('photo')->latest()->paginate(3);
+        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted','asc')->paginate(3);
 
         return view("homepage", compact('properties'));
     }

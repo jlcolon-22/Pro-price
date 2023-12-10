@@ -58,11 +58,13 @@
                 {{-- fetch all seller propery with pagination --}}
                 @forelse ($properties as $property)
                     <div class="bg-body border  h-fit rounded relative">
-                       @if (!!$property->boosted)
-                       <h1 class="bg-cyan-400 px-2 py-1 text-white absolute top-0 left-0 transform -rotate-45 -translate-x-4 text-sm">Boosted</h1>
-                       @endif
-                        @if ($property->status == 0)
-                            <h1 class="bg-yellow-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Processing</h1>
+                        @if (!!$property->boosted)
+                            <h1
+                                class="bg-cyan-400 px-2 py-1 text-white absolute top-0 left-0 transform -rotate-45 -translate-x-4 text-sm">
+                                Boosted</h1>
+                        @endif
+                        @if ($property->closed_date && $property->status == 1)
+                            <h1 class="bg-violet-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Waiting for approval</h1>
                         @elseif ($property->status == 1)
                             <h1 class="bg-green-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Approved</h1>
                         @elseif ($property->status == 2)
@@ -88,19 +90,32 @@
 
                             @if ($property->appointments)
                                 @foreach ($property->appointments as $appointment)
-                                    @if ($appointment?->reports[0]->status == true)
-                                        <a id="sold" data-appointment="{{ $property }}"
-                                            class="bg-green-500 text-white border border-green-400 rounded px-4 py-2 font-medium hover:bg-green-500 hover:text-white transition-all ease-in-out cursor-pointer sold">
-                                            Sold
-                                        </a>
+                                    @if ($appointment?->reports->isEmpty() != 1)
+
+                                        @if ($appointment?->reports[8]?->status == true)
+                                            @if ($property->status == 3)
+                                                <a id="sold" data-appointment="{{ $property }}"
+                                                    class="bg-green-500 text-white border border-green-400 rounded px-4 py-2 font-medium hover:bg-green-500 hover:text-white transition-all ease-in-out cursor-pointer soldDetails">
+                                                    Sold Details
+                                                </a>
+                                            @else
+                                                <a id="sold" data-appointment="{{ $property }}"
+                                                    class="bg-green-500 text-white border border-green-400 rounded px-4 py-2 font-medium hover:bg-green-500 hover:text-white transition-all ease-in-out cursor-pointer sold">
+                                                    Sold
+                                                </a>
+                                            @endif
+                                        @endif
+                                    @else
+                                    {{ $appointment?->reports }}
                                     @endif
+
                                 @endforeach
                             @endif
                             @if ($property->boosted == null)
-                            <a id="boostBtn" data-ids="{{ $property->id }}"
-                                class="bg-transparent border border-blue-400 cursor-pointer rounded px-4 py-2 text-blue-600 font-medium hover:bg-blue-500 hover:text-white transition-all ease-in-out boostBtn">
-                                Boost
-                            </a>
+                                <a id="boostBtn" data-ids="{{ $property->id }}"
+                                    class="bg-transparent border border-blue-400 cursor-pointer rounded px-4 py-2 text-blue-600 font-medium hover:bg-blue-500 hover:text-white transition-all ease-in-out boostBtn">
+                                    Boost
+                                </a>
                             @endif
                             <a onclick="$.fn.deleteProperty({{ $property->id }})" data-ids="dsadad"
                                 class="bg-transparent border border-red-400 rounded px-4 py-2 text-red-600 font-medium hover:bg-red-500 hover:text-white transition-all ease-in-out">
@@ -126,7 +141,7 @@
     @endif
     {{-- popup Sold Property Report --}}
     <div id="reportContainer"
-        class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center  bg-black/40">
+        class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center px-2 md:px-0  bg-black/40">
         <div class=" bg-white w-[40rem] relative">
             <h1 class="px-2 py-3 shadow text-lg">Update Status</h1>
             <form id="formSold" action="" method="post" class="py-5 px-3 " id="reports">
@@ -166,7 +181,49 @@
                 </div>
             </form>
 
-            <img  onclick="$.fn.closeSoldModal()" type="button" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3 cursor-pointer"
+            <img onclick="$.fn.closeSoldModal()" type="button" src="{{ asset('icons/x.svg') }}"
+                class="absolute top-4 right-3 cursor-pointer" alt="">
+        </div>
+    </div>
+    {{-- popup Sold Property Report --}}
+    <div id="soldDetailsContainer"
+        class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center px-2 md:px-0 bg-black/40">
+        <div class=" bg-white w-[40rem] relative">
+            <h1 class="px-2 py-3 shadow text-lg">Sold Details</h1>
+            <form id="formSold" action="" method="post" class="py-5 px-3 " id="reports">
+                @csrf
+                <div class="grid grid-cols-2">
+                    <h1 class="border p-2 opacity-60">Property Name</h1>
+                    <h1 class="border p-2" id="propertyNameDetails">Property</h1>
+                </div>
+                <div class="grid grid-cols-2">
+                    <h1 class="border p-2 opacity-60">Price</h1>
+                    <h1 class="border p-2" id="priceDetails">Property</h1>
+                </div>
+                <div class="grid grid-cols-2">
+                    <h1 class="border p-2 opacity-60">Buyer</h1>
+                    <h1 class="border p-2" id="buyerDetails">Property</h1>
+                </div>
+                <div class="grid grid-cols-2">
+                    <h1 class="border p-2 opacity-60">Agent</h1>
+                    <h1 class="border p-2" id="agentDetails">Property</h1>
+                </div>
+                <div class="grid grid-cols-2">
+                    <h1 class="border p-2 opacity-60">Closed Date<span class="text-red-600 opacity-100">*</span></h1>
+                    <div class="p-2 border" id="dateDetails">
+                        2024-12-2
+                    </div>
+                </div>
+                <div class="flex justify-end gap-x-2 mt-3">
+
+                    <a onclick="$.fn.closeSoldDetailsModal()" type="button"
+                        class="bg-red-500 text-white border border-red-400  rounded px-4 py-2 font-medium hover:bg-red-500 hover:text-white transition-all ease-in-out cursor-pointer">
+                        Close
+                    </a>
+                </div>
+            </form>
+
+            <img  onclick="$.fn.closeSoldDetailsModal()" type="button" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3 cursor-pointer"
                 alt="">
         </div>
     </div>
@@ -175,10 +232,11 @@
         class="fixed top-0 left-0 w-full h-screen z-[100] hidden justify-center items-center  bg-black/40">
 
 
-        <form id="boostForm" action="" method="POST" class="relative py-6 md:mr-8 px-8 rounded-lg bg-gray-100 w-full md:w-5/12 mt-6 md:mb-0">
+        <form id="boostForm" action="" method="POST"
+            class="relative py-6 md:mr-8 px-8 rounded-lg bg-gray-100 w-full md:w-5/12 mt-6 md:mb-0">
             @csrf
-            <img onclick="$.fn.closeBoostModal()" src="{{ asset('icons/x.svg') }}" class="absolute top-4 right-3 cursor-pointer"
-                alt="">
+            <img onclick="$.fn.closeBoostModal()" src="{{ asset('icons/x.svg') }}"
+                class="absolute top-4 right-3 cursor-pointer" alt="">
             <div class="flex justify-between">
                 <div class="w-full">
                     <div class="text-blue-900 text-lg font-medium mb-2">Lifetime</div>
@@ -206,7 +264,8 @@
                     </span>
                 </li>
             </ul>
-            <button class="inline-flex items-center justify-center bg-blue-400 text-white h-10 px-5 rounded-lg text-sm font-medium leading-none transition-all duration-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-default hover:bg-blue-4 w-full"
+            <button
+                class="inline-flex items-center justify-center bg-blue-400 text-white h-10 px-5 rounded-lg text-sm font-medium leading-none transition-all duration-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-default hover:bg-blue-4 w-full"
                 type="submit">
                 <span>Get started</span>
             </button>
@@ -267,11 +326,26 @@
                 $('#propertyName').text(data.title)
                 $('#buyer').text(data.appointments[0]?.buyer_info.name)
                 $('#agent').text(data.agent_info.name)
-                $('#price').text('₱ ' + data.price)
+                $('#price').text('₱ ' + data.price.toLocaleString("en-US"))
                 $('#formSold').attr('action', '/seller/property/sold/' + data.id);
                 $('#reportContainer').removeClass('hidden');
                 $('#reportContainer').addClass('flex');
             })
+            $('.soldDetails').on('click', function() {
+                var data = $(this).data('appointment');
+
+                $('#propertyNameDetails').text(data.title)
+                $('#buyerDetails').text(data.appointments[0]?.buyer_info.name)
+                $('#agentDetails').text(data.agent_info.name)
+                $('#dateDetails').text(data.closed_date)
+                $('#priceDetails').text('₱ ' + data.price.toLocaleString("en-US"))
+                $('#soldDetailsContainer').removeClass('hidden');
+                $('#soldDetailsContainer').addClass('flex');
+            })
+            $.fn.closeSoldDetailsModal = function() {
+                $('#soldDetailsContainer').removeClass('flex');
+                $('#soldDetailsContainer').addClass('hidden');
+            }
             $.fn.closeSoldModal = function() {
                 $('#reportContainer').removeClass('flex');
                 $('#reportContainer').addClass('hidden');
@@ -284,8 +358,8 @@
                 }
             })
 
-            $('.boostBtn').on('click',function() {
-                $('#boostForm').attr('action','/seller/property/boost/'+$(this).data('ids'))
+            $('.boostBtn').on('click', function() {
+                $('#boostForm').attr('action', '/seller/property/boost/' + $(this).data('ids'))
                 console.log('click')
                 $('#boostContainer').removeClass('hidden');
                 $('#boostContainer').addClass('flex');

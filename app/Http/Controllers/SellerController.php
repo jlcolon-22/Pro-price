@@ -190,36 +190,37 @@ class SellerController extends Controller
         if($request->sortby == 'pending')
         {
             $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
-                $q->with('buyerInfo')->with('reports',function($r){
-                    $r->orderBy('id','desc')->first();
-                });
+                $q->with('buyerInfo')->with('reports');
             })->where('seller_id',Auth::guard('seller')->id())->where('status',0)->latest()->paginate(9);
             return view('pages.seller.manage_properties',compact('properties'));
         }
         if($request->sortby == 'approved')
         {
             $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
-                $q->with('buyerInfo')->with('reports',function($r){
-                    $r->orderBy('id','desc')->first();
-                });
+                $q->with('buyerInfo')->with('reports');
             })->where('seller_id',Auth::guard('seller')->id())->where('status',1)->latest()->paginate(9);
             return view('pages.seller.manage_properties',compact('properties'));
         }
         if($request->sortby == 'sold')
         {
             $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
-                $q->with('buyerInfo')->with('reports',function($r){
-                    $r->orderBy('id','desc')->first();
-                });
+                $q->with('buyerInfo')->with('reports');
             })->where('seller_id',Auth::guard('seller')->id())->where('status',3)->latest()->paginate(9);
             return view('pages.seller.manage_properties',compact('properties'));
         }
         $properties = Property::with('photo','agentInfo')->with('appointments',function($q){
-            $q->with('buyerInfo')->with('reports',function($r){
-                $r->where('report','Finalize the deal (Exchange of keys and funds)')->first();
-            });
+            $q->with('buyerInfo')->with('reports');
         })->where('seller_id',Auth::guard('seller')->id())->latest()->paginate(9);
-
+        // dd( $properties);
+//         ,function($r){
+//             $r->orderBy('id','desc')->first();
+//         }
+// ,function($r){
+//             $r->orderBy('id','desc')->first();
+//         }
+// ,function($r){
+//             $r->orderBy('id','desc')->first();
+//         }
         foreach($properties as $property)
         {
             $payment = Payment::where('property_id',$property->id)->latest()->first();
