@@ -16,4 +16,9 @@ class Payment extends Model
         'seller_id',
         'amount',
     ];
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id');
+    }
 }

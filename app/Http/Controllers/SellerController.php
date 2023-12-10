@@ -22,6 +22,11 @@ use Illuminate\Validation\Rules\Password;
 
 class SellerController extends Controller
 {
+    public function seller_payment()
+    {
+        $payments = Payment::with('property')->where('seller_id',Auth::guard('seller')->id())->latest()->paginate(10);
+        return view('pages.seller.paymeny',compact('payments'));
+    }
     public function boost_property($id)
     {
         // $paymentIntent = Paymongo::paymentIntent()->find('pi_enrx9Tm2EoEi69WRoc7iVFrR');
@@ -107,8 +112,6 @@ class SellerController extends Controller
         Feedback::where('id',$feedback)->delete();
         return redirect()->back()->with('success','Deleted Successfully!');
     }
-
-
     public function seller_feedback(Request $request)
     {
         $feedbacks = Feedback::where('user_id',Auth::guard('seller')->id())->where('user_type','seller')->latest()->paginate(7);
@@ -214,7 +217,28 @@ class SellerController extends Controller
                 $r->where('report','Finalize the deal (Exchange of keys and funds)')->first();
             });
         })->where('seller_id',Auth::guard('seller')->id())->latest()->paginate(9);
-        // dd($properties);
+
+        foreach($properties as $property)
+        {
+            $payment = Payment::where('property_id',$property->id)->latest()->first();
+            if($payment)
+            {
+                $paymentIntent = Paymongo::paymentIntent()->find($payment->payment_id);
+
+                // dd($paymentIntent->payments);
+
+
+                if(!!$paymentIntent->payments)
+                {
+                    $payment->update([
+                        'status'=>$paymentIntent->payments[0]['attributes']['status']
+                    ]);
+                    $property->update([
+                        'boosted'=>date("Y-m-d H:i:s", $paymentIntent->payments[0]['attributes']['paid_at'])
+                    ]);
+                }
+            }
+        }
 
         return view('pages.seller.manage_properties',compact('properties'));
     }

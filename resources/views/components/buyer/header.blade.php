@@ -89,6 +89,10 @@
                                     class="block px-4 py-2 hover:bg-gray-100 ">Manage Properties</a>
                             </li>
                             <li>
+                                <a href="{{ route('seller_payment') }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 ">Payments</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('seller_feedback') }}"
                                     class="block px-4 py-2 hover:bg-gray-100 ">Feedback</a>
                             </li>

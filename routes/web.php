@@ -90,6 +90,7 @@ Route::middleware(['seller.only'])->controller(SellerController::class)->group(f
     Route::get('/seller/manage_properties', 'manage_properties')->name('seller_manage_properties');
     Route::get('/seller/property/add', 'add_property')->name('seller_add_property');
     Route::get('/seller/feedback', 'seller_feedback')->name('seller_feedback');
+    Route::get('/seller/payment', 'seller_payment')->name('seller_payment');
     Route::post('/seller/property/add', 'store_property')->name('seller_store_property');
     Route::get('/seller/property/delete/{id}', 'delete_property')->name('seller_delete_property');
     Route::get('/seller/property/delete/{id}/photo', 'delete_property_photo')->name('seller_delete_property_photo');

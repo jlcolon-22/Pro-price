@@ -58,7 +58,9 @@
                 {{-- fetch all seller propery with pagination --}}
                 @forelse ($properties as $property)
                     <div class="bg-body border  h-fit rounded relative">
-
+                       @if (!!$property->boosted)
+                       <h1 class="bg-cyan-400 px-2 py-1 text-white absolute top-0 left-0 transform -rotate-45 -translate-x-4 text-sm">Boosted</h1>
+                       @endif
                         @if ($property->status == 0)
                             <h1 class="bg-yellow-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Processing</h1>
                         @elseif ($property->status == 1)
@@ -94,10 +96,12 @@
                                     @endif
                                 @endforeach
                             @endif
+                            @if ($property->boosted == null)
                             <a id="boostBtn" data-ids="{{ $property->id }}"
                                 class="bg-transparent border border-blue-400 cursor-pointer rounded px-4 py-2 text-blue-600 font-medium hover:bg-blue-500 hover:text-white transition-all ease-in-out boostBtn">
                                 Boost
                             </a>
+                            @endif
                             <a onclick="$.fn.deleteProperty({{ $property->id }})" data-ids="dsadad"
                                 class="bg-transparent border border-red-400 rounded px-4 py-2 text-red-600 font-medium hover:bg-red-500 hover:text-white transition-all ease-in-out">
                                 Delete
