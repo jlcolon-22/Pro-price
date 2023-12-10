@@ -3,19 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
-use App\Models\Amenity;
-use App\Models\Appointment;
-use App\Models\Bookmark;
 use App\Models\Buyer;
 use App\Models\Seller;
+use App\Models\Amenity;
+use App\Models\Payment;
+use App\Models\Bookmark;
 use App\Models\Feedback;
 use App\Models\Property;
-use App\Models\PropertyPhoto;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Models\PropertyPhoto;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function admin_payment()
+    {
+        $payments = Payment::with('property')->latest()->paginate(10);
+        return view('pages.admin.payments',compact('payments'));
+    }
     public function property_delete(Property $id)
     {
 

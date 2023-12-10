@@ -153,8 +153,9 @@
         }
         const reportContainer = document.querySelector('#reportContainer');
         const reports = document.querySelector('#reports');
-
+        var checkBool = false;
         function closeReport() {
+            checkBool = false;
             reports.innerHTML = ''
             reportContainer.classList.remove('flex');
             reportContainer.classList.add('hidden');
@@ -176,10 +177,18 @@
                                 <h1 class="space-x-2 flex items-center"><span class="flex min-w-[2rem] min-h-[2rem] mx-1 justify-center items-center rounded-full border border-gray-200 bg-green-400  text-white  hover:border-gray-300 ">${index+1}</span> <span>${element.report}</span></h1>
                             `)
                             } else {
-                                x.append(`
+                                if(index == 10)
+                                {
+                                    x.append(`
+                                    <h1 class="space-x-2 flex items-center"><span
+                                                class="flex min-w-[2rem] min-h-[2rem] mx-1 justify-center items-center rounded-full border border-gray-200 bg-white  text-black  hover:border-gray-300 ">${index+1}</span> <span>${element.report}</span> <button onclick="$.fn.checkReport(${element.id})" class="px-3 py-1 border border-green-400 "><img src="{{ asset('icons/check_circle_black_24dp.svg') }}" class="w-[1.5rem]" alt=""></button></h1>
+                            `)
+                                }else{
+                                    x.append(`
                                 <h1 class="space-x-2 flex items-center"><span
                                 class="flex min-w-[2rem] min-h-[2rem] mx-1 justify-center items-center rounded-full border border-gray-200 bg-white  text-black  hover:border-gray-300 ">${index+1}</span> <span>${element.report}</span> </h1>
                             `)
+                                }
                             }
                         });
 
@@ -187,6 +196,22 @@
                 });
                 $('#reportContainer').removeClass('hidden');
                 $('#reportContainer').addClass('flex');
+            }
+
+            $.fn.checkReport = function(id) {
+                $('#reports').html(' ');
+                checkBool = false;
+                $.ajax({
+                    type: "get",
+                    url: "/buyer/appointment/report/check/" + id,
+                    success: function(response) {
+                        $.fn.showReport(response.id)
+                        Swal.fire({
+                            title: "Updated Successfully!",
+                            icon: "success"
+                        });
+                    }
+                });
             }
         });
     </script>

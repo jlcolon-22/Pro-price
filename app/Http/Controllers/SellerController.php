@@ -83,9 +83,11 @@ class SellerController extends Controller
         {
             $id->update([
                 'closed_date'=>$request->date,
-                'status'=>3
+                // 'status'=>3
             ]);
-
+            $check->update([
+                'status'=>true
+            ]);
             return back()->with('success','Updated Successfully');
         }
         Report::create([
@@ -102,7 +104,7 @@ class SellerController extends Controller
         ]);
         $id->update([
             'closed_date'=>$request->date,
-            'status'=>3
+            // 'status'=>3
         ]);
 
         return back()->with('success','Updated Successfully');

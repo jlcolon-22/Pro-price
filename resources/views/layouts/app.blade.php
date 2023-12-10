@@ -51,7 +51,8 @@
 
         {{-- javascript --}}
         <script src="{{ mix('js/app.js') }}"></script>
-
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8663128251843654"
+        crossorigin="anonymous"></script>
         {{--other javascript --}}
         @yield('scripts')
     </body>

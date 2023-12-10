@@ -122,6 +122,7 @@ Route::middleware(['buyer.only'])->controller(BuyerController::class)->group(fun
     Route::get('/buyer/feedback/{id}/delete', 'buyer_delete_feedback')->name('buyer_delete_feedback');
     Route::get('/buyer/rate/{value}/{agent}/{property}', 'buyer_agent_rate')->name('buyer_agent_rate');
     Route::get('/buyer/appointment/report/{id}', 'buyer_appointment_report')->name('buyer_appointment_report');
+    Route::get('/buyer/appointment/report/check/{id}', 'buyer_appointment_report_check')->name('buyer_appointment_report_check');
 });
 
 Route::middleware(['agent.only'])->controller(AgentController::class)->group(function () {
@@ -144,6 +145,8 @@ Route::middleware(['admin.only'])->controller(AdminController::class)->group(fun
     Route::get('/admin/homepage', 'homepage')->name('admin_homepage');
 
     Route::get('/admin/buyer_account', 'buyer_account')->name('admin_buyer_account');
+
+    Route::get('/admin/payment', 'admin_payment')->name('admin_payment');
 
     Route::get('/admin/seller_account', 'seller_account')->name('admin_seller_account');
     Route::get('/admin/seller/license/download/{id}', 'download_license')->name('admin_license_download');

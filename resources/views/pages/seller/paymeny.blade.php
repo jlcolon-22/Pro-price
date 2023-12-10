@@ -24,7 +24,7 @@
                             Amount
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Status
+                            Payment Status
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Created At

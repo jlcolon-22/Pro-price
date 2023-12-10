@@ -9,6 +9,7 @@ use App\Models\Rating;
 use App\Models\Report;
 use App\Models\Bookmark;
 use App\Models\Feedback;
+use App\Models\Property;
 use App\Models\Appointment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -20,6 +21,15 @@ use Illuminate\Validation\Rules\Password;
 
 class BuyerController extends Controller
 {
+    public function buyer_appointment_report_check(Report $id)
+    {
+
+        $property = Property::where('id',$id->property_id)->update([
+            'status'=>3
+        ]);
+        $id->update(["status"=>true]);
+        return response()->json(['id'=>$id->appointment_id]);
+    }
     public function buyer_appointment_report($id)
     {
         return response()->json(Report::where('appointment_id',$id)->get());
