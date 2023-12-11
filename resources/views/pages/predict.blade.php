@@ -51,6 +51,10 @@
                 <p class="px-3 mt-10  text-paragraph">
                     The property's pricing is substantially affected by its location, strategically distant from flood and landslide-prone areas. This geographic advantage is a key factor considered by buyers and contributes to the overall value of the house. It reflects the emphasis on safety and resilience, making it an appealing investment.
                 </p>
+                @elseif ($property->area_situation == 'none')
+                <p class="px-3 mt-10  text-paragraph">
+                    Due to its distance from natural disasters, the house price is expected to increase, making it a more desirable option for buyers.
+                </p>
                 @else
                     <p class="px-3 mt-10 text-paragraph">
                         The house's pricing is notably influenced by its vulnerability to landslides, making it a critical factor in determining the property's overall cost. The potential risk of landslides adds complexity to the valuation process, with safety considerations playing a pivotal role in prospective buyers' decisions. As a result, this vulnerability significantly shapes the perceived value and marketability of the property."

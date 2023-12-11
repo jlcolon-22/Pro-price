@@ -76,11 +76,11 @@
                     </div> --}}
                         </div>
 
-                        <div class="relative my-6">
-                            <label for="labels-range-input" class="">Price Range (<span
+                        <div class="relative my-6 grid">
+                            <label for="labels-range-input" class="">Price(<span
                                     id="currentPrice">₱{{ app('request')->input('price') ? number_format(app('request')->input('price')) : '50000' }}</span>
                                 )</label>
-                            <input id="labels-range-input" name="price" onchange="searchPrice(this)" type="range"
+                            {{-- <input id="labels-range-input" name="price" onchange="searchPrice(this)" type="range"
                                 value="{{ app('request')->input('price') ? app('request')->input('price') : '50000' }}"
                                 min="50000" max="100000000"
                                 class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
@@ -88,7 +88,8 @@
                                 50k)</span>
 
                             <span class="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">Max (₱
-                                100M)</span>
+                                100M)</span> --}}
+                                <input type="number" class="px-2 py-2 bg-gray-50 border" name="price" onchange="searchPrice(this)" placeholder="Price" value="{{ app('request')->input('price') ? app('request')->input('price') : '50000' }}">
                         </div>
 
 

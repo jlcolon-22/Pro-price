@@ -109,24 +109,31 @@
 
                         </div>
                         <div class="p-4">
-                            <h1 class="text-gray-600 text-base font-semibold">Outdoor Amenities</h1>
-                            <div class="py-6  ">
 
-                                @foreach ($property->amenities as $amenity)
-                                    @if ($amenity->type == 0)
-                                        <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
-                                    @endif
-                                @endforeach
-                            </div>
+                           <h1 class="text-gray-600 text-base font-semibold">Outdoor Amenities</h1>
+                           <div class="py-6  ">
+
+                               @foreach ($property->amenities as $amenity)
+                                   @if ($amenity->type == 0)
+                                       <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
+                                   @endif
+                               @endforeach
+                           </div>
+
+
+
                             <h1 class="text-gray-600 text-base font-semibold">Indoor Amenities</h1>
                             <div class="py-6  ">
 
                                 @foreach ($property->amenities as $amenity)
                                     @if ($amenity->type == 1)
                                         <li class="text-sm appearance-none">{{ $amenity->amenity }}</li>
+
+
                                     @endif
                                 @endforeach
                             </div>
+
                         </div>
                         <h1 class="text-gray-400 text-base font-semibold">Other Description</h1>
                         <div class="text-paragraph px-3 py-6 description font-serif ">

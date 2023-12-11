@@ -19,7 +19,7 @@ class AdminController extends Controller
 {
     public function admin_payment()
     {
-        $payments = Payment::with('property')->latest()->paginate(10);
+        $payments = Payment::with('property','sellerInfo')->latest()->paginate(10);
         return view('pages.admin.payments',compact('payments'));
     }
     public function property_delete(Property $id)

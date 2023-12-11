@@ -33,6 +33,9 @@
                     Payment Status
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Seller
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Created At
                 </th>
 
@@ -59,6 +62,9 @@
                         @elseif ($payment->status == 'unpaid')
                             <span class="px-2 py-2  text-red-700 rounded-md text-xs">UNPAID</span>
                         @endif
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $payment->sellerInfo->name }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $payment->created_at }}

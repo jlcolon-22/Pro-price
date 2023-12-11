@@ -267,10 +267,10 @@ class SellerController extends Controller
             'title_copy'=>'required',
             'area_situation'=>'required',
             // 'photos.0'=>['required'],
-            'outdoor'=>['required', 'array'],
-            'outdoor.*' => ['required'],
-            'indoor'=>['required', 'array'],
-            'indoor.*' => ['required'],
+            // 'outdoor'=>['required', 'array'],
+            // 'outdoor.*' => ['required'],
+            // 'indoor'=>['required', 'array'],
+            // 'indoor.*' => ['required'],
             'photo'=>['required', 'array'],
             'photo.*' => ['required'],
 
@@ -304,18 +304,25 @@ class SellerController extends Controller
 
             ]
         );
-        foreach ($request->outdoor as $odoor) {
-            Amenity::create([
-                'property_id'=>$property->id,
-                'amenity'=>$odoor
-            ]);
+
+        if(!!$request->outdoor)
+        {
+            foreach ($request->outdoor as $odoor) {
+                Amenity::create([
+                    'property_id'=>$property->id,
+                    'amenity'=>$odoor
+                ]);
+            }
         }
-        foreach ($request->indoor as $idoor) {
-            Amenity::create([
-                'property_id'=>$property->id,
-                'amenity'=>$idoor,
-                'type'=>1
-            ]);
+        if(!!$request->indoor)
+        {
+            foreach ($request->indoor as $idoor) {
+                Amenity::create([
+                    'property_id'=>$property->id,
+                    'amenity'=>$idoor,
+                    'type'=>1
+                ]);
+            }
         }
         if(!!$request->photo)
         {
@@ -379,10 +386,10 @@ class SellerController extends Controller
 
             'area_situation'=>'required',
             // 'photos.0'=>['required'],
-            'outdoor'=>['required', 'array'],
-            'outdoor.*' => ['required'],
-            'indoor'=>['required', 'array'],
-            'indoor.*' => ['required'],
+            // 'outdoor'=>['required', 'array'],
+            // 'outdoor.*' => ['required'],
+            // 'indoor'=>['required', 'array'],
+            // 'indoor.*' => ['required'],
 
 
 
@@ -415,18 +422,24 @@ class SellerController extends Controller
             ]
         );
         Amenity::where('property_id',$property->id)->delete();
-        foreach ($request->outdoor as $odoor) {
-            Amenity::create([
-                'property_id'=>$property->id,
-                'amenity'=>$odoor
-            ]);
+        if(!!$request->outdoor)
+        {
+            foreach ($request->outdoor as $odoor) {
+                Amenity::create([
+                    'property_id'=>$property->id,
+                    'amenity'=>$odoor
+                ]);
+            }
         }
-        foreach ($request->indoor as $idoor) {
-            Amenity::create([
-                'property_id'=>$property->id,
-                'amenity'=>$idoor,
-                'type'=>1
-            ]);
+        if(!!$request->indoor)
+        {
+            foreach ($request->indoor as $idoor) {
+                Amenity::create([
+                    'property_id'=>$property->id,
+                    'amenity'=>$idoor,
+                    'type'=>1
+                ]);
+            }
         }
         if(!!$request->photo)
         {
@@ -469,6 +482,10 @@ class SellerController extends Controller
                 $photo->delete();
             }
             Bookmark::where('property_id',$property->id)->delete();
+            Appointment::where('property_id',$property->id)->delete();
+            Payment::where('property_id',$property->id)->delete();
+            Report::where('property_id',$property->id)->delete();
+            Amenity::where('property_id',$property->id)->delete();
             $property->delete();
         }
         return back()->with('success','Deleted Successfully!');

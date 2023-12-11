@@ -65,6 +65,8 @@
                         @endif
                         @if ($property->closed_date && $property->status == 1)
                             <h1 class="bg-violet-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Waiting for approval</h1>
+                        @elseif($property->status == 0)
+                            <h1 class="bg-violet-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Processing</h1>
                         @elseif ($property->status == 1)
                             <h1 class="bg-green-500 px-2 py-1 text-white absolute top-0 right-0 text-sm">Approved</h1>
                         @elseif ($property->status == 2)
