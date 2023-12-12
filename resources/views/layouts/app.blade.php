@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
+  <script src="{{ asset('vendor/smart-ads/js/smart-banner.min.js') }}"></script>
 
         <style>
             #carousel {
@@ -38,6 +38,11 @@
 
             }
 
+            .smart-banner img {
+                /* min-width: 100%; */
+                margin: 0 auto;
+                /* padding: 0px 50px; */
+            }
         </style>
 
 

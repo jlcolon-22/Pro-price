@@ -7,6 +7,8 @@
     {{-- header --}}
     <x-buyer.header />
 
+
+
     {{-- hearo section --}}
     {{-- <section class="z-0 " >
         <div class="relative w-full h-fit ">
@@ -43,7 +45,8 @@
     <div class="items-center w-10/12 grid-cols-2 mx-auto overflow-x-hidden lg:grid md:py-14 lg:py-24 xl:py-14 lg:mt-3 xl:mt-5"
         data-aos="fade-right" data-aos-duration="800">
         <div class="pr-2 md:mb-14 py-14 md:py-0">
-            <h1 class="text-3xl font-semibold text-text xl:text-5xl lg:text-3xl animate-in slide-in-from-top duration-1000"><span class="block w-full">Let Proprice be
+            <h1 class="text-3xl font-semibold text-text xl:text-5xl lg:text-3xl animate-in slide-in-from-top duration-1000">
+                <span class="block w-full">Let Proprice be
                     your compass</span> in the world of property values and trends. </h1>
             <p class="py-4 text-lg text-gray-500 2xl:py-8 md:py-6 2xl:pr-5 animate-in slide-in-from-left-72 duration-1000">
                 Join Proprice today and revolutionize the way you engage with real estate – where accuracy meets user
@@ -64,8 +67,9 @@
         </div>
     </div>
     {{-- features --}}
-    <section class="px-3 md:px-0 bg-secondary py-10">
-        <div class="container mx-auto pb-10">
+    <section class="px-3 md:px-0 bg-secondary py-10 ads-img">
+
+        <div class="container mx-auto pb-10 ">
             <h1 class="py-10 text-center text-2xl  font-semibold">Welcome to Proprice,where innovation meets your real
                 estate dreams! </h1>
             <div class="grid md:grid-cols-3 gap-5" id="featuresContainer">
@@ -99,18 +103,25 @@
 
             </div>
         </div>
+        {{-- <div class="w-fit mx-auto   bg-white relative">
+            <button onclick="closeAds(this)" class="absolute top-0 bg-gray-200 right-0 hover:opacity-70 w-fit"><img src="/icons/x.svg" alt=""></button>
+            <a href="https://play.google.com/store/apps/details?id=com.lamudi.gamoraph" target="_blank" >
+                <img src="/banner/N2vqR8eSgNQ65Hb9WUD4vhS9QgWJU5SRQ1kGSlu7.jpg" alt=""
+                crossorigin="anonymous" class="object-cover">
+            </a>
+
+        </div> --}}
     </section>
 
     {{-- properties --}}
-    <section class="container mx-auto py-10 px-3 md:px-0">
+    <section class="container mx-auto py-10 px-3 md:px-0 ads-property">
         {{-- label and view all button --}}
         <div class=" flex justify-between items-center">
             <h2 class="tracking-wider text-text font-semibold text-2xl">PROPERTIES</h2>
             @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
-            <a href="/properties" class="text-blue-500 font-semibold underline">view all</a>
+                <a href="/properties" class="text-blue-500 font-semibold underline">view all</a>
             @else
-            <a onclick="modalTypeToggle()" type="button" class="text-blue-500 font-semibold underline">view all</a>
-
+                <a onclick="modalTypeToggle()" type="button" class="text-blue-500 font-semibold underline">view all</a>
             @endif
 
         </div>
@@ -147,6 +158,22 @@
             @endforelse
 
         </div>
+        {{-- <div class="container mx-auto  px-10 py-2 bg-gray-100 relative">
+            <button onclick="closeAds(this)" class="absolute top-0 bg-gray-200 right-0 hover:opacity-70"><img src="/icons/x.svg" alt=""></button>
+            <div rel="nofollow" class="flex items-center gap-x-6 max-h-[10rem]">
+
+                <div class="-img">
+                    <img src="https://onepropertee.com/images/home-search.png" alt="OnePropertee Sellers"
+                        crossorigin="anonymous" class="max-h-[10rem]">
+                    </div>
+                <div class="-copy space-y-1">
+                    <h3 class="-header text-gray-500 text-base md:text-3xl font-medium">Ask us to find your ideal property</h3>
+                    <p class="text-sm md:text-base">Property through Pag-IBIG, flexible terms, discounts, and more!</p>
+                    <div class="-cta pt-3"><a href="https://onepropertee.com/search-preferences?location=Antipolo-Rizal&listingType=for-sale&propertyType=Houses-and-Lots" class="btn btn-highlight px-4 py-2 bg-gray-800 text-white rounded-md">Get Offers</a>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
     </section>
 
     {{-- footer makikita moto sa /resources/views/buyer --}}
@@ -171,7 +198,7 @@
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    console.log(entry.target)
+
                     // ,' fade-in',' zoom-in ','duration-1000'
                     entry.target.classList.remove('opacity-0')
                     entry.target.classList.add('animate-in')
@@ -193,7 +220,7 @@
         const observerProject = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    console.log(entry.target)
+
                     // ,' fade-in',' zoom-in ','duration-1000'
                     entry.target.classList.remove('opacity-0')
                     entry.target.classList.add('animate-in')
@@ -207,6 +234,11 @@
         })
         for (const child of projectContainer.children) {
             observerProject.observe(child);
+        }
+
+        function closeAds(e)
+        {
+            e.closest('div').classList.add('hidden')
         }
     </script>
 @endsection

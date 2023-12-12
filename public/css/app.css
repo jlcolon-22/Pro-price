@@ -784,6 +784,9 @@ video {
 .h-screen {
   height: 100vh;
 }
+.h-\[20rem\] {
+  height: 20rem;
+}
 .max-h-\[100svh\] {
   max-height: 100svh;
 }
@@ -798,6 +801,12 @@ video {
 }
 .max-h-screen {
   max-height: 100vh;
+}
+.max-h-\[20rem\] {
+  max-height: 20rem;
+}
+.max-h-\[10rem\] {
+  max-height: 10rem;
 }
 .min-h-\[100svh\] {
   min-height: 100svh;
@@ -1067,6 +1076,10 @@ video {
 .gap-y-4 {
   row-gap: 1rem;
 }
+.gap-x-6 {
+  -moz-column-gap: 1.5rem;
+       column-gap: 1.5rem;
+}
 .space-x-1 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.25rem * var(--tw-space-x-reverse));
@@ -1111,6 +1124,11 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-y-reverse: 0;
@@ -2283,6 +2301,11 @@ video {
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+
+  .md\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .md\:shadow-none {
