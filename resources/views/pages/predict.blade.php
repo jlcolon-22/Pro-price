@@ -45,7 +45,8 @@
                 </div>
                 @if ($property->area_situation == 'flood_prone_area')
                     <p class="px-3 mt-10  text-paragraph">
-                        The impact on the house price is due to its vulnerability to flooding. This makes it a crucial factor in determining the cost of the property.
+                        {{-- The impact on the house price is due to its vulnerability to flooding. This makes it a crucial factor in determining the cost of the property. --}}
+                        The house price is directly influenced by its exposure to flooding, making it a key factor in determining the property's overall cost. The level of vulnerability to floods is a critical consideration in pricing the real estate, with the associated risk and mitigation measures playing a significant role in shaping its market value. Ultimately, the potential impact of flooding is a decisive factor in assessing and pricing the property.
                     </p>
                 @elseif ($property->area_situation == 'earthquake')
                 <p class="px-3 mt-10  text-paragraph">
@@ -53,7 +54,8 @@
                 </p>
                 @elseif ($property->area_situation == 'none')
                 <p class="px-3 mt-10  text-paragraph">
-                    Due to its distance from natural disasters, the house price is expected to increase, making it a more desirable option for buyers.
+                    {{-- Due to its distance from natural disasters, the house price is expected to increase, making it a more desirable option for buyers. --}}
+                    The house is predicted to become more appealing to potential buyers due to its geographical distance from natural disasters. This advantageous location is expected to result in an increase in property value. Consequently, it is considered a secure and desirable investment option.
                 </p>
                 @else
                     <p class="px-3 mt-10 text-paragraph">
