@@ -145,9 +145,9 @@
                             <option value="" selected>Choose...</option>
                             <option value="none">None</option>
 
-                            <option value="flood_prone_area">Flood prone area</option>
-                            <option value="landslide">Landslide</option>
-                            <option value="earthquake">Earthquake</option>
+                            <option value="flood_prone_area">Flood-proof Area</option>
+                            <option value="landslide">Low Landslide Risk</option>
+                            <option value="earthquake">Earthquake Safe Zone</option>
 
                         </select>
                         <label for=""
