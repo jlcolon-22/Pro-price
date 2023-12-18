@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\VerificationEmail;
+use Luigel\Paymongo\Facades\Paymongo;
 use Phpml\Regression\LeastSquares;
 use Phpml\Math\Matrix;
 use Illuminate\Support\Facades\Route;
@@ -26,36 +27,71 @@ use League\Csv\Reader;
 */
 
 Route::get('preview', function () {
-    $csv = Reader::createFromPath(public_path('antipolo.csv'));
-    $data = $csv->setHeaderOffset(0)->getRecords();
-    $samples = [];
-    $targets = [];
-    foreach ($data as $row) {
-        $samples[] = [(float) $row['Bedroom'], (int) $row['Lot Area (sqm)']];
-        $targets[] = (float) $row['Price (PHP)'];
-    }
+//    $csv = Reader::createFromPath(public_path('antipolo.csv'));
+//    $data = $csv->setHeaderOffset(0)->getRecords();
+//    $samples = [];
+//    $targets = [];
+//    foreach ($data as $row) {
+//        $samples[] = [(float) $row['Bedroom'], (int) $row['Lot Area (sqm)']];
+//        $targets[] = (float) $row['Price (PHP)'];
+//    }
+//
+//
+//    // $samples = [[1400, 3], [1600, 3], [1700, 4], [1875, 3], [1100, 2]];
+//    // $targets = [ 1.9,  2.1, 2.3, 2.5,  1.5];
+//    $regression = new LeastSquares();
+//    $regression->train($samples, $targets);
+//    dd(
+//        $prediction = $regression->predict([2, 157])
+//    );
+//    // Predict house prices for the next 10 years
+//    $future_predictions = [];
+//    $current_year = date('Y');
+//    for ($i = 1; $i <= 10; $i++) {
+//        $prediction = $regression->predict([[1500, 3], [1800, 2], [1500, 3]]);
+//        $future_predictions[] = [
+//            'year' => $current_year + $i,
+//            'prediction' => isset($prediction[$i - 1]) ? $prediction[$i - 1] : $prediction,
+//        ];
+//    }
+//
+//    // Output the predictions
+//    dd($future_predictions);
+    $paymentIntent = Paymongo::paymentIntent()
+        ->create([
+            'amount' => 100,
+            'payment_method_allowed' => [
+                'paymaya', 'card'  // <--- Make sure to add paymaya here.
+            ],
+            'payment_method_options' => [
+                'card' => [
+                    'request_three_d_secure' => 'automatic',
+                ],
+            ],
+            'description' => 'This is a test payment intent',
+            'statement_descriptor' => 'LUIGEL STORE',
+            'currency' => 'PHP',
+        ]);
 
+    $paymentMethod = Paymongo::paymentMethod()
+        ->create([
+            'type' => 'paymaya',  // <--- and payment method type should be paymaya
+            'billing' => [
+                'address' => [
+                    'line1' => 'Somewhere there',
+                    'city' => 'Cebu City',
+                    'state' => 'Cebu',
+                    'country' => 'PH',
+                    'postal_code' => '6000',
+                ],
+                'name' => 'Rigel Kent Carbonel',
+                'email' => 'rigel20.kent@gmail.com',
+                'phone' => '0935454875545',
+            ],
+        ]);
 
-    // $samples = [[1400, 3], [1600, 3], [1700, 4], [1875, 3], [1100, 2]];
-    // $targets = [ 1.9,  2.1, 2.3, 2.5,  1.5];
-    $regression = new LeastSquares();
-    $regression->train($samples, $targets);
-    dd(
-        $prediction = $regression->predict([2, 157])
-    );
-    // Predict house prices for the next 10 years
-    $future_predictions = [];
-    $current_year = date('Y');
-    for ($i = 1; $i <= 10; $i++) {
-        $prediction = $regression->predict([[1500, 3], [1800, 2], [1500, 3]]);
-        $future_predictions[] = [
-            'year' => $current_year + $i,
-            'prediction' => isset($prediction[$i - 1]) ? $prediction[$i - 1] : $prediction,
-        ];
-    }
-
-    // Output the predictions
-    dd($future_predictions);
+    $attachedPaymentIntent = $paymentIntent->attach($paymentMethod->id, 'http://example.com/success'); // <--- And the second parameter should be the return_url.
+    dd($attachedPaymentIntent);
 });
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/', 'homepage');
