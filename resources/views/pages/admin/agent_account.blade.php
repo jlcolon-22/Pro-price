@@ -45,9 +45,9 @@
                                 License
                             </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
+{{--                            <th scope="col" class="px-6 py-3">--}}
+{{--                                Action--}}
+{{--                            </th>--}}
                         </tr>
                     </thead>
                     <tbody>
@@ -86,16 +86,16 @@
                                     <a href="{{ route('admin_agent_license_download', ['id' => $agent->id]) }}"
                                         class="underline text-blue-500">download</a>
                                 </td>
-                                <td class="px-6 py-4 space-x-2">
-                                    @if ($agent->status != 1)
-                                        <a href="{{ route('admin_agent_approve', ['id' => $agent->id]) }}"
-                                            class="font-medium text-green-600 0 hover:underline">Aprove</a>
-                                    @endif
-                                    @if ($agent->status != 2)
-                                        <a href="{{ route('admin_agent_decline', ['id' => $agent->id]) }}"
-                                            class="font-medium text-red-600 0 hover:underline">Decline</a>
-                                    @endif
-                                </td>
+{{--                                <td class="px-6 py-4 space-x-2">--}}
+{{--                                    @if ($agent->status != 1)--}}
+{{--                                        <a href="{{ route('admin_agent_approve', ['id' => $agent->id]) }}"--}}
+{{--                                            class="font-medium text-green-600 0 hover:underline">Aprove</a>--}}
+{{--                                    @endif--}}
+{{--                                    @if ($agent->status != 2)--}}
+{{--                                        <a href="{{ route('admin_agent_decline', ['id' => $agent->id]) }}"--}}
+{{--                                            class="font-medium text-red-600 0 hover:underline">Decline</a>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
                             </tr>
 
                         @empty

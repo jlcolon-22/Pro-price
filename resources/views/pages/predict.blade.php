@@ -6,7 +6,7 @@
 
 @section('content')
     {{-- header --}}
-    <x-buyer.header />
+    <x-buyer.header/>
 
     <section class="container mx-auto py-10 px-3 md:px-0">
         <div class="sm:flex items-start max-w-screen-xl">
@@ -46,20 +46,33 @@
                 @if ($property->area_situation == 'flood_prone_area')
                     <p class="px-3 mt-10  text-paragraph">
                         {{-- The impact on the house price is due to its vulnerability to flooding. This makes it a crucial factor in determining the cost of the property. --}}
-                        The house price is directly influenced by its exposure to flooding, making it a key factor in determining the property's overall cost. The level of vulnerability to floods is a critical consideration in pricing the real estate, with the associated risk and mitigation measures playing a significant role in shaping its market value. Ultimately, the potential impact of flooding is a decisive factor in assessing and pricing the property.
+                        The house price is directly influenced by its exposure to flooding, making it a key factor in
+                        determining the property's overall cost. The level of vulnerability to floods is a critical
+                        consideration in pricing the real estate, with the associated risk and mitigation measures
+                        playing a significant role in shaping its market value. Ultimately, the potential impact of
+                        flooding is a decisive factor in assessing and pricing the property.
                     </p>
                 @elseif ($property->area_situation == 'earthquake')
-                <p class="px-3 mt-10  text-paragraph">
-                    The property's pricing is substantially affected by its location, strategically distant from flood and landslide-prone areas. This geographic advantage is a key factor considered by buyers and contributes to the overall value of the house. It reflects the emphasis on safety and resilience, making it an appealing investment.
-                </p>
+                    <p class="px-3 mt-10  text-paragraph">
+                        The property's pricing is substantially affected by its location, strategically distant from
+                        flood and landslide-prone areas. This geographic advantage is a key factor considered by buyers
+                        and contributes to the overall value of the house. It reflects the emphasis on safety and
+                        resilience, making it an appealing investment.
+                    </p>
                 @elseif ($property->area_situation == 'none')
-                <p class="px-3 mt-10  text-paragraph">
-                    {{-- Due to its distance from natural disasters, the house price is expected to increase, making it a more desirable option for buyers. --}}
-                    The house is predicted to become more appealing to potential buyers due to its geographical distance from natural disasters. This advantageous location is expected to result in an increase in property value. Consequently, it is considered a secure and desirable investment option.
-                </p>
+                    <p class="px-3 mt-10  text-paragraph">
+                        {{-- Due to its distance from natural disasters, the house price is expected to increase, making it a more desirable option for buyers. --}}
+                        The house is predicted to become more appealing to potential buyers due to its geographical
+                        distance from natural disasters. This advantageous location is expected to result in an increase
+                        in property value. Consequently, it is considered a secure and desirable investment option.
+                    </p>
                 @else
                     <p class="px-3 mt-10 text-paragraph">
-                        The house's pricing is notably influenced by its vulnerability to landslides, making it a critical factor in determining the property's overall cost. The potential risk of landslides adds complexity to the valuation process, with safety considerations playing a pivotal role in prospective buyers' decisions. As a result, this vulnerability significantly shapes the perceived value and marketability of the property."
+                        The house's pricing is notably influenced by its vulnerability to landslides, making it a
+                        critical factor in determining the property's overall cost. The potential risk of landslides
+                        adds complexity to the valuation process, with safety considerations playing a pivotal role in
+                        prospective buyers' decisions. As a result, this vulnerability significantly shapes the
+                        perceived value and marketability of the property."
                     </p>
                 @endif
             </div>
@@ -77,30 +90,30 @@
 
     <script>
 
-var myData = {!! json_encode($future_predictions) !!};
-var propertyPrice = {!! json_encode($property->price) !!};
-    const dataLabel = [2023];
-    const datas = [propertyPrice];
-    myData.forEach(element => {
-                   console.log( element.year)
-                   dataLabel.push( element.year)
-                   datas.push( element.prediction)
-            });
+        var myData = {!! json_encode($future_predictions) !!};
+        var propertyPrice = {!! json_encode($property->price) !!};
+        const dataLabel = [2023];
+        const datas = [propertyPrice];
+        myData.forEach(element => {
+            console.log(element.year)
+            dataLabel.push(element.year)
+            datas.push(element.prediction)
+        });
 
         // Your JavaScript code will go here
         var data = {
             labels:
-                dataLabel
+            dataLabel
 
             ,
             datasets: [{
-                    label: 'Example',
-                    data: datas,
-                    //   borderColor: 'blue',
-                    //   backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                    fill: false,
-                    type: 'line' // Set the type to line
-                },
+                label: 'Example',
+                data: datas,
+                //   borderColor: 'blue',
+                //   backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                fill: false,
+                type: 'line' // Set the type to line
+            },
 
             ]
         };

@@ -138,9 +138,9 @@ Route::middleware(['seller.only'])->controller(SellerController::class)->group(f
     Route::post('/seller/account/password', 'seller_update_account_password')->name('seller_update_account_password');
     Route::post('/seller/feedback', 'seller_add_feedback')->name('seller_add_feedback');
     Route::get('/seller/feedback/{id}/delete', 'seller_delete_feedback')->name('seller_delete_feedback');
-    Route::post('/seller/property/sold/{id}','seller_sold_property')->name('seller_sold_property');
+    Route::post('/seller/property/sold/{id}', 'seller_sold_property')->name('seller_sold_property');
 
-    Route::post('/seller/property/boost/{id}','boost_property');
+    Route::post('/seller/property/boost/{id}', 'boost_property');
 });
 
 Route::middleware(['buyer.only'])->controller(BuyerController::class)->group(function () {
@@ -173,7 +173,7 @@ Route::middleware(['agent.only'])->controller(AgentController::class)->group(fun
     Route::post('/agent/appointment/decline/{id}', 'agent_update_appointment_decline')->name('agent_update_appointment_decline');
     Route::post('/agent/feedback', 'agent_add_feedback')->name('agent_add_feedback');
     Route::get('/agent/feedback/{id}/delete', 'agent_delete_feedback')->name('agent_delete_feedback');
-    Route::get('/agent/buyer_info/{id}','get_buyer_info')->name('get_buyer_info');
+    Route::get('/agent/buyer_info/{id}', 'get_buyer_info')->name('get_buyer_info');
     Route::get('/agent/appointment/report/{id}', 'agent_appointment_report')->name('agent_appointment_report');
     Route::get('/agent/appointment/report/check/{id}', 'agent_appointment_report_check')->name('agent_appointment_report_check');
 });
@@ -203,6 +203,9 @@ Route::middleware(['admin.only'])->controller(AdminController::class)->group(fun
     Route::get('/admin/property/agents', 'property_agents')->name('admin_property_agents');
     Route::get('/admin/property/assign/{agent}/{property}', 'property_assign')->name('admin_property_assign');
 
-    Route::get('/admin/feedback','admin_feedback')->name('admin_feedback');
-    Route::get('/admin/feedback/{id}/delete','admin_feedback_delete')->name('admin_feedback_delete');
+    Route::get('/admin/feedback', 'admin_feedback')->name('admin_feedback');
+    Route::get('/admin/feedback/{id}/delete', 'admin_feedback_delete')->name('admin_feedback_delete');
+
+    Route::get('/admin/sales_report', 'sales_report')->name('admin_sales_report');
+    Route::get('/admin/print', 'print_sales_report')->name('admin_print');
 });

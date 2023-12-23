@@ -133,17 +133,17 @@
                         </a>
                     </div>
                 </div>
-                @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
-                @else
-                    <div class="bg-gray-100 border flex justify-center items-center rounded opacity-0 h-full">
-                        <h1><button type="button" onclick="modalLoginToggle()" class="text-blue-500 font-semibold">Log
-                                in</button> to see more property.</h1>
-                    </div>
-                @endif
+
             @empty
                 <h1>No Property found....</h1>
             @endforelse
-
+            @if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check())
+            @else
+                <div class="bg-gray-100 border flex justify-center items-center rounded opacity-0 h-full">
+                    <h1><button type="button" onclick="modalLoginToggle()" class="text-blue-500 font-semibold">Log
+                            in</button> to see more property.</h1>
+                </div>
+            @endif
 
 
 

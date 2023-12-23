@@ -174,6 +174,7 @@ class AuthController extends Controller
             "phone_number" => $request->phone_number,
             "password" => Hash::make($request->password),
 
+
         ]);
         if (!!$request->goverment_id) {
             $filename = Str::uuid() . '.' . $request->goverment_id->extension();
@@ -218,6 +219,7 @@ class AuthController extends Controller
             "name" => $request->name,
             "phone_number" => $request->phone_number,
             "password" => Hash::make($request->password),
+            'status'=>1
 
         ]);
         if (!!$request->license) {
@@ -265,6 +267,7 @@ class AuthController extends Controller
             "company_name" => $request->company_name,
             "phone_number" => $request->phone_number,
             "password" => Hash::make($request->password),
+            'status'=>1
 
         ]);
         if (!!$request->license) {
