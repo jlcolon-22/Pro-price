@@ -18,10 +18,10 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function update_change_password(Request $request,$email,$type)
+    public function update_change_password(Request $request, $email, $type)
     {
         $validator = Validator::make($request->all(), [
-            'password' =>  ['required', Password::min(8)
+            'password' => ['required', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
@@ -35,70 +35,68 @@ class AuthController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if($type == 'buyer')
-        {
-            $buyer = Buyer::where('email',$request->email)->first();
+        if ($type == 'buyer') {
+            $buyer = Buyer::where('email', $request->email)->first();
             $buyer->update([
-                'password'=>Hash::make($request->password)
+                'password' => Hash::make($request->password)
             ]);
             $request->session()->regenerate();
             Auth::guard('buyer')->login($buyer);
-              return redirect('/properties')->with('success', 'You successfully changed your password.');
+            return redirect('/properties')->with('success', 'You successfully changed your password.');
         }
-        if($type == 'seller')
-        {
-            $seller = Seller::where('email',$request->email)->first();
+        if ($type == 'seller') {
+            $seller = Seller::where('email', $request->email)->first();
             $seller->update([
-                'password'=>Hash::make($request->password)
+                'password' => Hash::make($request->password)
             ]);
             $request->session()->regenerate();
             Auth::guard('seller')->login($seller);
-              return redirect('/properties')->with('success', 'You successfully changed your password.');
+            return redirect('/properties')->with('success', 'You successfully changed your password.');
         }
-        if($type == 'agent')
-        {
-            $agent = Agent::where('email',$request->email)->first();
+        if ($type == 'agent') {
+            $agent = Agent::where('email', $request->email)->first();
             $agent->update([
-                'password'=>Hash::make($request->password)
+                'password' => Hash::make($request->password)
             ]);
             $request->session()->regenerate();
             Auth::guard('agent')->login($agent);
-              return redirect('/properties')->with('success', 'You successfully changed your password.');
+            return redirect('/properties')->with('success', 'You successfully changed your password.');
         }
     }
-    public function change_password($email,$type)
+
+    public function change_password($email, $type)
     {
-        return view('pages.change_password',compact('email','type'));
+        return view('pages.change_password', compact('email', 'type'));
     }
+
     public function send_forgot_password(Request $request)
     {
-        if(!!Buyer::where('email',$request->email)->first())
-        {
+        if (!!Buyer::where('email', $request->email)->first()) {
             $data = [
-                'url'=>'http://127.0.0.1:8000/auth/change_password/'. $request->email.'/buyer'
+                'url' => 'http://127.0.0.1:8000/auth/change_password/' . $request->email . '/buyer'
             ];
-        }elseif(!!Agent::where('email',$request->email)->first())
-        {
+        } elseif (!!Agent::where('email', $request->email)->first()) {
             $data = [
-                'url'=>'http://127.0.0.1:8000/auth/change_password/'. $request->email.'/agent'
+                'url' => 'http://127.0.0.1:8000/auth/change_password/' . $request->email . '/agent'
             ];
-        }elseif(!!Seller::where('email',$request->email)->first())
-        {
+        } elseif (!!Seller::where('email', $request->email)->first()) {
             $data = [
-                'url'=>'http://127.0.0.1:8000/auth/change_password/'. $request->email.'/seller'
+                'url' => 'http://127.0.0.1:8000/auth/change_password/' . $request->email . '/seller'
             ];
-        }else{
-            return back()->with("error","This email does not exist");
+        } else {
+            return back()->with("error", "This email does not exist");
         }
 
         Mail::to($request->email)->send(new ForgetMail($data));
 
-        return back()->with("success","Please check your email for instructions on changing your password.");
+        return back()->with("success", "Please check your email for instructions on changing your password.");
     }
+
     public function forgot_password()
     {
         return view('pages.forget');
     }
+
     public function verify_email(Request $request, $email, $type)
     {
         if ($type == "buyer") {
@@ -123,10 +121,12 @@ class AuthController extends Controller
             return redirect('/properties')->with('success', 'Your email has been successfully verified.');
         }
     }
+
     public function admin_login(Request $request)
     {
         return view('pages.admin.login');
     }
+
     public function admin_login_post(Request $request)
     {
         $request->validate([
@@ -142,13 +142,14 @@ class AuthController extends Controller
             return back()->with('error', 'Wrong Credentials');
         }
     }
+
     public function store_buyer(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
             "email" => ['required', 'unique:buyers', 'unique:sellers'],
             'goverment_id' => ['required'],
-            'password' =>  ['required', Password::min(8)
+            'password' => ['required', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
@@ -187,13 +188,14 @@ class AuthController extends Controller
 
         return back()->with('success', ' A verification link has been sent to your email address.');
     }
+
     public function store_seller(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
             "email" => ["required", 'unique:sellers', 'unique:buyers'],
             'license' => ['required'],
-            'password' =>  ['required', Password::min(8)
+            'password' => ['required', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
@@ -219,7 +221,7 @@ class AuthController extends Controller
             "name" => $request->name,
             "phone_number" => $request->phone_number,
             "password" => Hash::make($request->password),
-            'status'=>1
+
 
         ]);
         if (!!$request->license) {
@@ -234,13 +236,14 @@ class AuthController extends Controller
 
         return back()->with('success', ' A verification link has been sent to your email address.');
     }
+
     public function store_agent(Request $request)
     {
         $validator = Validator::make($request->all(), [
             "email" => ["required", 'unique:sellers', 'unique:buyers'],
             'license' => ['required'],
             'company_name' => ['required'],
-            'password' =>  ['required', Password::min(8)
+            'password' => ['required', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
@@ -267,7 +270,7 @@ class AuthController extends Controller
             "company_name" => $request->company_name,
             "phone_number" => $request->phone_number,
             "password" => Hash::make($request->password),
-            'status'=>1
+
 
         ]);
         if (!!$request->license) {
@@ -287,7 +290,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "email" => ['required'],
-            'password' =>  ['required'],
+            'password' => ['required'],
 
         ]);
 
@@ -297,7 +300,6 @@ class AuthController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
 
 
         if (Auth::guard('seller')->attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -354,6 +356,7 @@ class AuthController extends Controller
         }
         return redirect('/');
     }
+
     public function admin_logout(Request $request)
     {
         $request->session()->invalidate();

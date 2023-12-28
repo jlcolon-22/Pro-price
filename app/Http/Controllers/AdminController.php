@@ -81,6 +81,7 @@ class AdminController extends Controller
         Appointment::where('property_id', $id->id)->delete();
         Bookmark::where('property_id', $id->id)->delete();
         Amenity::where('property_id', $id->id)->delete();
+        Payment::query()->where('property_id', $id->id)->delete();
         $path = explode('seller/', $id->title_copy);
         unlink('storage/seller/' . $path[1]);
         $id->delete();

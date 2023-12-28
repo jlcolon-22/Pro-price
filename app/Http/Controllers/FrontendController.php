@@ -37,8 +37,8 @@ class FrontendController extends Controller
         $samples = [];
         $targets = [];
         foreach ($data as $row) {
-            $samples[] = [(float) $row['Price (PHP)'], (int) $row['Lot Area (sqm)'], (int) $row['Floor Area (sqm)'],  (int) $row['Number of Floors']];
-            $targets[] = (float) $row['Price (PHP)'];
+            $samples[] = [(float)$row['Price (PHP)'], (int)$row['Lot Area (sqm)'], (int)$row['Floor Area (sqm)'], (int)$row['Number of Floors']];
+            $targets[] = (float)$row['Price (PHP)'];
         }
         // dd((int)$property->price);
         $regression = new LeastSquares();
@@ -58,19 +58,20 @@ class FrontendController extends Controller
                 'year' => $current_year + $i,
                 'prediction' => isset($prediction[0]) ? ($prediction[0] * ($percent / 100)) + $prediction[0] : null,
             ];
-            $curentPrice = isset($prediction[0]) ? ($prediction[0] * ($percent  / 100)) + $prediction[0] : (float)$property->price;
+            $curentPrice = isset($prediction[0]) ? ($prediction[0] * ($percent / 100)) + $prediction[0] : (float)$property->price;
         }
 
         // 222222
         // Output the predictions
 
-        $changePercent = ((end($future_predictions)['prediction'] - (float)$property->price) /  (float)$property->price) * 100;
+        $changePercent = ((end($future_predictions)['prediction'] - (float)$property->price) / (float)$property->price) * 100;
         $collection = new Collection();
 
 
         $try = 'ss';
         return view("pages.predict", compact('future_predictions', 'changePercent', 'property', 'try'));
     }
+
     public function send_contact(Request $request)
     {
         $data = [
@@ -82,28 +83,34 @@ class FrontendController extends Controller
         Session::flash('success_contact', 'info');
         return back()->with('success', 'Submited Successfully!');
     }
+
     public function about()
     {
         return view("pages.about");
     }
+
     public function contact()
     {
         return view("pages.contact");
     }
+
     public function terms_and_conditions()
     {
         return view("pages.terms_conditions");
     }
+
     public function privacy()
     {
         return view("pages.privacy");
     }
+
     public function homepage()
     {
-        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted','asc')->paginate(3);
+        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted', 'asc')->paginate(3);
 
         return view("homepage", compact('properties'));
     }
+
     public function contact_seller_property(Property $id)
     {
         if ($id->user_type == false) {
@@ -123,11 +130,14 @@ class FrontendController extends Controller
         }
         return view("pages.propert_seller_contact", compact('property', 'bookmark', 'type'));
     }
+
     public function properties(Request $request)
     {
-        $page = 15;
+        $page = 5;
+        $unlock = false;
         if (Auth::guard('seller')->check() || Auth::guard('buyer')->check() || Auth::guard('agent')->check()) {
-            $page = 3;
+            $page = 15;
+            $unlock = true;
         }
 
         // if ($request->type && $request->location && $request->price) {
@@ -153,61 +163,62 @@ class FrontendController extends Controller
             if ($request->sortby) {
                 if ($request->sortby == 'price_low_to_high') {
 
-                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->orderBy('price', 'asc')->orderBy('boosted','asc')->paginate($page);
-                    return view("pages.properties", compact('properties'));
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->orderBy('price', 'asc')->orderBy('boosted', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties', 'unlock'));
                 } elseif ($request->sortby == 'price_high_to_low') {
-                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->orderBy('price', 'desc')->orderBy('boosted','asc')->paginate($page);
-                    return view("pages.properties", compact('properties'));
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('type', $request->type)->where('price', '>=', $request->price)->orderBy('price', 'desc')->orderBy('boosted', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties', 'unlock'));
                 } else {
-                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted','asc')->paginate($page);
-                    return view("pages.properties", compact('properties'));
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties', 'unlock'));
                 }
             }
-            return view("pages.properties", compact('properties'));
+            return view("pages.properties", compact('properties', 'unlock'));
         }
         if ($request->location && $request->price) {
 
             $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('address', 'LIKE', '%' . $request->location . '%')->where('price', '>=', $request->price)->latest()->paginate($page);
-            return view("pages.properties", compact('properties'));
+            return view("pages.properties", compact('properties', 'unlock'));
         }
         if ($request->price) {
             $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->paginate($page);
             if ($request->sortby) {
                 if ($request->sortby == 'price_low_to_high') {
 
-                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->orderBy('price','asc')->orderBy('boosted','asc')->paginate($page);
-                    return view("pages.properties", compact('properties'));
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->orderBy('price', 'asc')->orderBy('boosted', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties', 'unlock'));
                 } elseif ($request->sortby == 'price_high_to_low') {
-                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->orderBy('price','desc')->orderBy('boosted','asc')->paginate($page);
-                    return view("pages.properties", compact('properties'));
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->orderBy('price', 'desc')->orderBy('boosted', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties', 'unlock'));
                 } else {
-                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->orderBy('boosted','asc')->paginate($page);
-                    return view("pages.properties", compact('properties'));
+                    $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->where('price', '>', $request->price)->latest()->orderBy('boosted', 'asc')->paginate($page);
+                    return view("pages.properties", compact('properties', 'unlock'));
                 }
             }
-            return view("pages.properties", compact('properties'));
+            return view("pages.properties", compact('properties', 'unlock'));
         }
         if ($request->sortby) {
             if ($request->sortby == 'price_low_to_high') {
 
-                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'asc')->orderBy('boosted','asc')->paginate($page);
-                return view("pages.properties", compact('properties'));
+                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'asc')->orderBy('boosted', 'asc')->paginate($page);
+                return view("pages.properties", compact('properties', 'unlock'));
             } elseif ($request->sortby == 'price_high_to_low') {
-                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'desc')->orderBy('boosted','asc')->paginate($page);
-                return view("pages.properties", compact('properties'));
+                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->orderBy('price', 'desc')->orderBy('boosted', 'asc')->paginate($page);
+                return view("pages.properties", compact('properties', 'unlock'));
             } else {
-                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted','asc')->paginate($page);
-                return view("pages.properties", compact('properties'));
+                $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted', 'asc')->paginate($page);
+                return view("pages.properties", compact('properties', 'unlock'));
             }
         }
-        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted','asc')->paginate($page);
-        return view("pages.properties", compact('properties'));
+        $properties = Property::with('photo')->where('status', 1)->where('agent_id', '!=', null)->latest()->orderBy('boosted', 'asc')->paginate($page);
+        return view("pages.properties", compact('properties', 'unlock'));
     }
+
     public function view_property(Property $id)
     {
 
         $id->update([
-            'view'=>(int)$id->view+1
+            'view' => (int)$id->view + 1
         ]);
         $property = Property::with('photos', 'amenities', 'sellerInfo')->with('agentInfo', function ($q) {
             $q->with('getRating');

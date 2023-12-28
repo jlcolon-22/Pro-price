@@ -41,25 +41,33 @@
                 {{--                </form>--}}
                 {{-- agent account table --}}
                 @if(!!$reports)
-                    {{--                    <div class=" mt-4 py-1">--}}
-                    {{--                        <button id="print" class="bg-gray-300 p-2 rounded text-sm">Print</button>--}}
-                    {{--                    </div>--}}
-                    <table id="table" class="w-full text-sm text-left shadow-md rtl:text-right text-gray-500">
+                    @if(request()->get('type') == 'Month')
+                        <h1 class="text-2xl py-4 font-bold text-center">Sales Report for the Month
+                            of {{\Carbon\Carbon::parse('01-'.request()->get('date'))->format('M Y') }}</h1>
+                    @elseif(request()->get('type') == 'Day')
+                        <h1 class="text-2xl py-4 font-bold text-center">Sales Report for
+                            {{\Carbon\Carbon::parse(request()->get('date'))->format('M d, Y') }}</h1>
+                    @elseif(request()->get('type') == 'Year')
+                        <h1 class="text-2xl py-4 font-bold text-center">Annual Sales Report for the Year
+
+                            {{\Carbon\Carbon::parse('01-01-'.request()->get('date'))->format('Y') }}</h1>
+                    @endif
+                    <table id="table" class=" w-full text-sm text-left shadow-md rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
+                        <tr class="border border-dashed border-black">
+                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
                                 #
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
                                 PROPERTY NAME
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
                                 AMOUNT
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
                                 SELLER
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
                                 PAID_AT
                             </th>
 
@@ -67,21 +75,22 @@
                         </thead>
                         <tbody>
                         @forelse ($reports as $report)
-                            <tr class="bg-white border-b ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                            <tr class="bg-white border border-dashed border-black ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border-r border-dashed border-black">
                                     {{ $report->id }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 border-r border-dashed border-black">
                                     {{ $report->property->title }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 border-r border-dashed border-black">
                                     ₱{{ number_format((float)$report->amount)}}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 border-r border-dashed border-black">
                                     {{ $report->sellerInfo->name }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    {{ $report->created_at }}
+                                <td class="px-6 py-4 border-r border-dashed border-black">
+                                    {{ \Carbon\Carbon::parse($report->created_at)->format('M d Y - h:m A') }}
                                 </td>
 
                             </tr>
@@ -95,20 +104,20 @@
                         @endforelse
                         </tbody>
                         <tfoot>
-                        <tr class="bg-gray-50 border-b ">
+                        <tr class="bg-gray-50 border border-dashed border-black ">
                             <td class="px-6 py-4">
 
                             </td>
                             <td class="px-6 py-4">
 
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 border-r border-dashed border-black">
 
                             </td>
-                            <td class="px-6 py-4 font-bold">
+                            <td class="px-6 py-4 font-bold border-r border-dashed border-black">
                                 TOTAL
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 border-r border-dashed border-black">
                                 ₱{{$total}}
                             </td>
                         </tr>

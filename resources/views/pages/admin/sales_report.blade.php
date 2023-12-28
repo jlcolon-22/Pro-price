@@ -42,12 +42,24 @@
                 </form>
                 {{-- agent account table --}}
                 @if(!!$reports)
+
                     <div class=" mt-4 py-1">
                         <a href="/admin/print?type={{request()->get('type')}}&date={{request()->get('date')}}"
                            target="_blank"
                            class="bg-gray-300 p-2 rounded text-sm">
                             Print</a>
                     </div>
+                    @if(request()->get('type') == 'Month')
+                        <h1 class="text-2xl py-4 font-bold text-center">Sales Report for the Month
+                            of {{\Carbon\Carbon::parse('01-'.request()->get('date'))->format('M Y') }}</h1>
+                    @elseif(request()->get('type') == 'Day')
+                        <h1 class="text-2xl py-4 font-bold text-center">Sales Report for
+                            {{\Carbon\Carbon::parse(request()->get('date'))->format('M d, Y') }}</h1>
+                    @elseif(request()->get('type') == 'Year')
+                        <h1 class="text-2xl py-4 font-bold text-center">Annual Sales Report for the Year
+
+                            {{\Carbon\Carbon::parse('01-01-'.request()->get('date'))->format('Y') }}</h1>
+                    @endif
                     <table id="table" class="w-full text-sm text-left shadow-md rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                         <tr>
@@ -76,7 +88,7 @@
                                     {{ $report->id }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $report->property->title }}
+                                    {{ $report->property?->title }}
                                 </td>
                                 <td class="px-6 py-4">
                                     ₱{{ number_format((float)$report->amount)}}
@@ -85,7 +97,7 @@
                                     {{ $report->sellerInfo->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $report->created_at }}
+                                    {{ \Carbon\Carbon::parse($report->created_at)->format('M d Y - h:m A') }}
                                 </td>
 
                             </tr>
