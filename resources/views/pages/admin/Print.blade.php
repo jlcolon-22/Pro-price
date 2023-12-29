@@ -59,16 +59,16 @@
                                 #
                             </th>
                             <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
-                                PROPERTY NAME
+                                Property Name
                             </th>
-                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
-                                AMOUNT
+                            <th scope="col" class="px-6 py-3">
+                                Seller's Name
                             </th>
-                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
-                                SELLER
+                            <th scope="col" class="px-6 py-3">
+                                Date of Payment
                             </th>
-                            <th scope="col" class="px-6 py-3 border-r border-dashed border-black">
-                                PAID_AT
+                            <th scope="col" class="px-6 py-3">
+                                Amount
                             </th>
 
                         </tr>
@@ -83,14 +83,15 @@
                                 <td class="px-6 py-4 border-r border-dashed border-black">
                                     {{ $report->property->title }}
                                 </td>
-                                <td class="px-6 py-4 border-r border-dashed border-black">
-                                    ₱{{ number_format((float)$report->amount)}}
-                                </td>
-                                <td class="px-6 py-4 border-r border-dashed border-black">
+                                <td class="px-6 py-4">
+
                                     {{ $report->sellerInfo->name }}
                                 </td>
-                                <td class="px-6 py-4 border-r border-dashed border-black">
+                                <td class="px-6 py-4">
                                     {{ \Carbon\Carbon::parse($report->created_at)->format('M d Y - h:m A') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    ₱{{ number_format((float)$report->amount)}}
                                 </td>
 
                             </tr>

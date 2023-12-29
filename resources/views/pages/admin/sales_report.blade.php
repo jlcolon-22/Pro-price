@@ -67,16 +67,16 @@
                                 #
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                PROPERTY NAME
+                                Property Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                AMOUNT
+                                Seller's Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                SELLER
+                                Date of Payment
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                PAID_AT
+                                Amount
                             </th>
 
                         </tr>
@@ -91,13 +91,14 @@
                                     {{ $report->property?->title }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    ₱{{ number_format((float)$report->amount)}}
-                                </td>
-                                <td class="px-6 py-4">
+
                                     {{ $report->sellerInfo->name }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ \Carbon\Carbon::parse($report->created_at)->format('M d Y - h:m A') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    ₱{{ number_format((float)$report->amount)}}
                                 </td>
 
                             </tr>
